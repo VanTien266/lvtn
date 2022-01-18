@@ -1,6 +1,6 @@
 // import { registerRootComponent } from 'expo';
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, ScrollView  } from "react-native";
+// import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar  } from "react-native";
 import DashBoard from "./src/pages/DashBoardPage/DashBoard";
 import ChartFabricWarehouse from "./src/pages/DashBoardPage/components/ChartFabricWarehouse";
 
@@ -17,6 +17,7 @@ export default function App() {
     <SafeAreaView style={{flex: 1}}>
       <ScrollView>
         <View style={styles.container}>
+          <StatusBar style="light" />
           <View>
             <DashBoard />
           </View>
@@ -30,11 +31,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
     // justifyContent: 'center',
     // alignItems: 'center',
     // textAlign: 'center',
     // padding: 10,
+    // backgroundColor: "blue",
+    padding: 5,
   },
 });
 

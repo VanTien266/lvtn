@@ -78,7 +78,7 @@ const Revenue = () => {
           {fNumberCurrency(5000000000)}
         </Text>
         <Text style={styles.text}>
-            Cây vải đã giao hoàn tất
+            Doanh thu
         </Text>
       </View>
     </View>
