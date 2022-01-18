@@ -207,10 +207,8 @@
 //   )
 // }
 
-
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, SafeAreaView } from "react-native";
-import {Text, Icon} from "react-native-elements";
+import { StyleSheet, View, StatusBar, SafeAreaView } from "react-native";
+import { Text, Icon } from "react-native-elements";
 
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
@@ -233,48 +231,47 @@ import ChartTopProduct from "./components/ChartTopProduct";
 
 //         <View style={styles.statistics}>
 //           <View style={styles.orderbillStatistics}>
-//             <View style={styles.orderStatistics}> 
+//             <View style={styles.orderStatistics}>
 //               <TotalSale />
 //             </View>
-//             <View style={styles.billStatistics}> 
+//             <View style={styles.billStatistics}>
 //               <BillCompleted />
 //             </View>
 //           </View>
 
 //           <View style={styles.revenuefabricStatistics}>
 //             <Text>Doanh thu, Cây vải</Text>
-//             {/* <View style={styles.revenueStatistics}> 
+//             {/* <View style={styles.revenueStatistics}>
 //               <Revenue />
 //             </View> */}
-//             {/* <View style={styles.fabricStatistics}> 
+//             {/* <View style={styles.fabricStatistics}>
 //               <FabricRollCompleted />
 //             </View> */}
-//           </View>  
+//           </View>
 //         </View>
 
-//         <View style={styles.chartordermonthly}> 
-
-//         </View>
-
-//         <View style={styles.chartfabricwarehouse}> 
+//         <View style={styles.chartordermonthly}>
 
 //         </View>
 
-//         <View style={styles.chartfabrictypesell}> 
+//         <View style={styles.chartfabricwarehouse}>
 
 //         </View>
 
-//         <View style={styles.chartbillstatus}> 
+//         <View style={styles.chartfabrictypesell}>
 
 //         </View>
 
-//         <View style={styles.chartorderstatus}> 
+//         <View style={styles.chartbillstatus}>
 
 //         </View>
 
+//         <View style={styles.chartorderstatus}>
+
+//         </View>
 
 //       </View>
-      
+
 //       <StatusBar style="auto" />
 //     </View>
 //   );
@@ -331,53 +328,55 @@ import ChartTopProduct from "./components/ChartTopProduct";
 //   }
 // });
 
-export default function DashBoard(){
+export default function DashBoard() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.overview}>
         <Text style={styles.textTitle}>Tổng quan</Text>
         <View style={styles.containerDate} />
-        
-        <View style={styles.iconSearch}>
-          <Icon style={styles.iconSearchStyle}
-            name='search'
-            type='evillcons'
-            color='grey'
-            solid='true'
-            size={28}
-            onPress={() => console.log('search')} /> 
 
+        <View style={styles.iconSearch}>
+          <Icon
+            style={styles.iconSearchStyle}
+            name="search"
+            type="evillcons"
+            color="grey"
+            solid="true"
+            size={28}
+            onPress={() => console.log("search")}
+          />
         </View>
         <View style={styles.iconNotification}>
-          <Icon style={styles.iconNotificationStyle}
-            
-            name='notifications-outline'
-            type='ionicon'
-            color='grey'
-            solid='true'
+          <Icon
+            style={styles.iconNotificationStyle}
+            name="notifications-outline"
+            type="ionicon"
+            color="grey"
+            solid="true"
             size={28}
-            onPress={() => console.log('notification')} />
+            onPress={() => console.log("notification")}
+          />
         </View>
       </View>
 
       <View style={styles.statistics}>
         <View style={styles.orderbillStatistics}>
-          <View style={styles.orderStatistics}> 
+          <View style={styles.orderStatistics}>
             <TotalSale />
           </View>
-          <View style={styles.billStatistics}> 
+          <View style={styles.billStatistics}>
             <BillCompleted />
           </View>
         </View>
 
         <View style={styles.revenuefabricStatistics}>
-          <View style={styles.revenueStatistics}> 
+          <View style={styles.revenueStatistics}>
             <Revenue />
           </View>
-          <View style={styles.fabricStatistics}> 
+          <View style={styles.fabricStatistics}>
             <FabricRollCompleted />
           </View>
-        </View>  
+        </View>
       </View>
 
       <View style={styles.chartordermonthly}>
@@ -399,18 +398,16 @@ export default function DashBoard(){
       <View style={styles.chartbillstatus}>
         <ChartBillStatus />
       </View>
-
-      
     </SafeAreaView>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   overview: {
     flex: 1,
-    flexDirection:"row",
+    flexDirection: "row",
     // position:'absolute',
     // top: 0,
     // bottom: 0,
@@ -427,64 +424,43 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
   },
   chartfabricwarehouse: {
-    flex:1,
-    // backgroundColor: "blue",
+    flex: 1,
+    backgroundColor: "blue",
   },
-  charttopproduct:{
-    flex:1,
-    // backgroundColor: "purple",
+  chartfabrictypesell: {
+    flex: 1,
+    backgroundColor: "purple",
   },
   chartbillstatus: {
-    flex:1,
-    // backgroundColor: "orange",
+    flex: 1,
+    backgroundColor: "orange",
   },
   chartorderstatus: {
-    flex:1,
-    // backgroundColor: "brown",
+    flex: 1,
+    backgroundColor: "brown",
   },
   orderbillStatistics: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
   },
   revenuefabricStatistics: {
-    flex:1,
-    flexDirection:"row",
+    flex: 1,
+    flexDirection: "row",
   },
   orderStatistics: {
-    flex:1,
-    margin: 5
+    flex: 1,
+    margin: 5,
   },
   billStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
   revenueStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
   fabricStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
-  textTitle: {
-    fontSize:20,
-    fontWeight:'bold',
-    // margin: 5,
-  },
-  title: {
-    flex:1,
-    // backgroundColor: "blue",
-  },
-  containerDate: {
-    flex:6,
-    backgroundColor: "red",
-  },
-  iconSearch: {
-    flex:1,
-  },
-  iconNotification:{
-    flex:1,
-    
-  }
-
 });
