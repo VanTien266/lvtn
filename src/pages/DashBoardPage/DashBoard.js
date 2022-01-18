@@ -207,10 +207,8 @@
 //   )
 // }
 
-
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import {Text} from "react-native-elements";
+import { StyleSheet, View, StatusBar } from "react-native";
+import { Text } from "react-native-elements";
 
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
@@ -228,48 +226,47 @@ import FabricRollCompleted from "./components/FabricRollCompleted";
 
 //         <View style={styles.statistics}>
 //           <View style={styles.orderbillStatistics}>
-//             <View style={styles.orderStatistics}> 
+//             <View style={styles.orderStatistics}>
 //               <TotalSale />
 //             </View>
-//             <View style={styles.billStatistics}> 
+//             <View style={styles.billStatistics}>
 //               <BillCompleted />
 //             </View>
 //           </View>
 
 //           <View style={styles.revenuefabricStatistics}>
 //             <Text>Doanh thu, Cây vải</Text>
-//             {/* <View style={styles.revenueStatistics}> 
+//             {/* <View style={styles.revenueStatistics}>
 //               <Revenue />
 //             </View> */}
-//             {/* <View style={styles.fabricStatistics}> 
+//             {/* <View style={styles.fabricStatistics}>
 //               <FabricRollCompleted />
 //             </View> */}
-//           </View>  
+//           </View>
 //         </View>
 
-//         <View style={styles.chartordermonthly}> 
-
-//         </View>
-
-//         <View style={styles.chartfabricwarehouse}> 
+//         <View style={styles.chartordermonthly}>
 
 //         </View>
 
-//         <View style={styles.chartfabrictypesell}> 
+//         <View style={styles.chartfabricwarehouse}>
 
 //         </View>
 
-//         <View style={styles.chartbillstatus}> 
+//         <View style={styles.chartfabrictypesell}>
 
 //         </View>
 
-//         <View style={styles.chartorderstatus}> 
+//         <View style={styles.chartbillstatus}>
 
 //         </View>
 
+//         <View style={styles.chartorderstatus}>
+
+//         </View>
 
 //       </View>
-      
+
 //       <StatusBar style="auto" />
 //     </View>
 //   );
@@ -326,7 +323,7 @@ import FabricRollCompleted from "./components/FabricRollCompleted";
 //   }
 // });
 
-export default function DashBoard(){
+export default function DashBoard() {
   return (
     <View style={styles.container}>
       <View style={styles.overview}>
@@ -335,22 +332,22 @@ export default function DashBoard(){
 
       <View style={styles.statistics}>
         <View style={styles.orderbillStatistics}>
-          <View style={styles.orderStatistics}> 
+          <View style={styles.orderStatistics}>
             <TotalSale />
           </View>
-          <View style={styles.billStatistics}> 
+          <View style={styles.billStatistics}>
             <BillCompleted />
           </View>
         </View>
 
         <View style={styles.revenuefabricStatistics}>
-          <View style={styles.revenueStatistics}> 
+          <View style={styles.revenueStatistics}>
             <Revenue />
           </View>
-          <View style={styles.fabricStatistics}> 
+          <View style={styles.fabricStatistics}>
             <FabricRollCompleted />
           </View>
-        </View>  
+        </View>
       </View>
 
       <View style={styles.chartordermonthly} />
@@ -364,10 +361,10 @@ export default function DashBoard(){
       <View style={styles.chartorderstatus} />
     </View>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   overview: {
     flex: 1,
@@ -380,44 +377,43 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   chartfabricwarehouse: {
-    flex:1,
+    flex: 1,
     backgroundColor: "blue",
   },
-  chartfabrictypesell:{
-    flex:1,
+  chartfabrictypesell: {
+    flex: 1,
     backgroundColor: "purple",
   },
   chartbillstatus: {
-    flex:1,
+    flex: 1,
     backgroundColor: "orange",
   },
   chartorderstatus: {
-    flex:1,
+    flex: 1,
     backgroundColor: "brown",
   },
   orderbillStatistics: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
   },
   revenuefabricStatistics: {
-    flex:1,
-    flexDirection:"row",
+    flex: 1,
+    flexDirection: "row",
   },
   orderStatistics: {
-    flex:1,
-    margin: 5
+    flex: 1,
+    margin: 5,
   },
   billStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
   revenueStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
   fabricStatistics: {
-    flex:1,
+    flex: 1,
     margin: 5,
   },
-
 });
