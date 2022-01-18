@@ -7,23 +7,23 @@ const Status = () => {
   const data = [
     {
       time: "09:00",
-      title: "Đang đợi",
-      description: "Đơn đặt hàng đang chờ xử lý",
+      title: "Đã xuất",
+      description: "Hóa đơn đã được tạo",
     },
     {
       time: "10:45",
-      title: "Đang xử lý",
-      description: "Đơn đăt hàng đang được xử lý",
+      title: "Đang vận chuyển",
+      description: "Hóa đơn đang vận chuyển đến khách hàng",
     },
     {
       time: "12:00",
       title: "Hoàn tất",
-      description: "Đơn đặt hàng đã được xử lý hoàn tất",
+      description: "Hóa đơn đã được vận chuyển thành công",
     },
     {
       time: "14:00",
-      title: "Đã hủy",
-      description: "Đơn hàng đã bị hủy",
+      title: "Thất bại",
+      description: "Hóa đơn vận chuyển thất bại",
       timeStyle: styles.cancle,
       circleColor: "#BD2C2C",
       lineColor: "#BD2C2C",

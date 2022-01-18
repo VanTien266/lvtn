@@ -1,8 +1,8 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Status from "./components/Status";
 
-const OrderDetail = () => {
+const BillDetail = () => {
   return (
     <ScrollView>
       <Status />
@@ -10,6 +10,6 @@ const OrderDetail = () => {
   );
 };
 
-export default OrderDetail;
+export default BillDetail;
 
 const styles = StyleSheet.create({});
