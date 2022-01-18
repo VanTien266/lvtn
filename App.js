@@ -16,7 +16,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar backgroundColor="#00004080" />
       <Tab.Navigator
-        initialRouteName="dashboard"
+        initialRouteName="order"
         barStyle={{ backgroundColor: "#fff" }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {

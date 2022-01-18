@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import OrderDetail from "../OrderDetail/OrderDetail";
+import Status from "./components/Status";
 
-const Order = () => {
-  return <OrderDetail />;
+const OrderDetail = () => {
+  return <Status />;
 };
 
-export default Order;
+export default OrderDetail;
 
 const styles = StyleSheet.create({});
