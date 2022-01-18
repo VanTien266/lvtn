@@ -207,8 +207,8 @@
 //   )
 // }
 
-import { StyleSheet, View, StatusBar } from "react-native";
-import { Text } from "react-native-elements";
+import { StyleSheet, View, StatusBar, SafeAreaView } from "react-native";
+import { Text, Icon } from "react-native-elements";
 
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
