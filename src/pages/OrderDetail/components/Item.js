@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 5,
   },
-  cell: { fontSize: 12, fontWeight: "bold", flex: 1 },
+  cell: { fontSize: 12, fontWeight: "bold", flex: 1, color: "#000040" },
   childRow: {
     height: CHILD_ROW_HEIGHT,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  childCell: { fontSize: 10, flex: 1 },
+  childCell: { fontSize: 10, flex: 1, color: "#000040" },
 });

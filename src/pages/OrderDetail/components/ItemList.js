@@ -71,5 +71,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  headerCell: { flex: 1 },
+  headerCell: { flex: 1, color: "#000040" },
 });
