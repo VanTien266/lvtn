@@ -59,12 +59,26 @@
   
 //   export default FabricRollCompleted;
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import {fNumber} from "../../../utils/formatNumber";
+import billApi from "../../../api/billApi";
 
 const FabricRollCompleted = () => {
+  const [fabricrollcompletedTotal, setFabricRollCompletedTotal] = useState([]);
+  useEffect(() => {
+    const fetchFabricRollCompletedTotal = async () => {
+        try {
+          const response = await billApi.getFabricRollBillCompleted();
+          console.log(response);
+          setFabricRollCompletedTotal(response);
+        }catch (error) {
+          console.log("Failed to fetch fabric roll bill completed count", error);
+        }
+    }
+    fetchFabricRollCompletedTotal();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>
@@ -75,7 +89,7 @@ const FabricRollCompleted = () => {
           color='#EEB493'
         />
         <Text style={styles.textNumber}>
-          {fNumber(100)}
+          {fNumber(fabricrollcompletedTotal)}
         </Text>
         <Text style={styles.text}>
             Cây vải đã giao hoàn tất

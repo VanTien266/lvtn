@@ -60,12 +60,26 @@
 //   });
   
 //   export default BillCompleted;
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import {fNumber} from "../../../utils/formatNumber";
+import billApi from "../../../api/billApi";
 
 const BillCompleted = () => {
+  const [billComplete, setBillComplete] = useState([]);
+  useEffect(() => {
+    const fetCountBillComplete = async () => {
+        try {
+          const response = await billApi.getBillCompleted();
+          console.log(response);
+          setBillComplete(response);
+        }catch (error) {
+          console.log("Failed to fetch bill complete count", error);
+        }
+    }
+    fetCountBillComplete();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>
@@ -76,7 +90,7 @@ const BillCompleted = () => {
           color='#9BE1FC'
         />
         <Text style={styles.textNumber}>
-          {fNumber(100)}
+          {fNumber(billComplete)}
         </Text>
         <Text style={styles.text}>
             Hóa đơn hoàn thành
