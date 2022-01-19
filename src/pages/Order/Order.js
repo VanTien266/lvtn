@@ -4,8 +4,8 @@ import BillDetail from "../BillDetail/BillDetail";
 import OrderDetail from "../OrderDetail/OrderDetail";
 
 const Order = () => {
-  // return <OrderDetail />;
-  return <BillDetail />;
+  return <OrderDetail />;
+  // return <BillDetail />;
 };
 
 export default Order;
