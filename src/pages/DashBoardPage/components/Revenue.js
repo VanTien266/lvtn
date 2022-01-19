@@ -59,12 +59,26 @@
   
 //   export default Revenue;
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import {fNumberCurrency} from "../../../utils/formatNumber";
+import orderApi from '../../../api/orderApi';
 
 const Revenue = () => {
+  const [totalDeposit, setTotalDeposit] = useState([]);
+  useEffect(() => {
+    const fetTotalDeposit = async () => {
+      try {
+        const response = await orderApi.totalDeposit();
+        console.log(response);
+        setTotalDeposit(response);
+      }catch (error) {
+        console.log("Failed to fetch deposit", error);
+      }
+  }
+    fetTotalDeposit();
+  },[]);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>
@@ -75,7 +89,7 @@ const Revenue = () => {
           color='#EFE29D'
         />
         <Text style={styles.textNumber}>
-          {fNumberCurrency(5000000000)}
+          {fNumberCurrency(totalDeposit)}
         </Text>
         <Text style={styles.text}>
             Doanh thu
