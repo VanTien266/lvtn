@@ -7,18 +7,18 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import {SearchBar} from "react-native-elements";
+import { Input, Icon } from "native-base";
 
-const Order = () => {
+export default function Order() {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
   const [displaySearch, setDisplaySearch] = useState(false);
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
-  }
+  };
   useEffect(() => {
-    fetch("http://localhost:5000/api/order")
+    fetch("https://server-dclv.herokuapp.com/api/order")
       .then((response) => response.json())
       .then((data) => {
         setListOrder(data);
@@ -36,11 +36,13 @@ const Order = () => {
         <TouchableOpacity style={styles.iconBtnBar}>
           <Ionicons name="notifications" size={24} color="#000040" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtnBar} onPress={handleDisplaySearch}>
+        <TouchableOpacity
+          style={styles.iconBtnBar}
+          onPress={handleDisplaySearch}
+        >
           <Ionicons name="search-sharp" size={24} color="#000040" />
         </TouchableOpacity>
       </View>
-      {displaySearch && <SearchBar lightTheme/>}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
@@ -69,7 +71,6 @@ const Order = () => {
   );
 };
 
-export default Order;
 
 const styles = StyleSheet.create({
   container: {
