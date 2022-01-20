@@ -61,11 +61,11 @@ const MonthYearPicker = () => {
       setIsPickerShow(false);
     }
   };
-
+  let month = date.getUTCMonth() + 1; 
   return (
     <View style={styles.container}>
       <View style={styles.pickedDateContainer}>
-        <Text style={styles.pickedDate}> Tháng {date.getUTCMonth()+1}, {date.getUTCFullYear()} </Text>
+        <Text style={styles.pickedDate}> Tháng {month}, {date.getUTCFullYear()} </Text>
       </View>
       {/* <Text style={styles.pickedDate}> Tháng {date.getUTCMonth()+1}, {date.getUTCFullYear()} </Text> */}
 

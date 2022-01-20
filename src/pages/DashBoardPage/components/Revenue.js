@@ -67,6 +67,7 @@ import orderApi from '../../../api/orderApi';
 
 const Revenue = () => {
   const [totalDeposit, setTotalDeposit] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetTotalDeposit = async () => {
       try {
@@ -75,6 +76,9 @@ const Revenue = () => {
         setTotalDeposit(response);
       }catch (error) {
         console.log("Failed to fetch deposit", error);
+      }
+      finally {
+        setLoading(false);
       }
   }
     fetTotalDeposit();
