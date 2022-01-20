@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { ItemList, Status } from "./components";
+import { CustomerInfo, ItemList, Status } from "./components";
 
 const OrderDetail = () => {
   const data = [
@@ -15,6 +15,8 @@ const OrderDetail = () => {
         return <Status />;
       case "item":
         return <ItemList />;
+      case "customer-info":
+        return <CustomerInfo />;
     }
   };
   return (
