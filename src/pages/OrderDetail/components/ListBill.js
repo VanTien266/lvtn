@@ -37,24 +37,36 @@ const ListBill = () => {
   ];
   const BillItem = ({ item }) => (
     <Flex flexDirection={"row"} justifyContent={"space-between"}>
-      <Text fontSize={"sm"}>{item.billId}</Text>
-      <Text fontSize={"sm"}>{item.salesman}</Text>
-      <Text fontSize={"sm"}>{moment(item.dayadded).format("DD/MM/YYY")}</Text>
-      <Button size={"xs"} variant={"ghost"}>
+      <Text fontSize={"sm"} flex={1}>
+        {item.billId}
+      </Text>
+      <Text fontSize={"sm"} flex={2}>
+        {moment(item.dayadded).format("DD/MM/YYY")}
+      </Text>
+      <Button size={"xs"} flex={1} variant={"ghost"}>
         Chi tiết
       </Button>
-      <Text fontSize={"sm"}>{item.status}</Text>
+      <Text fontSize={"sm"} flex={1}>
+        {item.status}
+      </Text>
     </Flex>
   );
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Danh sách hóa đơn</Card.Title>
-      <Flex flexDirection={"row"} justifyContent={"space-between"}>
-        <Text fontSize={"sm"}>Mã hóa đơn</Text>
-        <Text fontSize={"sm"}>Người tạo</Text>
-        <Text fontSize={"sm"}>Ngày xuát</Text>
-        <Text fontSize={"sm"}>Sản phẩm</Text>
-        <Text fontSize={"sm"}>Trạng thái</Text>
+      <Flex flexDirection={"row"}>
+        <Text fontSize={"sm"} flex={1}>
+          Mã hóa đơn
+        </Text>
+        <Text fontSize={"sm"} flex={2}>
+          Ngày xuát
+        </Text>
+        <Text fontSize={"sm"} flex={1}>
+          Sản phẩm
+        </Text>
+        <Text fontSize={"sm"} flex={1}>
+          Trạng thái
+        </Text>
       </Flex>
       <Box>
         <FlatList

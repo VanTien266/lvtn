@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   headerText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontWeight: "600",
     fontSize: 12,
@@ -113,12 +113,12 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   orderItemText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 12,
   },
   pageTitle: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 14,
     fontWeight: "600",
