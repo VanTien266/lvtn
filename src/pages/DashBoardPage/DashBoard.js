@@ -1,4 +1,6 @@
 import { StyleSheet, View, StatusBar, SafeAreaView, ScrollView } from "react-native";
+// import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import { Text, Icon } from "react-native-elements";
 
 import TotalSale from "./components/TotalSale";
@@ -21,6 +23,7 @@ export default function DashBoard() {
         <View style={styles.containerDate}>
           <MonthYearPicker />
         </View>
+
         <View style={styles.iconSearch}>
           <Icon
             style={styles.iconSearchStyle}
@@ -152,22 +155,24 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   textTitle: {
-    fontSize:20,
-    fontWeight:'bold',
+    fontSize: 20,
+    fontWeight: "bold",
     // margin: 5,
   },
   title: {
-    flex:1,
+    flex: 1,
   },
   containerDate: {
-    flex:7,
+    flex: 6,
   },
   iconSearch: {
-    flex:1,
+    flex: 1,
+  },
+  iconNotification: {
+    flex: 1,
   },
   iconNotification:{
     flex:1,
-    
   }
 
 });
