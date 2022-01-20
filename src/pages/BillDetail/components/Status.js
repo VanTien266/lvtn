@@ -32,23 +32,21 @@ const Status = () => {
     },
   ];
   return (
-    <ScrollView>
-      <Card>
-        <Card.Title>Trạng thái</Card.Title>
-        <Timeline
-          data={data}
-          circleColor="#B4B4C1"
-          lineColor="#B4B4C1"
-          descriptionStyle={styles.description}
-          detailContainerStyle={{
-            backgroundColor: "#F6F6F8",
-            paddingLeft: 10,
-            marginBottom: 5,
-            borderRadius: 5,
-          }}
-        />
-      </Card>
-    </ScrollView>
+    <Card>
+      <Card.Title>Trạng thái</Card.Title>
+      <Timeline
+        data={data}
+        circleColor="#B4B4C1"
+        lineColor="#B4B4C1"
+        descriptionStyle={styles.description}
+        detailContainerStyle={{
+          backgroundColor: "#F6F6F8",
+          paddingLeft: 10,
+          marginBottom: 5,
+          borderRadius: 5,
+        }}
+      />
+    </Card>
   );
 };
 

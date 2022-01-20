@@ -1,15 +1,7 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import DashBoard from "./src/pages/DashBoardPage/DashBoard";
-import Order from "./src/pages/Order/Order";
-import WareHouse from "./src/pages/WareHouse/WareHouse";
-import Support from "./src/pages/Support/Support";
-import Account from "./src/pages/Account/Account";
-import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
 import { StatusBar } from "native-base";
-import Icon from "react-native-vector-icons/MaterialIcons";
-
-const Tab = createMaterialBottomTabNavigator();
+import DashBoard from "./src/pages/DashBoardPage/DashBoard";
+import { BottomNavigation } from "./src/navigations/BottomNavigation";
 
 export default function App() {
   return (
@@ -85,6 +77,10 @@ export default function App() {
         </View>
       </ScrollView>
     </SafeAreaView>
+    // <SafeAreaView>
+    //   <StatusBar backgroundColor="#00004080" />
+    //   <BottomNavigation />
+    // </SafeAreaView>
   );
 }
 

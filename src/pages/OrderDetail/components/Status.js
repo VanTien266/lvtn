@@ -32,9 +32,9 @@ const Status = () => {
     },
   ];
   return (
-    <ScrollView>
-      <Card>
-        <Card.Title>Trạng thái</Card.Title>
+    <Card containerStyle={{ marginHorizontal: 0 }}>
+      <Card.Title>Trạng thái</Card.Title>
+      <ScrollView style={styles.container}>
         <Timeline
           data={data}
           circleColor="#B4B4C1"
@@ -47,18 +47,15 @@ const Status = () => {
             borderRadius: 5,
           }}
         />
-      </Card>
-    </ScrollView>
+      </ScrollView>
+    </Card>
   );
 };
 
 export default Status;
 
 const styles = StyleSheet.create({
-  container: {
-    maxHeight: 300,
-    width: "100%",
-  },
+  container: { display: "flex", height: 300, width: "100%" },
   title: { fontSize: 16, fontWeight: "bold" },
   description: {
     fontSize: 10,
