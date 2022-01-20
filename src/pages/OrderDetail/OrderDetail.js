@@ -1,8 +1,9 @@
+import { Button } from "native-base";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { CustomerInfo, ItemList, ListBill, Status } from "./components";
 
-const OrderDetail = () => {
+const OrderDetail = ({ navigation }) => {
   const data = [
     { id: 1, name: "status" },
     { id: 2, name: "item" },
@@ -23,6 +24,9 @@ const OrderDetail = () => {
   };
   return (
     <View style={styles.container}>
+      <Button onPress={() => navigation.push("bill-detail")}>
+        Chi tiết hóa đơn
+      </Button>
       <FlatList
         data={data}
         renderItem={renderItem}
