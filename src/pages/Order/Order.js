@@ -7,12 +7,16 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import {SearchBar} from "react-native-elements";
 
 const Order = () => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
-
+  const [displaySearch, setDisplaySearch] = useState(false);
+  let handleDisplaySearch = () => {
+    setDisplaySearch(!displaySearch);
+  }
   useEffect(() => {
     fetch("http://localhost:5000/api/order")
       .then((response) => response.json())
@@ -36,6 +40,7 @@ const Order = () => {
           <Ionicons name="search-sharp" size={24} color="#000040" />
         </TouchableOpacity>
       </View>
+      {displaySearch && <SearchBar lightTheme/>}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
