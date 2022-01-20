@@ -17,7 +17,7 @@ const ChartOrderMonthly = () => {
         <ScrollView>
           <View style={styles.container}>
             <View>
-            <Text style={styles.header}>Biểu đồ đơn đặt hàng tháng 12</Text>
+            <Text style={styles.header}>Biểu đồ đơn đặt hàng</Text>
       <LineChart
         data={{
         //   labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],

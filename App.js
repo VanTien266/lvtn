@@ -1,13 +1,15 @@
 import { StyleSheet, View } from "react-native";
-import { StatusBar } from "native-base";
+import { NativeBaseProvider, StatusBar } from "native-base";
 import { BottomNavigation } from "./src/navigations";
 
 export default function App() {
   return (
-    <>
-      <StatusBar backgroundColor="#00004080" />
-      <BottomNavigation />
-    </>
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#00004080" />
+        <BottomNavigation />
+      </View>
+    </NativeBaseProvider>
   );
 }
 
