@@ -44,7 +44,7 @@ const ChartOrderStatus = () => {
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Tình trạng xử lý đơn đặt hàng</Text>
-            {isLoading ? <ActivityIndicator/> : (
+            {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
             <PieChart
                 data={[
                 {

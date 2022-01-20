@@ -42,7 +42,7 @@ const ChartTopProduct = () => {
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Top sản phẩm bán chạy</Text>
-            {isLoading ? <ActivityIndicator/> : (
+            {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
             <BarChart
                 data={{
                 labels: TypeSellLabel,

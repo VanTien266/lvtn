@@ -10,21 +10,44 @@ import {
 import {
   LineChart,
 } from 'react-native-chart-kit';
+import orderApi from "../../../api/orderApi";
 
 const ChartOrderMonthly = () => {
-    const [isLoading, setLoading] = useState(true);
+  const [orderstatus, setOrderStatus] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchOrderStatus = async () => {
+        try {
+          const response = await orderApi.countOrderDailyMonthly();
+          console.log(response);
+          setOrderStatus(response);
+        }catch (error) {
+          console.log("Failed to order daily monthly", error);
+        }
+        finally{
+          setLoading(false);
+        }
+    }
+    fetchOrderStatus();
+  }, []);
+  const OrderDailyLabel = [];
+  const OrderDailyData = [];
+    orderstatus.forEach(function (item){
+    OrderDailyLabel.push(item._id.date)
+    OrderDailyData.push(item.Total)
+    }); 
     return (
       <SafeAreaView style={{flex: 1}}>
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Biểu đồ đơn đặt hàng</Text>
-            {isLoading ? <ActivityIndicator/> : (
+            {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
       <LineChart
         data={{
-        //   labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+          labels: OrderDailyLabel,
           datasets: [
             {
-              data: [10, 25, 28, 30, 35, 43, 30, 45, 28, 32, 35, 50, 20, 24, 27, 30, 35, 42, 35, 48, 34, 32, 35, 50, 38, 20, 45, 48, 55, 32, 56],
+              data: OrderDailyData,
               strokeWidth: 3,
             },
           ],

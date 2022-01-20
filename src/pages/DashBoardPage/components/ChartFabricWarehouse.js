@@ -41,7 +41,7 @@ const ChartTopProduct = () => {
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Số cây vải trong từng kho</Text>
-            {isLoading ? <ActivityIndicator/> : (
+            {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
             <BarChart
               data={{
                 labels: WarehouseLabel,
