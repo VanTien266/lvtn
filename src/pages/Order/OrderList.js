@@ -19,7 +19,7 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/api/order")
+    fetch("https://192.168.1.4:5000/api/order")
       .then((response) => response.json())
       .then((data) => {
         setListOrder(data);
