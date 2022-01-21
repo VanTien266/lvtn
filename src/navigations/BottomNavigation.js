@@ -15,7 +15,7 @@ const BottomNavigation = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="order"
+        initialRouteName="dashboard"
         barStyle={{ backgroundColor: "#fff" }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -79,4 +79,4 @@ const BottomNavigation = () => {
 
 export default BottomNavigation;
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});

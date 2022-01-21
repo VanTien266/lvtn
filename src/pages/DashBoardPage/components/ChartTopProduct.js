@@ -1,29 +1,54 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   StyleSheet,
   Dimensions,
-  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {
   BarChart,
 } from 'react-native-chart-kit';
+import productApi from "../../../api/productApi";
 
 const ChartTopProduct = () => {
+  const [fabrictypesell, setFabricTypeSell] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchFabricTypeSell = async () => {
+        try {
+          const response = await productApi.getFabricTypeSell();
+          console.log(response);
+          setFabricTypeSell(response);
+        }catch (error) {
+          console.log("Failed to fetch fabric type sell", error);
+        }
+        finally{
+          setLoading(false);
+        }
+    }
+    fetchFabricTypeSell();
+  }, []);
+
+  const TypeSellLabel = [];
+  const TypeSellData = [];
+    fabrictypesell.forEach(function (item){
+    TypeSellLabel.push(item._id)
+    TypeSellData.push(item.countFabrictype)
+    }); 
     return (
       <SafeAreaView style={{flex: 1}}>
-        <ScrollView>
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Top sản phẩm bán chạy</Text>
+            {isLoading ? <ActivityIndicator/> : (
             <BarChart
                 data={{
-                labels: ['kt1', 'jean2', 'tuyet3', 'sp4', 'sp5', 'sp6', 'sp7'],
+                labels: TypeSellLabel,
                 datasets: [
                     {
-                    data: [20, 45, 28, 80, 99, 43, 40],
+                    data: TypeSellData,
                     },
                 ],
                 }}
@@ -45,9 +70,9 @@ const ChartTopProduct = () => {
                 borderRadius: 16,
                 }}
             />
+            )}
             </View>
           </View>
-        </ScrollView>
       </SafeAreaView>
     );
   };

@@ -1,23 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   StyleSheet,
   Dimensions,
-  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {
   LineChart,
 } from 'react-native-chart-kit';
 
 const ChartOrderMonthly = () => {
+    const [isLoading, setLoading] = useState(true);
     return (
       <SafeAreaView style={{flex: 1}}>
-        <ScrollView>
           <View style={styles.container}>
             <View>
-            <Text style={styles.header}>Biểu đồ đơn đặt hàng tháng 12</Text>
+            <Text style={styles.header}>Biểu đồ đơn đặt hàng</Text>
+            {isLoading ? <ActivityIndicator/> : (
       <LineChart
         data={{
         //   labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
@@ -45,9 +46,9 @@ const ChartOrderMonthly = () => {
           borderRadius: 16,
         }}
       />
+            )}
             </View>
           </View>
-        </ScrollView>
       </SafeAreaView>
     );
   };

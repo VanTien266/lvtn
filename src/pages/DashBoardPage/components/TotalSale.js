@@ -92,14 +92,29 @@
 
 // export default CheckboxComponent;
 
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import {fNumber} from "../../../utils/formatNumber";
+import orderApi from "../../../api/orderApi";
 
 const TotalSale = () => {
+  const [orderTotal, setOrderTotal] = useState([]);
+
+  useEffect(() => {
+    const fetCountOrder = async () => {
+        try {
+          const response = await orderApi.countAllOrderMonthly();
+          console.log(response);
+          setOrderTotal(response);
+        }catch (error) {
+          console.log("Failed to fetch order count", error);
+        }
+    }
+    fetCountOrder();
+  }, []);
   return (
-    <View style={styles.container}>
+    <View style={styles.container}>      
       <View style={styles.cardbackground}>
         <Icon
           reverse
@@ -108,13 +123,14 @@ const TotalSale = () => {
           color='#26C636'
         />
         <Text style={styles.textNumber}>
-          {fNumber(150)}
+          {fNumber(orderTotal)}
         </Text>
         <Text style={styles.text}>
           Tổng đơn hàng
         </Text>
       </View>
     </View>
+
     );
   };
   

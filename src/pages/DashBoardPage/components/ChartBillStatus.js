@@ -1,49 +1,76 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Text,
   View,
   StyleSheet,
   Dimensions,
-  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {
   PieChart,
 } from 'react-native-chart-kit';
+import billApi from "../../../api/billApi";
 
 const ChartBillStatus = () => {
+  const [billstatus, setBillStatus] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchBillStatus = async () => {
+        try {
+          const response = await billApi.getBillStatus();
+          console.log(response);
+          setBillStatus(response);
+        }catch (error) {
+          console.log("Failed to fetch bill status", error);
+        }
+        finally {
+          setLoading(false);
+        }
+    }
+    fetchBillStatus();
+  }, []);
+  const CountBill = [];
+    billstatus.forEach(function (item){
+      CountBill.push(item.lastStatusBill);
+    });
+    const completedBill = CountBill[0];
+    const exportedBill = CountBill[1];
+    const failedBill = CountBill[2];
+    const shippingBill = CountBill[3];
+    console.log('Result:', completedBill, exportedBill, failedBill, shippingBill );
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <ScrollView>
+      <SafeAreaView style={{flex: 1}}>        
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Tình trạng xử lý hóa đơn bán hàng</Text>
+            {isLoading ? <ActivityIndicator/> : (
             <PieChart
                 data={[
                 {
                     name: 'Hoàn tất',
-                    population: 50,
+                    myCountBill: completedBill,
                     color: '#4caf50',
                     legendFontColor: '#4caf50',
                     legendFontSize: 13,
                 },
                 {
                     name: 'Đã xuất',
-                    population: 30,
+                    myCountBill: exportedBill,
                     color: '#f8ca00',
                     legendFontColor: '#f8ca00',
                     legendFontSize: 13,
                 },
                 {
                     name: 'Đang vận chuyển',
-                    population: 10,
+                    myCountBill: shippingBill,
                     color: '#2196f3',
                     legendFontColor: '#2196f3',
                     legendFontSize: 13,
                 },
                 {
                     name: 'Thất bại',
-                    population: 10,
+                    myCountBill: failedBill,
                     color: '#f44336',
                     legendFontColor: '#f44336',
                     legendFontSize: 13,
@@ -65,14 +92,14 @@ const ChartBillStatus = () => {
                 marginVertical: 8,
                 borderRadius: 16,
                 }}
-                accessor="population"
+                accessor="myCountBill"
                 backgroundColor="transparent"
                 paddingLeft="15"
                 absolute //for the absolute number remove if you want percentage
             />
+            )}
             </View>
           </View>
-        </ScrollView>
       </SafeAreaView>
     );
   };

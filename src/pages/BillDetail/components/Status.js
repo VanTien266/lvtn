@@ -32,7 +32,7 @@ const Status = () => {
     },
   ];
   return (
-    <Card>
+    <Card style={styles.container} containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Trạng thái</Card.Title>
       <Timeline
         data={data}
