@@ -32,7 +32,11 @@ class BillApi {
   createBill = (data) => {
     const url = "/bill/create";
     return axiosClient.post(url, data);
-  }
+  };
+  getBillFabricTypeSell = () => {
+    const url = "/bill/fabrictypesell";
+    return axiosClient.get(url);
+  };
  }
 const billApi = new BillApi();
 export default billApi;
