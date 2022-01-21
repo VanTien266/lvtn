@@ -11,6 +11,11 @@ const orderApi = {
     return axiosClient.get(url);
   },
 
+  countOrderDailyMonthly: () => {
+    const url = "/getorderdaily";
+    return axiosClient.get(url);
+  },
+
   countOrderComplete: () => {
     const url = "/countallordercomplete";
     return axiosClient.get(url);

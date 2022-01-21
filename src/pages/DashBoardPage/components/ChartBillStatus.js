@@ -44,7 +44,7 @@ const ChartBillStatus = () => {
           <View style={styles.container}>
             <View>
             <Text style={styles.header}>Tình trạng xử lý hóa đơn bán hàng</Text>
-            {isLoading ? <ActivityIndicator/> : (
+            {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
             <PieChart
                 data={[
                 {
