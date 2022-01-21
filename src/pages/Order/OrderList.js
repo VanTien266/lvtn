@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SearchBar } from "react-native-elements";
-import { Button } from "native-base";
+import { Button, Input, Icon } from "native-base";
+import orderApi from "../../api/orderApi";
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
@@ -19,12 +20,17 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/api/order")
-      .then((response) => response.json())
-      .then((data) => {
-        setListOrder(data);
-      });
-  });
+    const fetCountBillComplete = async () => {
+      try {
+        const response = await orderApi.getAll();
+        console.log(response);
+        setListOrder(response);
+      } catch (error) {
+        console.log("Failed to fetch bill complete count", error);
+      }
+    };
+    fetCountBillComplete();
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <Button onPress={() => navigation.push("order-detail")}>
@@ -47,7 +53,31 @@ const OrderList = ({ navigation }) => {
           <Ionicons name="search-sharp" size={24} color="#000040" />
         </TouchableOpacity>
       </View>
-      {displaySearch && <SearchBar lightTheme />}
+      {displaySearch && (
+        <Input
+          placeholder="Search"
+          variant="filled"
+          width="100%"
+          bg="gray.100"
+          borderRadius="5"
+          py="1"
+          px="2"
+          placeholderTextColor="gray.500"
+          _hover={{ bg: "gray.200", borderWidth: 0 }}
+          borderWidth="0"
+          _web={{
+            _focus: { style: { boxShadow: "none" } },
+          }}
+          InputLeftElement={
+            <Icon
+              ml="2"
+              size="5"
+              color="gray.500"
+              as={<Ionicons name="ios-search" />}
+            />
+          }
+        />
+      )}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
@@ -92,7 +122,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   headerText: {
-    fontFamily: "Roboto",
+    fontFamily: "'Roboto', sans-serif",
     color: "#000040",
     fontWeight: "600",
     fontSize: 12,
@@ -113,12 +143,12 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   orderItemText: {
-    fontFamily: "Roboto",
+    fontFamily: "'Roboto', sans-serif",
     color: "#000040",
     fontSize: 12,
   },
   pageTitle: {
-    fontFamily: "Roboto",
+    fontFamily: "'Roboto', sans-serif",
     color: "#000040",
     fontSize: 14,
     fontWeight: "600",
