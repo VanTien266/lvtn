@@ -6,7 +6,8 @@ import moment from "moment";
 import TransferStatus from "../../../utils/transferStatus";
 
 const ListBill = (props) => {
-  const { navigation } = props;
+  const { navigation, detailBill } = props;
+  console.log("detail bill", detailBill);
   const data = [
     {
       billId: "MHD1234",
@@ -41,16 +42,16 @@ const ListBill = (props) => {
     <TouchableOpacity onPress={() => navigation.push("bill-detail")}>
       <Flex style={styles.orderRow}>
         <Text fontSize={"sm"} flex={3}>
-          {item.billId}
+          {item.billID}
         </Text>
         <Text fontSize={"sm"} flex={4}>
-          {moment(item.dayadded).format("DD/MM/YYY")}
+          {moment(item.exportBillTime).format("DD/MM/YYY")}
         </Text>
         <Button size={"xs"} flex={3} variant={"ghost"}>
           Chi tiết
         </Button>
         <Text fontSize={"sm"} flex={3}>
-          {item.status}
+          {item.status[item.status.length - 1].name}
         </Text>
       </Flex>
     </TouchableOpacity>
@@ -74,7 +75,7 @@ const ListBill = (props) => {
       </Flex>
       <Box>
         <FlatList
-          data={data}
+          data={detailBill}
           renderItem={BillItem}
           keyExtractor={(item) => item.billId}
         />

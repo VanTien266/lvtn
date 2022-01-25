@@ -1,9 +1,27 @@
-import { Button } from "native-base";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { CustomerInfo, ItemList, ListBill, Status } from "./components";
+import orderApi from "../../api/orderApi";
 
-const OrderDetail = ({ navigation }) => {
+const OrderDetail = ({ route, navigation }) => {
+  const { orderId } = route.params;
+  const [order, setOrder] = useState({});
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchOrderDetail = async () => {
+      const response = await orderApi.getOne(orderId);
+      if (mounted) {
+        setOrder(response);
+      }
+    };
+    fetchOrderDetail();
+
+    return () => {
+      mounted = false;
+    };
+  }, [orderId]);
+
   const data = [
     { id: 1, name: "status" },
     { id: 2, name: "item" },
@@ -13,11 +31,13 @@ const OrderDetail = ({ navigation }) => {
   const renderItem = ({ item }) => {
     switch (item.name) {
       case "status":
-        return <Status />;
+        return <Status orderStatus={order?.orderStatus} />;
       case "item":
-        return <ItemList />;
+        return <ItemList products={order?.products} />;
       case "list-bill":
-        return <ListBill navigation={navigation} />;
+        return (
+          <ListBill navigation={navigation} detailBill={order?.detailBill} />
+        );
       case "customer-info":
         return <CustomerInfo />;
     }
@@ -30,6 +50,12 @@ const OrderDetail = ({ navigation }) => {
         keyExtractor={(item) => item.id}
       />
     </View>
+    // <ScrollView>
+    //   <Status orderStatus={order.orderStatus} />
+    //   {/* <ItemList />
+    //   <ListBill navigation={navigation} />
+    //   <CustomerInfo /> */}
+    // </ScrollView>
   );
 };
 

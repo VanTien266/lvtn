@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Status, CustomerInfo } from "./components";
 import { FlatList } from "native-base";
 
-const BillDetail = ({ navigation }) => {
+const BillDetail = ({ route, navigation }) => {
+  // const { orderId } = route.params;
+  // console.log(orderId);
   const data = [
     { id: 1, name: "status" },
     { id: 2, name: "item" },

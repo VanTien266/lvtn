@@ -23,7 +23,6 @@ const OrderList = ({ navigation }) => {
     const fetCountBillComplete = async () => {
       try {
         const response = await orderApi.getAll();
-        console.log(response);
         setListOrder(response);
       } catch (error) {
         console.log("Failed to fetch bill complete count", error);
@@ -87,7 +86,9 @@ const OrderList = ({ navigation }) => {
         <TouchableOpacity
           style={styles.orderItem}
           key={idx}
-          onPress={() => navigation.push("order-detail")}
+          onPress={() =>
+            navigation.push("order-detail", { orderId: order._id })
+          }
         >
           <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
             <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>

@@ -3,7 +3,8 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Card } from "react-native-elements";
 import Item from "./Item";
 
-const ItemList = () => {
+const ItemList = (props) => {
+  const { products } = props;
   const data = [
     {
       fabricType: "kk",
@@ -54,7 +55,7 @@ const ItemList = () => {
           <Text style={styles.headerCell}>Đơn giá</Text>
         </View>
         <FlatList
-          data={data}
+          data={products}
           renderItem={({ item }) => <Item item={item} />}
           keyExtractor={(item) => item.fabricType}
         />
