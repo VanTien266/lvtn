@@ -15,11 +15,11 @@ const Status = () => {
       title: "Đang vận chuyển",
       description: "Hóa đơn đang vận chuyển đến khách hàng",
     },
-    {
-      time: "12:00",
-      title: "Hoàn tất",
-      description: "Hóa đơn đã được vận chuyển thành công",
-    },
+    // {
+    //   time: "12:00",
+    //   title: "Hoàn tất",
+    //   description: "Hóa đơn đã được vận chuyển thành công",
+    // },
     {
       time: "14:00",
       title: "Thất bại",

@@ -15,11 +15,11 @@ const Status = () => {
       title: "Đang xử lý",
       description: "Đơn đăt hàng đang được xử lý",
     },
-    {
-      time: "12:00",
-      title: "Hoàn tất",
-      description: "Đơn đặt hàng đã được xử lý hoàn tất",
-    },
+    // {
+    //   time: "12:00",
+    //   title: "Hoàn tất",
+    //   description: "Đơn đặt hàng đã được xử lý hoàn tất",
+    // },
     {
       time: "14:00",
       title: "Đã hủy",

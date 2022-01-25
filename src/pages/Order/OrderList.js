@@ -9,6 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { SearchBar } from "react-native-elements";
 import { Button, Input, Icon } from "native-base";
+import orderApi from "../../api/orderApi";
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
@@ -19,21 +20,20 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    fetch("https://192.168.1.4:5000/api/order")
-      .then((response) => response.json())
-      .then((data) => {
-        setListOrder(data);
-      });
-  });
+    const fetCountBillComplete = async () => {
+      try {
+        const response = await orderApi.getAll();
+        console.log(response);
+        setListOrder(response);
+      } catch (error) {
+        console.log("Failed to fetch bill complete count", error);
+      }
+    };
+    fetCountBillComplete();
+  }, []);
   return (
     <ScrollView style={styles.container}>
-      <Button onPress={() => navigation.push("order-detail")}>
-        Chi tiết đơn hàng
-      </Button>
       <View style={styles.titleBar}>
-        <View style={styles.title}>
-          <Text style={styles.pageTitle}>Danh sách đơn hàng</Text>
-        </View>
         <TouchableOpacity style={styles.iconBtnBar}>
           <Ionicons name="filter" size={24} color="#000040" />
         </TouchableOpacity>
@@ -84,7 +84,11 @@ const OrderList = ({ navigation }) => {
         </View>
       </View>
       {listOrder.map((order, idx) => (
-        <TouchableOpacity style={styles.orderItem} key={idx}>
+        <TouchableOpacity
+          style={styles.orderItem}
+          key={idx}
+          onPress={() => navigation.push("order-detail")}
+        >
           <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
             <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
           </View>
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   headerText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontWeight: "600",
     fontSize: 12,
@@ -137,12 +141,12 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   orderItemText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 12,
   },
   pageTitle: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 14,
     fontWeight: "600",

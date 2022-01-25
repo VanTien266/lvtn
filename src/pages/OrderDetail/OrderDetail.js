@@ -17,16 +17,13 @@ const OrderDetail = ({ navigation }) => {
       case "item":
         return <ItemList />;
       case "list-bill":
-        return <ListBill />;
+        return <ListBill navigation={navigation} />;
       case "customer-info":
         return <CustomerInfo />;
     }
   };
   return (
     <View style={styles.container}>
-      <Button onPress={() => navigation.push("bill-detail")}>
-        Chi tiết hóa đơn
-      </Button>
       <FlatList
         data={data}
         renderItem={renderItem}
