@@ -1,9 +1,19 @@
+import moment from "moment";
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
 
-const Status = () => {
+const Status = (props) => {
+  const { orderStatus } = props;
+  let status = [];
+  orderStatus?.forEach((item) => {
+    status.push({
+      time: moment(item.date).format("DD/MM/YYYY"),
+      title: item.name,
+      description: item.reason,
+    });
+  });
   const data = [
     {
       time: "09:00",
@@ -15,11 +25,11 @@ const Status = () => {
       title: "Đang xử lý",
       description: "Đơn đăt hàng đang được xử lý",
     },
-    {
-      time: "12:00",
-      title: "Hoàn tất",
-      description: "Đơn đặt hàng đã được xử lý hoàn tất",
-    },
+    // {
+    //   time: "12:00",
+    //   title: "Hoàn tất",
+    //   description: "Đơn đặt hàng đã được xử lý hoàn tất",
+    // },
     {
       time: "14:00",
       title: "Đã hủy",
@@ -36,7 +46,7 @@ const Status = () => {
       <Card.Title>Trạng thái</Card.Title>
       <ScrollView style={styles.container}>
         <Timeline
-          data={data}
+          data={status}
           circleColor="#B4B4C1"
           lineColor="#B4B4C1"
           descriptionStyle={styles.description}

@@ -30,9 +30,7 @@ const Item = (props) => {
         onPress={() => setExpanded(!expanded)}
         style={styles.item}
       >
-        <Text style={styles.cell}>
-          {item.fabricName} ({item.fabricType})
-        </Text>
+        <Text style={styles.cell}>{item.colorCode.name}</Text>
         <Icon
           name={expanded ? "expand-less" : "expand-more"}
           color="#000040"
