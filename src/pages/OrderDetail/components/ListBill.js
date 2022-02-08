@@ -1,10 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Box, Flex, FlatList, Button, Text } from "native-base";
 import { Card } from "react-native-elements";
 import moment from "moment";
+import TransferStatus from "../../../utils/transferStatus";
 
-const ListBill = () => {
+const ListBill = (props) => {
+  const { navigation, detailBill } = props;
+  console.log("detail bill", detailBill);
   const data = [
     {
       billId: "MHD1234",
@@ -36,41 +39,43 @@ const ListBill = () => {
     },
   ];
   const BillItem = ({ item }) => (
-    <Flex flexDirection={"row"} justifyContent={"space-between"}>
-      <Text fontSize={"sm"} flex={1}>
-        {item.billId}
-      </Text>
-      <Text fontSize={"sm"} flex={2}>
-        {moment(item.dayadded).format("DD/MM/YYY")}
-      </Text>
-      <Button size={"xs"} flex={1} variant={"ghost"}>
-        Chi tiết
-      </Button>
-      <Text fontSize={"sm"} flex={1}>
-        {item.status}
-      </Text>
-    </Flex>
+    <TouchableOpacity onPress={() => navigation.push("bill-detail")}>
+      <Flex style={styles.orderRow}>
+        <Text fontSize={"sm"} flex={3}>
+          {item.billID}
+        </Text>
+        <Text fontSize={"sm"} flex={4}>
+          {moment(item.exportBillTime).format("DD/MM/YYY")}
+        </Text>
+        <Button size={"xs"} flex={3} variant={"ghost"}>
+          Chi tiết
+        </Button>
+        <Text fontSize={"sm"} flex={3}>
+          {item.status[item.status.length - 1].name}
+        </Text>
+      </Flex>
+    </TouchableOpacity>
   );
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Danh sách hóa đơn</Card.Title>
       <Flex flexDirection={"row"}>
-        <Text fontSize={"sm"} flex={1}>
+        <Text fontSize={"sm"} flex={3}>
           Mã hóa đơn
         </Text>
-        <Text fontSize={"sm"} flex={2}>
+        <Text fontSize={"sm"} flex={4}>
           Ngày xuát
         </Text>
-        <Text fontSize={"sm"} flex={1}>
+        <Text fontSize={"sm"} flex={3}>
           Sản phẩm
         </Text>
-        <Text fontSize={"sm"} flex={1}>
+        <Text fontSize={"sm"} flex={3}>
           Trạng thái
         </Text>
       </Flex>
       <Box>
         <FlatList
-          data={data}
+          data={detailBill}
           renderItem={BillItem}
           keyExtractor={(item) => item.billId}
         />
@@ -81,4 +86,13 @@ const ListBill = () => {
 
 export default ListBill;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  orderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#F6F6F8",
+    margin: 3,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+});
