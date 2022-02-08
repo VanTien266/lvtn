@@ -20,7 +20,7 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetCountBillComplete = async () => {
+    const fetchListOrder = async () => {
       try {
         const response = await orderApi.getAll();
         setListOrder(response);
@@ -28,7 +28,7 @@ const OrderList = ({ navigation }) => {
         console.log("Failed to fetch bill complete count", error);
       }
     };
-    fetCountBillComplete();
+    fetchListOrder();
   }, []);
   return (
     <ScrollView style={styles.container}>
@@ -110,6 +110,7 @@ export default OrderList;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: "#FFF"
   },
   headerList: {
     flex: 1,
