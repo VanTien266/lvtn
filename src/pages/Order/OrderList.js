@@ -20,7 +20,7 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetCountBillComplete = async () => {
+    const fetchListOrder = async () => {
       try {
         const response = await orderApi.getAll();
         console.log(response);
@@ -29,30 +29,13 @@ const OrderList = ({ navigation }) => {
         console.log("Failed to fetch bill complete count", error);
       }
     };
-    fetCountBillComplete();
+    fetchListOrder();
   }, []);
   return (
     <ScrollView style={styles.container}>
       <Button onPress={() => navigation.push("order-detail")}>
         Chi tiết đơn hàng
       </Button>
-      <View style={styles.titleBar}>
-        <View style={styles.title}>
-          <Text style={styles.pageTitle}>Danh sách đơn hàng</Text>
-        </View>
-        <TouchableOpacity style={styles.iconBtnBar}>
-          <Ionicons name="filter" size={24} color="#000040" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtnBar}>
-          <Ionicons name="notifications" size={24} color="#000040" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconBtnBar}
-          onPress={handleDisplaySearch}
-        >
-          <Ionicons name="search-sharp" size={24} color="#000040" />
-        </TouchableOpacity>
-      </View>
       {displaySearch && (
         <Input
           placeholder="Search"
@@ -111,6 +94,7 @@ export default OrderList;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: "#FFF"
   },
   headerList: {
     flex: 1,
