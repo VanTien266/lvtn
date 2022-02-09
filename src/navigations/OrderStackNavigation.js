@@ -38,7 +38,8 @@ const OrderStackNavigation = () => {
               </TouchableOpacity>
             </View>
           ),
-          headerStyle: { borderBottomWidth: 0 }
+          headerStyle: { borderBottomWidth: 0 },
+
         }}
       />
       <OrderStack.Screen
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     color: "#000040",
     fontSize: 12,
   },
-  
+
   titleBar: {
     flex: 1,
     flexDirection: "row",
