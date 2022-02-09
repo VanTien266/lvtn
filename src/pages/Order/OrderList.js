@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SearchBar } from "react-native-elements";
 import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
 
