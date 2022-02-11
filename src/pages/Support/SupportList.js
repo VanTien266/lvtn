@@ -24,6 +24,7 @@ export default function SupportList({ navigation }) {
       </View>
       <TouchableOpacity
         style={styles.orderItem}
+        onPress={() => navigation.push("support-reply")}
       >
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.orderItemText}>MHĐ13567</Text>
