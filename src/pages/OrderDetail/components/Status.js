@@ -8,10 +8,45 @@ const Status = (props) => {
   const { orderStatus } = props;
   let status = [];
   orderStatus?.forEach((item) => {
+    let title;
+    let description = "";
+    let descStyle;
+    let cỉcleDotStyle;
+    switch (item.name) {
+      case "pending":
+        title = "Đang đợi";
+        description = "Đơn hàng đang đợi xử lý";
+        descStyle = styles.wait;
+        cỉcleDotStyle = "#CDAB34";
+        break;
+      case "processing":
+        title = "Đang xử lý";
+        description = "Đang xử lý đơn hàng";
+        descStyle = styles.process;
+        cỉcleDotStyle = "#747FFF";
+        break;
+      case "success":
+        title = "Hoàn tất";
+        description = "Đơn hàng xử lý hoàn tất";
+        descStyle = styles.complete;
+        cỉcleDotStyle = "#5A9E4B";
+        break;
+      default:
+        title = "Thất bại";
+        description = "Đơn hàng bị hủy";
+        descStyle = styles.cancle;
+        cỉcleDotStyle = "#BD2C2C";
+        break;
+    }
     status.push({
       time: moment(item.date).format("DD/MM/YYYY"),
-      title: item.name,
-      description: item.reason,
+      title: title,
+      description: description,
+      timeStyle: descStyle,
+      titleStyle: descStyle,
+      descriptionStyle: descStyle,
+      circleColor: cỉcleDotStyle,
+      lineColor: cỉcleDotStyle,
     });
   });
   const data = [
@@ -65,7 +100,7 @@ const Status = (props) => {
 export default Status;
 
 const styles = StyleSheet.create({
-  container: { display: "flex", height: 300, width: "100%" },
+  container: { display: "flex", width: "100%" },
   title: { fontSize: 16, fontWeight: "bold" },
   description: {
     fontSize: 10,
