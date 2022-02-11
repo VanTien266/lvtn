@@ -50,15 +50,19 @@ const ItemList = (props) => {
         <View style={styles.headerContainer}>
           <Text style={styles.headerCell}>STT</Text>
           <Text style={styles.headerCell}>Mã</Text>
-          <Text style={{ flex: 1.5 }}>Tên sản phẩm</Text>
-          <Text style={styles.headerCell}>Chiều dài</Text>
-          <Text style={styles.headerCell}>Đơn giá</Text>
+          <Text style={{ flex: 2 }}>Tên sản phẩm</Text>
+          <Text style={styles.headerCell}>Đã giao</Text>
+          <Text style={styles.headerCell}>Còn lại</Text>
         </View>
-        <FlatList
-          data={products}
-          renderItem={({ item }) => <Item item={item} />}
-          keyExtractor={(item) => item.fabricType}
-        />
+        {products && (
+          <FlatList
+            data={products}
+            renderItem={({ item, index }) => (
+              <Item item={item} index={index + 1} />
+            )}
+            keyExtractor={(item, index) => index}
+          />
+        )}
       </View>
     </Card>
   );
@@ -71,6 +75,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: "#B4B4C1",
+    paddingHorizontal: 5,
   },
   headerCell: { flex: 1, color: "#000040" },
 });

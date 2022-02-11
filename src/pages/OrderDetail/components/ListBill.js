@@ -42,7 +42,7 @@ const ListBill = (props) => {
     <TouchableOpacity onPress={() => navigation.push("bill-detail")}>
       <Flex style={styles.orderRow}>
         <Text fontSize={"sm"} flex={3}>
-          {item.billID}
+          MHĐ{item.billID}
         </Text>
         <Text fontSize={"sm"} flex={4}>
           {moment(item.exportBillTime).format("DD/MM/YYY")}
@@ -77,7 +77,7 @@ const ListBill = (props) => {
         <FlatList
           data={detailBill}
           renderItem={BillItem}
-          keyExtractor={(item) => item.billId}
+          keyExtractor={(item) => item._id}
         />
       </Box>
     </Card>
