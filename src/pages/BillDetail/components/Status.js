@@ -2,40 +2,77 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
+import moment from "moment";
 
-const Status = () => {
-  const data = [
-    {
-      time: "09:00",
-      title: "Đã xuất",
-      description: "Hóa đơn đã được tạo",
-    },
-    {
-      time: "10:45",
-      title: "Đang vận chuyển",
-      description: "Hóa đơn đang vận chuyển đến khách hàng",
-    },
-    // {
-    //   time: "12:00",
-    //   title: "Hoàn tất",
-    //   description: "Hóa đơn đã được vận chuyển thành công",
-    // },
-    {
-      time: "14:00",
-      title: "Thất bại",
-      description: "Hóa đơn vận chuyển thất bại",
-      timeStyle: styles.cancle,
-      circleColor: "#BD2C2C",
-      lineColor: "#BD2C2C",
-      titleStyle: styles.cancle,
-      descriptionStyle: styles.cancle,
-    },
-  ];
+const Status = (props) => {
+  const { billStatus } = props;
+  console.log(billStatus);
+
+  let status = [];
+  billStatus?.forEach((item, index, billStatus) => {
+    let title;
+    let description = "";
+    let descStyle;
+    let cỉcleDotStyle;
+    switch (item.name) {
+      case "exported":
+        title = "Đã xuất";
+        description = "Hóa đơn của bạn đã được xuất";
+        descStyle = styles.exported;
+        cỉcleDotStyle = "#CDAB34";
+        break;
+      case "shipping":
+        title = "Đang vận chyển";
+        description = "Hóa đơn bạn đang được vận chuyển";
+        descStyle = styles.shipping;
+        cỉcleDotStyle = "#747FFF";
+        break;
+      case "completed":
+        title = "Hoàn tất";
+        description = "Hóa đơn đã được vận chuyển thành công";
+        descStyle = styles.completed;
+        cỉcleDotStyle = "#5A9E4B";
+        break;
+      default:
+        if (index === billStatus.length - 1) {
+          title = "Thất bại";
+          description = "Đơn hàng vận chuyển thất bại";
+        } else {
+          title = "Tái vận chuyển";
+          description =
+            "Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần 2";
+        }
+        descStyle = styles.failed;
+        cỉcleDotStyle = "#BD2C2C";
+        break;
+    }
+    if (index === billStatus.length - 1)
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: descStyle,
+        titleStyle: descStyle,
+        descriptionStyle: descStyle,
+        circleColor: cỉcleDotStyle,
+        lineColor: cỉcleDotStyle,
+      });
+    else
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: styles.default,
+        titleStyle: styles.default,
+        descriptionStyle: styles.default,
+      });
+  });
+
   return (
     <Card style={styles.container} containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Trạng thái</Card.Title>
       <Timeline
-        data={data}
+        data={status}
         circleColor="#B4B4C1"
         lineColor="#B4B4C1"
         descriptionStyle={styles.description}
@@ -61,16 +98,17 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 10,
   },
-  wait: {
+  exported: {
     color: "#CDAB34",
   },
-  process: {
+  shipping: {
     color: "#747FFF",
   },
-  complete: {
+  completed: {
     color: "#5A9E4B",
   },
-  cancle: {
+  failed: {
     color: "#BD2C2C",
   },
+  default: { color: "#B4B4C1" },
 });
