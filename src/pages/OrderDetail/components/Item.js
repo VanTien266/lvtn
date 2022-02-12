@@ -7,14 +7,11 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import clsx from "clsx";
 
-const ITEM_HEIGHT = 25;
 const CHILD_ROW_HEIGHT = 20;
 
 const Item = (props) => {
   const { item, index } = props;
-  console.log(item);
 
   return (
     <View style={[styles.childRow, index % 2 === 0 && styles.item]}>
