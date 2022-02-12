@@ -31,7 +31,7 @@ const OrderList = ({ navigation }) => {
   }, []);
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.titleBar}>
+      {/* <View style={styles.titleBar}>
         <TouchableOpacity style={styles.iconBtnBar}>
           <Ionicons name="filter" size={24} color="#000040" />
         </TouchableOpacity>
@@ -69,7 +69,7 @@ const OrderList = ({ navigation }) => {
             />
           }
         />
-      )}
+      )} */}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
