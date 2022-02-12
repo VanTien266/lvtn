@@ -20,9 +20,6 @@ export default function SupportStackNavigation() {
                 <Ionicons name="filter" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.iconBtnBar}>
-                <Ionicons name="notifications" size={24} color="#000040" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.iconBtnBar}>
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
             </View>
@@ -33,14 +30,7 @@ export default function SupportStackNavigation() {
         name="support-reply"
         component={ReplySupport}
         options={{
-          title: "Phản hồi yêu cầu hỗ trợ",
-          headerRight: () => (
-            <View style={styles.titleBar}>
-              <TouchableOpacity style={styles.iconBtnBar}>
-                <Ionicons name="notifications" size={24} color="#000040" />
-              </TouchableOpacity>
-            </View>
-          ),
+          title: "Phản hồi yêu cầu hỗ trợ"
         }}
       ></SupportStack.Screen>
     </SupportStack.Navigator>
