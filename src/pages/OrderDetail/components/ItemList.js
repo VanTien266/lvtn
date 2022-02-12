@@ -5,43 +5,6 @@ import Item from "./Item";
 
 const ItemList = (props) => {
   const { products } = props;
-  const data = [
-    {
-      fabricType: "kk",
-      fabricName: "kaki",
-      item: [
-        { type: "kk11", name: "kaki trắng", length: 100, price: 20000 },
-        { type: "kk12", name: "kaki đen", length: 200, price: 20000 },
-        { type: "kk13", name: "kaki xanh", length: 400, price: 20000 },
-        { type: "kk14", name: "kaki đỏ", length: 500, price: 20000 },
-        { type: "kk15", name: "kaki tím", length: 300, price: 20000 },
-      ],
-    },
-    {
-      fabricType: "je",
-      fabricName: "jean",
-      item: [{ type: "je11", name: "jean trắng", length: 500, price: 12000 }],
-    },
-    {
-      fabricType: "kt",
-      fabricName: "kate",
-      item: [
-        { type: "kt11", name: "kate trắng", length: 100, price: 20000 },
-        { type: "kt12", name: "kate đen", length: 200, price: 20000 },
-        { type: "kt13", name: "kate xanh", length: 400, price: 20000 },
-        { type: "kt14", name: "kate đỏ", length: 500, price: 20000 },
-      ],
-    },
-    {
-      fabricType: "co",
-      fabricName: "coton",
-      item: [
-        { type: "co11", name: "coton trắng", length: 100, price: 20000 },
-        { type: "co14", name: "coton đỏ", length: 500, price: 20000 },
-        { type: "co15", name: "coton tím", length: 300, price: 20000 },
-      ],
-    },
-  ];
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>

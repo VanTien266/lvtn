@@ -7,7 +7,7 @@ import Timeline from "react-native-timeline-flatlist";
 const Status = (props) => {
   const { orderStatus } = props;
   let status = [];
-  orderStatus?.forEach((item) => {
+  orderStatus?.forEach((item, index, orderStatus) => {
     let title;
     let description = "";
     let descStyle;
@@ -38,44 +38,28 @@ const Status = (props) => {
         cỉcleDotStyle = "#BD2C2C";
         break;
     }
-    status.push({
-      time: moment(item.date).format("DD/MM/YYYY"),
-      title: title,
-      description: description,
-      timeStyle: descStyle,
-      titleStyle: descStyle,
-      descriptionStyle: descStyle,
-      circleColor: cỉcleDotStyle,
-      lineColor: cỉcleDotStyle,
-    });
+    if (index === orderStatus.length - 1)
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: descStyle,
+        titleStyle: descStyle,
+        descriptionStyle: descStyle,
+        circleColor: cỉcleDotStyle,
+        lineColor: cỉcleDotStyle,
+      });
+    else
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: styles.default,
+        titleStyle: styles.default,
+        descriptionStyle: styles.default,
+      });
   });
-  const data = [
-    {
-      time: "09:00",
-      title: "Đang đợi",
-      description: "Đơn đặt hàng đang chờ xử lý",
-    },
-    {
-      time: "10:45",
-      title: "Đang xử lý",
-      description: "Đơn đăt hàng đang được xử lý",
-    },
-    // {
-    //   time: "12:00",
-    //   title: "Hoàn tất",
-    //   description: "Đơn đặt hàng đã được xử lý hoàn tất",
-    // },
-    {
-      time: "14:00",
-      title: "Đã hủy",
-      description: "Đơn hàng đã bị hủy",
-      timeStyle: styles.cancle,
-      circleColor: "#BD2C2C",
-      lineColor: "#BD2C2C",
-      titleStyle: styles.cancle,
-      descriptionStyle: styles.cancle,
-    },
-  ];
+
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Trạng thái</Card.Title>
@@ -117,4 +101,5 @@ const styles = StyleSheet.create({
   cancle: {
     color: "#BD2C2C",
   },
+  default: { color: "#B4B4C1" },
 });
