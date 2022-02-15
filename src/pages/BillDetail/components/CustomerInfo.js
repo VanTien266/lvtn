@@ -17,7 +17,7 @@ const CustomerInfo = () => {
             <Flex flexDirection="row" alignItems="center">
               <Icon
                 name="border-color"
-                color="#000040"
+                color="#00004080"
                 size={24}
                 style={styles.icon}
               />
@@ -25,7 +25,12 @@ const CustomerInfo = () => {
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
-            <Icon name="place" color="#000040" size={24} style={styles.icon} />
+            <Icon
+              name="place"
+              color="#00004080"
+              size={24}
+              style={styles.icon}
+            />
             <Flex>
               <Text>KTX khu B</Text>
               <Text>Đông Hòa - Dĩ An -Bình Dương</Text>
@@ -34,7 +39,7 @@ const CustomerInfo = () => {
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-post-office"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
@@ -43,7 +48,7 @@ const CustomerInfo = () => {
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-phone"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
@@ -56,7 +61,7 @@ const CustomerInfo = () => {
           Người nhận
         </Text>
         <Flex flexDirection="row" alignItems="center">
-          <Icon name="place" color="#000040" size={24} style={styles.icon} />
+          <Icon name="place" color="#00004080" size={24} style={styles.icon} />
           <Box>
             <Text>KTX khu A</Text>
             <Text>Linh Trung - Thủ Đức - TP HCM</Text>
@@ -65,7 +70,7 @@ const CustomerInfo = () => {
         <Flex flexDirection="row" alignItems="center">
           <Icon
             name="local-phone"
-            color="#000040"
+            color="#00004080"
             size={24}
             style={styles.icon}
           />
