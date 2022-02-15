@@ -9,6 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
+import transferOrderStatus from "../../utils/transferOrderStatus";
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
@@ -74,32 +75,56 @@ const OrderList = ({ navigation }) => {
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 5 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Người nhận</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 3 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text style={styles.headerText}>Trạng thái</Text>
+        </View>
       </View>
-      {listOrder.map((order, idx) => (
-        <TouchableOpacity
-          style={styles.orderItem}
-          key={idx}
-          onPress={() =>
-            navigation.push("order-detail", { orderId: order._id })
-          }
-        >
-          <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-            <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 5 }]}>
-            <Text style={styles.orderItemText}>{order.clientID.name}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 3 }]}>
-            <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {listOrder.map(
+        (order, idx) =>
+          order.orderStatus && (
+            <TouchableOpacity
+              style={styles.orderItem}
+              key={idx}
+              onPress={() =>
+                navigation.push("order-detail", { orderId: order._id })
+              }
+            >
+              <View
+                style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+              >
+                <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.clientID.name}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text
+                  style={[
+                    styles.orderItemText,
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).style,
+                  ]}
+                >
+                  {
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).name
+                  }
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )
+      )}
     </ScrollView>
   );
 };
@@ -109,7 +134,7 @@ export default OrderList;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
   headerList: {
     flex: 1,

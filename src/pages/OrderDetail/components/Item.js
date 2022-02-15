@@ -18,8 +18,13 @@ const Item = (props) => {
       <Text style={styles.childCell}>{index || ""}</Text>
       <Text style={styles.childCell}>{item.colorCode.colorCode}</Text>
       <Text style={{ flex: 2, fontSize: 10 }}>{item.colorCode.name || ""}</Text>
-      <Text style={styles.childCell}>{item.length} m</Text>
       <Text style={styles.childCell}>{item.shippedLength} m</Text>
+      <Text style={styles.childCell}>
+        {item.length - item.shippedLength >= 0
+          ? item.length - item.shippedLength
+          : 0}
+        {" m"}
+      </Text>
     </View>
   );
 
