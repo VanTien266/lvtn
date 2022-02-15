@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Status, CustomerInfo } from "./components";
 import { FlatList } from "native-base";
 import billApi from "../../api/billApi";
+import AnortherInfo from "./components/AnortherInfo";
 
 const BillDetail = ({ route, navigation }) => {
   const { billId } = route.params;
@@ -20,8 +21,8 @@ const BillDetail = ({ route, navigation }) => {
   const data = [
     { id: 1, name: "status" },
     { id: 2, name: "item" },
-    { id: 3, name: "another-info" },
-    { id: 4, name: "customer-info" },
+    { id: 3, name: "customer-info" },
+    { id: 4, name: "another-info" },
   ];
   const renderItem = ({ item }) => {
     switch (item.name) {
@@ -29,6 +30,8 @@ const BillDetail = ({ route, navigation }) => {
         return <Status billStatus={bill?.status} />;
       case "customer-info":
         return <CustomerInfo />;
+      case "another-info":
+        return <AnortherInfo />;
     }
   };
   return (

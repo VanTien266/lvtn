@@ -40,7 +40,7 @@ const Status = (props) => {
         } else {
           title = "Tái vận chuyển";
           description =
-            "Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần 2";
+            "Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần tiếp theo";
         }
         descStyle = styles.failed;
         cỉcleDotStyle = "#BD2C2C";
