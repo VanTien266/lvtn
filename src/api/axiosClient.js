@@ -1,10 +1,13 @@
 import axios from "axios";
 import qs from "qs";
-import {Platform} from 'react-native';
+import { Platform } from "react-native";
 
 const axiosClient = axios.create({
-  // baseURL: Platform.OS === 'android' ? 'http://192.168.1.8:5000/api' : 'https://192.168.1.8:5000/api',
-  baseURL: Platform.OS === 'android' ? 'https://server-dclv.herokuapp.com/api/' : 'https://server-dclv.herokuapp.com/api/',
+  // baseURL: Platform.OS === 'android' ? process.env.REACT_APP_API_URL_ANDROID : process.env.REACT_APP_API_IOS,
+  baseURL:
+    Platform.OS === "android"
+      ? "https://server-dclv.herokuapp.com/api/"
+      : "https://server-dclv.herokuapp.com/api/",
   headers: {
     "content-type": "application/json",
   },

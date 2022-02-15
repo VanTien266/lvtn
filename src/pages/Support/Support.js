@@ -1,12 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import SupportStackNavigation from "../../navigations/SupportStackNavigation";
 
 const Support = () => {
-  return (
-    <View>
-      <Text>This is support</Text>
-    </View>
-  );
+  return <SupportStackNavigation></SupportStackNavigation>;
 };
 
 export default Support;

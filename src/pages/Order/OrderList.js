@@ -7,9 +7,9 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SearchBar } from "react-native-elements";
 import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
+import transferOrderStatus from "../../utils/transferOrderStatus";
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
@@ -20,26 +20,19 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetCountBillComplete = async () => {
+    const fetchListOrder = async () => {
       try {
         const response = await orderApi.getAll();
-        console.log(response);
         setListOrder(response);
       } catch (error) {
         console.log("Failed to fetch bill complete count", error);
       }
     };
-    fetCountBillComplete();
+    fetchListOrder();
   }, []);
   return (
     <ScrollView style={styles.container}>
-      <Button onPress={() => navigation.push("order-detail")}>
-        Chi tiết đơn hàng
-      </Button>
-      <View style={styles.titleBar}>
-        <View style={styles.title}>
-          <Text style={styles.pageTitle}>Danh sách đơn hàng</Text>
-        </View>
+      {/* <View style={styles.titleBar}>
         <TouchableOpacity style={styles.iconBtnBar}>
           <Ionicons name="filter" size={24} color="#000040" />
         </TouchableOpacity>
@@ -77,31 +70,61 @@ const OrderList = ({ navigation }) => {
             />
           }
         />
-      )}
+      )} */}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 5 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Người nhận</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 3 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text style={styles.headerText}>Trạng thái</Text>
+        </View>
       </View>
-      {listOrder.map((order, idx) => (
-        <TouchableOpacity style={styles.orderItem} key={idx}>
-          <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-            <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 5 }]}>
-            <Text style={styles.orderItemText}>{order.clientID.name}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 3 }]}>
-            <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {listOrder.map(
+        (order, idx) =>
+          order.orderStatus && (
+            <TouchableOpacity
+              style={styles.orderItem}
+              key={idx}
+              onPress={() =>
+                navigation.push("order-detail", { orderId: order._id })
+              }
+            >
+              <View
+                style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+              >
+                <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.clientID.name}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text
+                  style={[
+                    styles.orderItemText,
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).style,
+                  ]}
+                >
+                  {
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).name
+                  }
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )
+      )}
     </ScrollView>
   );
 };
@@ -111,6 +134,7 @@ export default OrderList;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: "#FFF",
   },
   headerList: {
     flex: 1,
@@ -122,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   headerText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontWeight: "600",
     fontSize: 12,
@@ -143,12 +167,12 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   orderItemText: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 12,
   },
   pageTitle: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Roboto",
     color: "#000040",
     fontSize: 14,
     fontWeight: "600",
