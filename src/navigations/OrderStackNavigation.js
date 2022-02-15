@@ -72,6 +72,20 @@ const OrderStackNavigation = () => {
           ),
         }}
       />
+      <OrderStack.Screen
+        name="order-search"
+        component={BillDetail}
+        options={{
+          title: "Tìm kiếm đơn đặt hàng"
+        }}
+      />
+      <OrderStack.Screen
+        name="bill-search"
+        component={BillDetail}
+        options={{
+          title: "Tìm kiếm hóa đơn"
+        }}
+      />
     </OrderStack.Navigator>
   );
 };
