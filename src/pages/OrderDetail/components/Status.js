@@ -25,7 +25,7 @@ const Status = (props) => {
         descStyle = styles.process;
         cỉcleDotStyle = "#747FFF";
         break;
-      case "success":
+      case "completed":
         title = "Hoàn tất";
         description = "Đơn hàng xử lý hoàn tất";
         descStyle = styles.complete;
