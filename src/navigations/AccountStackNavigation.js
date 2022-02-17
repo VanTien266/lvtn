@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 //Pages
 import AccountProfile from "../pages/Account/AccountProfile";
 import Setting from "../pages/Account/Setting";
+import ChangePassword from "../pages/Account/ChangePassword";
 
 const AccountStack = createStackNavigator();
 
@@ -34,6 +35,15 @@ export default function AccountStackNavigation() {
             component={Setting}
             options={{
             title: "Cài đặt"
+            }}
+        >
+        </AccountStack.Screen>
+
+        <AccountStack.Screen
+            name="changepassword"
+            component={ChangePassword}
+            options={{
+            title: "Đổi mật khẩu"
             }}
         >
         </AccountStack.Screen>

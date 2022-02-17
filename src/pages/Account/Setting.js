@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const Setting = () => {
+const Setting = ({navigation}) => {
   return (
     <View style={styles.settingContainer}>
-      <TouchableOpacity style={styles.layoutBox} onPress={() => {Alert.alert("Click Change Password")}}>
+      <TouchableOpacity style={styles.layoutBox} onPress={() => navigation.push("changepassword")}>
         <Text style={styles.text}>Đổi mật khẩu</Text> 
       </TouchableOpacity>
       <TouchableOpacity style={styles.layoutBox} onPress={() => {Alert.alert("Click Sign Out")}}>
@@ -17,7 +17,7 @@ const TEXT = {
   textAlign: "center",
   fontWeight:"bold",
   color:"#000040",
-  fontSize:14
+  fontSize:16
 }
 const styles = StyleSheet.create({
   settingContainer: {
