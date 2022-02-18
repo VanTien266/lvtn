@@ -4,6 +4,7 @@ import { Button } from "native-base";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import WareHouseList from "../pages/WareHouse/WareHouseList";
+import WareHouseDetail from "../pages/WareHouse/WareHouseDetail";
 
 const WareHouseStack = createStackNavigator();
 
@@ -15,6 +16,14 @@ const WareHouseStackNavigation = () => {
         component={WareHouseList}
         options={{
           title: "Danh sách kho hàng",
+          headerStyle: { borderBottomWidth: 0 },
+        }}
+      />
+      <WareHouseStack.Screen
+        name="warehouse-detail"
+        component={WareHouseDetail}
+        options={{
+          title: "Chi tiết kho hàng",
           headerStyle: { borderBottomWidth: 0 },
         }}
       />
