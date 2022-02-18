@@ -11,7 +11,7 @@ import { Button, Input, Icon } from "native-base";
 
 export default function WareHouseList({ navigation }) {
   return (
-    <ScrollView style={{ padding: 10, flex: 1 }}>
+    <ScrollView style={{ padding: 10, flex: 1, backgroundColor: "white" }}>
       <View style={styles.row}>
         <TouchableOpacity
           style={styles.button}
