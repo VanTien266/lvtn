@@ -11,7 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Input, Icon, useStyledSystemPropsResolver } from "native-base";
 import productApi from "../../api/productApi";
-import { RollOutLeft } from "react-native-reanimated";
+// import { RollOutLeft } from "react-native-reanimated";
 import LotItem from "./LotItem";
 
 export default function WareHouseDetail({ navigation }) {
