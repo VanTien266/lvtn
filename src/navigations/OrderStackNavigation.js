@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { Button } from "native-base";
+import { Button, Box } from "native-base";
 import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import OrderList from "../pages/Order/OrderList";
@@ -9,6 +9,7 @@ import BillDetail from "../pages/BillDetail/BillDetail";
 import { Ionicons } from "@expo/vector-icons";
 import OrderSearch from "../pages/Order/OrderSearch";
 import OrderFilter from "../pages/Order/OrderFilter";
+import ExportBill from "../pages/ExportBill/ExportBill";
 
 const OrderStack = createStackNavigator();
 
@@ -45,17 +46,21 @@ const OrderStackNavigation = () => {
       <OrderStack.Screen
         name="order-detail"
         component={OrderDetail}
-        options={{
+        options={({ navigation, route }) => ({
           title: "Chi tiết đơn đặt hàng",
           headerRight: () => (
             <Button
               variant={"ghost"}
-              leftIcon={<Icon name="file-upload" size={14} />}
+              colorScheme="light"
+              onPress={() => {
+                navigation.push("export-bill", route.params);
+              }}
+              leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
             >
-              Xuất hóa đơn
+              Xuất HĐ
             </Button>
           ),
-        }}
+        })}
       />
       <OrderStack.Screen
         name="bill-detail"
@@ -68,6 +73,26 @@ const OrderStackNavigation = () => {
               leftIcon={<Icon name="local-printshop" size={14} />}
             >
               In hóa đơn
+            </Button>
+          ),
+        }}
+      />
+      <OrderStack.Screen
+        name="export-bill"
+        component={ExportBill}
+        options={{
+          title: "Xuất hóa đơn",
+          headerRight: () => (
+            <Button
+              variant={"ghost"}
+              colorScheme="light"
+              onPress={() => {
+                console.log("Pushed");
+                // navigation.push("export-bill");
+              }}
+              leftIcon={<Icon name="file-upload" size={20} color="#000040" />}
+            >
+              Tạo HĐ
             </Button>
           ),
         }}
@@ -100,6 +125,11 @@ const OrderStackNavigation = () => {
 export default OrderStackNavigation;
 
 const styles = StyleSheet.create({
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 5,
+  },
   verticalCenter: {
     direction: "inherit",
     display: "flex",
