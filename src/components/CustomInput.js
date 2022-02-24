@@ -2,28 +2,26 @@ import { View, StyleSheet, TextInput } from 'react-native'
 import React, {useState} from 'react';
 import {Ionicons} from '@expo/vector-icons';
 
-const InputPassword = (props) => {
+const CustomInput = (props) => {
     const {name, placeholder} = props;
-    const [password, setPassword] = useState('');
-    const [isSecure, setIsSecure] = useState(true);
+    const [text, setText] = useState('');
     const onChangeText = (text) => {
-        setPassword(text);
+        setText(text);
     }
     return (
         <View style={styles.inputContainer}>
+            {/* <Ionicons style={{marginRight: 5}} name={isSecure?"ios-eye-off-outline":"ios-eye-outline"} size={24} color="grey" onPress={() =>{setIsSecure((prev)=>!prev)}}/> */}
             <TextInput
                 style={styles.inputField}
                 name={name}
                 placeholder={placeholder}
                 autoCapitalize='none'
                 autoCorrect={false}
-                secureTextEntry={isSecure}
-                value={password}
+                value={text}
                 enablesReturnKeyAutomatically
                 onChangeText={onChangeText}
-                maxLength={30}
+                // maxLength={30}
             />
-            <Ionicons style={{marginRight: 5}} name={isSecure?"ios-eye-off-outline":"ios-eye-outline"} size={24} color="grey" onPress={() =>{setIsSecure((prev)=>!prev)}}/>
         </View>
     )
 }
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 2,
         borderColor: '#000040',
-        justifyContent: "space-between",
         marginVertical: 5,
     },
     inputField: {
@@ -45,4 +42,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 })
-export default InputPassword;
+export default CustomInput;

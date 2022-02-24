@@ -13,7 +13,6 @@ const Tab = createMaterialBottomTabNavigator();
 
 const BottomNavigation = () => {
   return (
-    <NavigationContainer>
       <Tab.Navigator
         initialRouteName="order"
         barStyle={{ backgroundColor: "#fff" }}
@@ -73,7 +72,6 @@ const BottomNavigation = () => {
           options={{ title: "Tài khoản" }}
         ></Tab.Screen>
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 
