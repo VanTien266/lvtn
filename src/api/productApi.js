@@ -13,6 +13,10 @@ class ProductApi {
     const url = "/product/list";
     return axiosClient.post(url, data);
   };
+  getListOfBill = (data) => {
+    const url = "/product/fabricroll-bill";
+    return axiosClient.post(url, data);
+  };
   getChartWarehouseTrue = (params) => {
     const url = "/chartwarehouse";
     return axiosClient.get(url, { params });

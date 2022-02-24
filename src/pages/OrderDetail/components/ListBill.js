@@ -36,7 +36,7 @@ const ListBill = (props) => {
           MHĐ{item.billID}
         </Text>
         <Text fontSize={"sm"} flex={3.5}>
-          {moment(item.exportBillTime).format("DD/MM/YYY")}
+          {moment(item.exportBillTime).format("DD/MM/YYYY")}
         </Text>
         <Button size={"xs"} flex={2.5} variant="ghost">
           Chi tiết

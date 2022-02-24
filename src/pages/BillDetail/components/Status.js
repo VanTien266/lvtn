@@ -6,7 +6,6 @@ import moment from "moment";
 
 const Status = (props) => {
   const { billStatus } = props;
-  console.log(billStatus);
 
   let status = [];
   billStatus?.forEach((item, index, billStatus) => {
