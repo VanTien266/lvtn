@@ -10,7 +10,6 @@ const CustomInput = (props) => {
     }
     return (
         <View style={styles.inputContainer}>
-            {/* <Ionicons style={{marginRight: 5}} name={isSecure?"ios-eye-off-outline":"ios-eye-outline"} size={24} color="grey" onPress={() =>{setIsSecure((prev)=>!prev)}}/> */}
             <TextInput
                 style={styles.inputField}
                 name={name}
@@ -20,7 +19,6 @@ const CustomInput = (props) => {
                 value={text}
                 enablesReturnKeyAutomatically
                 onChangeText={onChangeText}
-                // maxLength={30}
             />
         </View>
     )
