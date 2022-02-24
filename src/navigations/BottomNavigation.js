@@ -14,7 +14,7 @@ const Tab = createMaterialBottomTabNavigator();
 const BottomNavigation = () => {
   return (
       <Tab.Navigator
-        initialRouteName="order"
+        initialRouteName="dashboard"
         barStyle={{ backgroundColor: "#fff" }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
