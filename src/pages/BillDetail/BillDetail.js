@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Status, CustomerInfo } from "./components";
+import { Status, CustomerInfo, AnortherInfo, ItemList } from "./components";
 import { FlatList } from "native-base";
 import billApi from "../../api/billApi";
-import AnortherInfo from "./components/AnortherInfo";
 
 const BillDetail = ({ route, navigation }) => {
   const { billId } = route.params;
-  console.log(billId);
   const [bill, setBill] = useState({});
 
   useEffect(() => {
@@ -28,6 +26,8 @@ const BillDetail = ({ route, navigation }) => {
     switch (item.name) {
       case "status":
         return <Status billStatus={bill?.status} />;
+      case "item":
+        return <ItemList listFabricId={bill?.fabricRoll} />;
       case "customer-info":
         return <CustomerInfo />;
       case "another-info":

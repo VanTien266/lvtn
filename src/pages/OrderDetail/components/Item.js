@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 const CHILD_ROW_HEIGHT = 20;
 
