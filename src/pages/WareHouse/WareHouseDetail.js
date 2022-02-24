@@ -45,6 +45,7 @@ export default function WareHouseDetail({ navigation }) {
       {listFabricType.length !== 0 && isLoading === false ? (
         <FlatList
           data={listFabricType}
+          nestedScrollEnabled
           renderItem={({ item, idx }) => {
             return (
               <View>

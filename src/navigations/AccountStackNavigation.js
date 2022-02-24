@@ -13,7 +13,7 @@ export default function AccountStackNavigation() {
     return (
         <AccountStack.Navigator>
             <AccountStack.Screen
-            name="account"
+            name="accountprofile"
             component={AccountProfile}
             options={{
             title: "Thông tin tài khoản",

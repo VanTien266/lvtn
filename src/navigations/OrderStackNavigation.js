@@ -7,24 +7,25 @@ import OrderList from "../pages/Order/OrderList";
 import OrderDetail from "../pages/OrderDetail/OrderDetail";
 import BillDetail from "../pages/BillDetail/BillDetail";
 import { Ionicons } from "@expo/vector-icons";
+import OrderSearch from "../pages/Order/OrderSearch";
+import OrderFilter from "../pages/Order/OrderFilter";
 
 const OrderStack = createStackNavigator();
 
 const OrderStackNavigation = () => {
-  const [displaySearch, setDisplaySearch] = useState(false);
-  let handleDisplaySearch = () => {
-    setDisplaySearch(!displaySearch);
-  };
   return (
     <OrderStack.Navigator>
       <OrderStack.Screen
         name="order-list"
         component={OrderList}
-        options={{
+        options={({ navigation }) => ({
           title: "Danh sách đơn đặt hàng",
           headerRight: () => (
             <View style={styles.titleBar}>
-              <TouchableOpacity style={styles.iconBtnBar}>
+              <TouchableOpacity
+                style={styles.iconBtnBar}
+                onPress={() => navigation.push("order-filter")}
+              >
                 <Ionicons name="filter" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.iconBtnBar}>
@@ -32,15 +33,14 @@ const OrderStackNavigation = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBtnBar}
-                onPress={handleDisplaySearch}
+                onPress={() => navigation.push("order-search")}
               >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
             </View>
           ),
           headerStyle: { borderBottomWidth: 0 },
-
-        }}
+        })}
       />
       <OrderStack.Screen
         name="order-detail"
@@ -74,16 +74,23 @@ const OrderStackNavigation = () => {
       />
       <OrderStack.Screen
         name="order-search"
-        component={BillDetail}
+        component={OrderSearch}
         options={{
-          title: "Tìm kiếm đơn đặt hàng"
+          title: "Tìm kiếm đơn đặt hàng",
+        }}
+      />
+      <OrderStack.Screen
+        name="order-filter"
+        component={OrderFilter}
+        options={{
+          title: "Lọc đơn đặt hàng",
         }}
       />
       <OrderStack.Screen
         name="bill-search"
         component={BillDetail}
         options={{
-          title: "Tìm kiếm hóa đơn"
+          title: "Tìm kiếm hóa đơn",
         }}
       />
     </OrderStack.Navigator>
