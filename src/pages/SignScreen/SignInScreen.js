@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import CustomInput from "../../components/CustomInput";
 import InputPassword from "../../components/InputPassword";
 import {Ionicons} from '@expo/vector-icons';
@@ -45,7 +45,7 @@ const SignInScreen = () => {
 	const { signIn } = React.useContext(AuthContext);
 
 	const textInputChange = (val) => {
-        if( val.trim().length >= 4 ) {
+        if (val.trim().length >= 4) {
             setData({
                 ...data,
                 email: val,
@@ -62,8 +62,22 @@ const SignInScreen = () => {
         }
     }
 
+	const handleValidUser = (val) => {
+        if (val.trim().length >= 4) {
+            setData({
+                ...data,
+                isValidUser: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidUser: false
+            });
+        }
+    }
+
 	const handlePasswordChange = (val) => {
-        if( val.trim().length >= 8 ) {
+        if (val.trim().length >= 8) {
             setData({
                 ...data,
                 password: val,
@@ -84,19 +98,19 @@ const SignInScreen = () => {
             return userEmail == item.email && password == item.password;
         } );
 
-        // if ( data.username.length == 0 || data.password.length == 0 ) {
-        //     Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-        //         {text: 'Okay'}
-        //     ]);
-        //     return;
-        // }
+        if ( data.email.length == 0 || data.password.length == 0 ) {
+            Alert.alert('Vui lòng nhập thông tin!', 'Email hoặc mật khẩu không thể rỗng.', [
+                {text: 'OK'}
+            ]);
+            return;
+        }
 
-        // if ( foundUser.length == 0 ) {
-        //     Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-        //         {text: 'Okay'}
-        //     ]);
-        //     return;
-        // }
+        if ( foundUser.length == 0 ) {
+            Alert.alert('Sai thông tin đăng nhập', 'Email hoặc mật khẩu không chính xác.', [
+                {text: 'OK'}
+            ]);
+            return;
+        }
         signIn(foundUser);
     }
 
