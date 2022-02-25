@@ -71,7 +71,7 @@ export default function OrderFilter({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.statusFilterBox}>
         <View>
           <Text style={styles.filterTypeTxt}>Lọc theo trạng thái</Text>
@@ -87,7 +87,7 @@ export default function OrderFilter({ navigation }) {
             ]}
             onPress={() => setStatusFilter("pending")}
           >
-            <Text style={styles.statusTxt}>Chờ xử lý</Text>
+            <Text style={styles.statusTxt}>Đợi xử lý</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -111,7 +111,7 @@ export default function OrderFilter({ navigation }) {
             ]}
             onPress={() => setStatusFilter("completed")}
           >
-            <Text style={styles.statusTxt}>Đã xử lý</Text>
+            <Text style={styles.statusTxt}>Hoàn tất</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -172,57 +172,59 @@ export default function OrderFilter({ navigation }) {
           />
         )}
       </View>
-      <View>
+      <View style={styles.resultBox}>
         {result.length > 0 ? (
-          <FlatList
-            data={result}
-            renderItem={({ order, idx }) => (
-              <TouchableOpacity
-                style={styles.orderItem}
-                key={idx}
-                onPress={() =>
-                  navigation.push("order-detail", { orderId: order._id })
-                }
-              >
-                <View
-                  style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+          result.map(
+            (order, idx) =>
+              order.orderStatus && (
+                <TouchableOpacity
+                  style={styles.orderItem}
+                  key={idx}
+                  onPress={() =>
+                    navigation.push("order-detail", { orderId: order._id })
+                  }
                 >
-                  <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
-                </View>
-                <View style={[styles.verticalCenter, { flex: 4 }]}>
-                  <Text style={styles.orderItemText}>
-                    {order.clientID.name}
-                  </Text>
-                </View>
-                <View style={[styles.verticalCenter, { flex: 4 }]}>
-                  <Text style={styles.orderItemText}>
-                    {order.receiverPhone}
-                  </Text>
-                </View>
-                <View style={[styles.verticalCenter, { flex: 4 }]}>
-                  <Text
-                    style={[
-                      styles.orderItemText,
-                      transferOrderStatus(
-                        order.orderStatus[order.orderStatus.length - 1].name
-                      ).style,
-                    ]}
+                  <View
+                    style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
                   >
-                    {
-                      transferOrderStatus(
-                        order.orderStatus[order.orderStatus.length - 1].name
-                      ).name
-                    }
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+                    <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text style={styles.orderItemText}>
+                      {order.clientID.name}
+                    </Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text style={styles.orderItemText}>
+                      {order.receiverPhone}
+                    </Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text
+                      style={[
+                        styles.orderItemText,
+                        transferOrderStatus(
+                          order.orderStatus[order.orderStatus.length - 1].name
+                        ).style,
+                      ]}
+                    >
+                      {
+                        transferOrderStatus(
+                          order.orderStatus[order.orderStatus.length - 1].name
+                        ).name
+                      }
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )
+          )
         ) : (
-          <Text>Không có kết quả phù hợp</Text>
+          <View style={styles.noResultTxt}>
+            <Text>Không có kết quả phù hợp</Text>
+          </View>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -296,4 +298,12 @@ const styles = StyleSheet.create({
     color: "#000040",
     fontSize: 12,
   },
+  resultBox: {
+    marginTop: 10,
+  },
+  noResultTxt: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 });
