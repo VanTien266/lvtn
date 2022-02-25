@@ -6,38 +6,72 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
+import orderApi from "../../api/orderApi";
+import moment from "moment";
+import transferOrderStatus from "../../utils/transferOrderStatus";
 
-export default function OrderFilter() {
-  const [fromDate, setFromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
+export default function OrderFilter({ navigation }) {
+  const [fromDate, setFromDate] = useState(new Date(Date.now()));
+  const [toDate, setToDate] = useState(new Date(Date.now()));
   const [statusFilter, setStatusFilter] = useState("");
   const [showFromPickerDate, setShowFromPickerDate] = useState(false);
   const [showToPickerDate, setShowToPickerDate] = useState(false);
+  const [result, setResult] = useState([]);
+  const [listOrder, setListOrder] = useState([]);
+
+  useEffect(() => {
+    const fetchListOrder = async () => {
+      try {
+        const response = await orderApi.getAll();
+        setListOrder(response);
+        if (listOrder.length > 0 && statusFilter.length > 0) {
+          const filterResult = listOrder.filter(
+            (item) =>
+              item.orderStatus[item.orderStatus.length - 1].name ===
+              statusFilter
+          );
+          console.log(filterResult);
+          setResult(filterResult);
+        }
+      } catch (error) {
+        console.log("Failed to fetch order list", error);
+      }
+    };
+    fetchListOrder();
+  }, [statusFilter]);
+
   const showFromPicker = () => {
     setShowFromPickerDate(true);
+    console.log(showFromPickerDate);
   };
 
   const showToPicker = () => {
     setShowToPickerDate(true);
+    console.log(showToPickerDate);
   };
 
   const onChangeFromDate = (event, selectedDate) => {
     const currentDate = selectedDate || fromDate;
-    setShow(Platform.OS === "android");
     setFromDate(currentDate);
+    if (Platform.OS === "android") {
+      setShowFromPickerDate(false);
+    }
   };
 
   const onChangeToDate = (event, selectedDate) => {
     const currentDate = selectedDate || toDate;
-    setShow(Platform.OS === "android");
     setToDate(currentDate);
+    if (Platform.OS === "android") {
+      setShowToPickerDate(false);
+    }
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.statusFilterBox}>
         <View>
           <Text style={styles.filterTypeTxt}>Lọc theo trạng thái</Text>
@@ -97,40 +131,98 @@ export default function OrderFilter() {
         <View>
           <Text style={styles.filterTypeTxt}>Lọc theo ngày</Text>
         </View>
-        <View>
-          <Text>Từ:</Text>
+        <View style={styles.dateRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.dateTitleTxt}>Từ:</Text>
+          </View>
+          <View style={{ flex: 3, marginHorizontal: "1%" }}>
+            <TouchableOpacity
+              onPress={showFromPicker}
+              style={styles.datePickerBtn}
+            >
+              <Text>{moment(fromDate.toUTCString()).format("DD/MM/YYYY")}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.dateTitleTxt}>tới:</Text>
+          </View>
+          <View style={{ flex: 3, marginHorizontal: "1%" }}>
+            <TouchableOpacity
+              onPress={showToPicker}
+              style={styles.datePickerBtn}
+            >
+              <Text>{moment(toDate.toUTCString()).format("DD/MM/YYYY")}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <TouchableOpacity onPress={() => showFromPicker}>
-            <Text>{fromDate}</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text>tới:</Text>
-        </View>
-        <View>
-          <TouchableOpacity onPress={() => showToPicker}>
-            <Text>{toDate}</Text>
-          </TouchableOpacity>
-        </View>
+        {showFromPickerDate && (
+          <DateTimePicker
+            value={fromDate}
+            mode="date"
+            display="calendar"
+            onChange={onChangeFromDate}
+          />
+        )}
+        {showToPickerDate && (
+          <DateTimePicker
+            value={toDate}
+            mode="date"
+            display="calendar"
+            onChange={onChangeToDate}
+          />
+        )}
       </View>
-      <DateTimePicker
-        testID="dateTimePicker"
-        value={fromDate}
-        mode="date"
-        is24Hour={true}
-        display="default"
-        onChange={onChangeFromDate}
-      />
-      <DateTimePicker
-        testID="dateTimePicker"
-        value={toDate}
-        mode="date"
-        is24Hour={true}
-        display="default"
-        onChange={onChangeToDate}
-      />
-    </ScrollView>
+      <View>
+        {result.length > 0 ? (
+          <FlatList
+            data={result}
+            renderItem={({ order, idx }) => (
+              <TouchableOpacity
+                style={styles.orderItem}
+                key={idx}
+                onPress={() =>
+                  navigation.push("order-detail", { orderId: order._id })
+                }
+              >
+                <View
+                  style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+                >
+                  <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+                </View>
+                <View style={[styles.verticalCenter, { flex: 4 }]}>
+                  <Text style={styles.orderItemText}>
+                    {order.clientID.name}
+                  </Text>
+                </View>
+                <View style={[styles.verticalCenter, { flex: 4 }]}>
+                  <Text style={styles.orderItemText}>
+                    {order.receiverPhone}
+                  </Text>
+                </View>
+                <View style={[styles.verticalCenter, { flex: 4 }]}>
+                  <Text
+                    style={[
+                      styles.orderItemText,
+                      transferOrderStatus(
+                        order.orderStatus[order.orderStatus.length - 1].name
+                      ).style,
+                    ]}
+                  >
+                    {
+                      transferOrderStatus(
+                        order.orderStatus[order.orderStatus.length - 1].name
+                      ).name
+                    }
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <Text>Không có kết quả phù hợp</Text>
+        )}
+      </View>
+    </View>
   );
 }
 
@@ -167,5 +259,41 @@ const styles = StyleSheet.create({
   statusTxt: {
     fontWeight: "500",
     color: "#000040",
+  },
+  dateTitleTxt: {
+    fontWeight: "500",
+  },
+  dateRow: {
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  datePickerBtn: {
+    borderWidth: 1,
+    borderColor: "#000040",
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  verticalCenter: {
+    direction: "inherit",
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  orderItem: {
+    backgroundColor: "#F6F6F8",
+    borderRadius: 5,
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5,
+    minHeight: 40,
+  },
+  orderItemText: {
+    fontFamily: "Roboto",
+    color: "#000040",
+    fontSize: 12,
   },
 });
