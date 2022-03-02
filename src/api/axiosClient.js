@@ -8,7 +8,7 @@ const axiosClient = axios.create({
     // Platform.OS === "android"
     //   ? "https://server-dclv.herokuapp.com/api/"
     //   : "https://server-dclv.herokuapp.com/api/",
-    "http://192.168.1.3:5000/api",
+    "http://172.17.24.175:5000/api",
   headers: {
     "content-type": "application/json",
   },
