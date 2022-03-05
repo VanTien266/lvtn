@@ -1,4 +1,5 @@
 import { replace } from 'lodash';
+import { formatNumber } from 'react-native-currency-input';
 // import numeral from 'numeral';
 
 // ----------------------------------------------------------------------
@@ -22,6 +23,18 @@ export function fNumber(number) {
   return number.toLocaleString('vi-VN');
 
 }
+
+export const formattedValueCurrency = (value) => formatNumber(value, {
+  separator: ',',
+  precision: 0,
+  delimiter: '.',
+  suffix: ' VNĐ ',
+});
+
+export const formattedValue = (value) => formatNumber(value, {
+  precision: 0,
+  delimiter: '.',
+});
 
 // export function fShortenNumber(number) {
 //   return replace(numeral(number).format('0.00a'), '.00', '');
