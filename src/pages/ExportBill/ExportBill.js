@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, Alert, BackHandler } from "react-native";
 import orderApi from "../../api/orderApi";
 import React, { useState, useEffect } from "react";
 import { AnortherInfo, CustomerInfo, Products } from "./components";
@@ -13,6 +13,10 @@ const ExportBill = ({ route, navigation }) => {
       const response = await orderApi.getOne(orderId);
       if (mounted) {
         setOrder(response);
+        navigation.setParams({
+          clientID: response?.clientID?._id,
+          note: response.note,
+        });
       }
     };
     fetchOrderDetail();
@@ -22,6 +26,33 @@ const ExportBill = ({ route, navigation }) => {
     };
   }, [orderId]);
 
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hóa đơn chưa được xuất", " Bạn có muốn thoát?", [
+        {
+          text: "Ở lại",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "Đồng ý",
+          onPress: () => {
+            orderApi.cancleStatus(route.params.orderId);
+            navigation.navigate("order-detail", route.params);
+          },
+        },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const data = [
     { id: 1, name: "product" },
     { id: 2, name: "customer-info" },
@@ -30,7 +61,12 @@ const ExportBill = ({ route, navigation }) => {
   const renderItem = ({ item }) => {
     switch (item.name) {
       case "product":
-        return <Products product={order?.products} />;
+        return (
+          <Products
+            product={order?.products}
+            setParams={navigation.setParams}
+          />
+        );
       case "customer-info":
         return <CustomerInfo />;
       case "another-info":
