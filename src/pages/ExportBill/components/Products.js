@@ -1,14 +1,61 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
+import { Flex, Input, Button } from "native-base";
 import ProductItem from "./ProductItem";
+import productApi from "../../../api/productApi";
+import checkProductExist from "../../../utils/exportBillValidator";
 
 const Products = (props) => {
-  const { product } = props;
-  console.log(product);
+  const { product, setParams } = props;
+  // console.log(setParams);
+  // console.log(product);
+  const [fabricId, setFabricId] = useState("");
+  const [listProductAdded, setListProductAdded] = useState([]);
+  const [newProduct, setNewProduct] = useState({});
+
+  useEffect(() => {
+    const handleAddToBill = () => {
+      const listColorCode = product
+        ? product.map((item) => item.colorCode.colorCode)
+        : [];
+      if (listColorCode.includes(newProduct.colorCode))
+        setListProductAdded([...listProductAdded, newProduct]);
+    };
+
+    handleAddToBill();
+    // console.log(listProductAdded);
+  }, [newProduct]);
+  useEffect(() => {
+    setParams({ listProductAdded: listProductAdded });
+  }, [listProductAdded]);
+
+  const handleGetFabricInfo = async (id) => {
+    const response = await productApi.getOne({ id: id });
+    if (response.length > 0) setNewProduct(response);
+    else Alert.alert("Mã sản phẩm không đúng!");
+  };
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
+      <Flex direction="row" mb={2}>
+        <Input
+          variant="outline"
+          placeholder="Mã cây vải"
+          flex={1}
+          onChangeText={(value) => setFabricId(value)}
+          value={fabricId}
+        />
+        <Button onPress={() => console.log(fabricId)}>Quét mã</Button>
+      </Flex>
+      <Button
+        onPress={() => {
+          if (fabricId.length === 24) handleGetFabricInfo(fabricId);
+          else Alert.alert("Mã sản phẩm không hợp lệ!");
+        }}
+      >
+        Thêm sản phẩm
+      </Button>
       <Card.Title>Sản phẩm</Card.Title>
       <View>
         <View style={styles.headerContainer}>
@@ -21,9 +68,18 @@ const Products = (props) => {
         {product && (
           <FlatList
             data={product}
-            renderItem={({ item, index }) => (
-              <ProductItem item={item} index={index + 1} />
-            )}
+            renderItem={({ item, index }) => {
+              const listAddedItem = listProductAdded?.filter(
+                (ele) => ele.colorCode === item.colorCode.colorCode
+              );
+              return (
+                <ProductItem
+                  item={item}
+                  index={index + 1}
+                  listAddedItem={listAddedItem}
+                />
+              );
+            }}
             keyExtractor={(item, index) => index}
           />
         )}
