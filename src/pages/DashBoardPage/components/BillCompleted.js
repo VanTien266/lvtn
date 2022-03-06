@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
-import {fNumber} from "../../../utils/formatNumber";
+import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
 const BillCompleted = () => {
@@ -23,12 +23,12 @@ const BillCompleted = () => {
       <View style={styles.cardbackground}>
         <Icon
           reverse
-          name='sc-telegram'
-          type='evilicon'
+          name='file-invoice-dollar'
+          type='font-awesome-5'
           color='#9BE1FC'
         />
         <Text style={styles.textNumber}>
-          {fNumber(billComplete)}
+          {formattedValue(billComplete)}
         </Text>
         <Text style={styles.text}>
             Hóa đơn hoàn thành

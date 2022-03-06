@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
-import {fNumber} from "../../../utils/formatNumber";
+import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
 const FabricRollCompleted = () => {
@@ -23,12 +23,12 @@ const FabricRollCompleted = () => {
       <View style={styles.cardbackground}>
         <Icon
           reverse
-          name='sc-telegram'
-          type='evilicon'
+          name='truck-delivery'
+          type='material-community'
           color='#EEB493'
         />
         <Text style={styles.textNumber}>
-          {fNumber(fabricrollcompletedTotal)}
+          {formattedValue(fabricrollcompletedTotal)}
         </Text>
         <Text style={styles.text}>
             Cây vải đã giao hoàn tất
