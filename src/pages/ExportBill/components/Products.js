@@ -7,7 +7,7 @@ import productApi from "../../../api/productApi";
 import checkProductExist from "../../../utils/exportBillValidator";
 
 const Products = (props) => {
-  const { product, setParams } = props;
+  const { product, setParams, navigation, route } = props;
   // console.log(setParams);
   // console.log(product);
   const [fabricId, setFabricId] = useState("");
@@ -46,7 +46,14 @@ const Products = (props) => {
           onChangeText={(value) => setFabricId(value)}
           value={fabricId}
         />
-        <Button onPress={() => console.log(fabricId)}>Quét mã</Button>
+        <Button
+          onPress={() => {
+            setParams({ handleGetFabricInfo });
+            navigation.navigate("scan-barcode", route.params);
+          }}
+        >
+          Quét mã
+        </Button>
       </Flex>
       <Button
         onPress={() => {

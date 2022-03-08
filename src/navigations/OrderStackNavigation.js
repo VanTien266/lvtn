@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import OrderSearch from "../pages/Order/OrderSearch";
 import OrderFilter from "../pages/Order/OrderFilter";
 import ExportBill from "../pages/ExportBill/ExportBill";
+import ScanBarCode from "../pages/ExportBill/components/ScanBarCode";
 import ReviewBill from "../pages/ReviewBill/ReviewBill";
 import billApi from "../api/billApi";
 import orderApi from "../api/orderApi";
@@ -76,6 +77,32 @@ const OrderStackNavigation = () => {
               Xuất HĐ
             </Button>
           ),
+        })}
+      />
+      <OrderStack.Screen
+        name="scan-barcode"
+        component={ScanBarCode}
+        options={({ navigation, route }) => ({
+          title: "Quét mã",
+          // headerRight: () => (
+          //   <Button
+          //     variant={"ghost"}
+          //     colorScheme="light"
+          //     onPress={() => {
+          // orderApi
+          //   .updateStatus(route.params.orderId, {
+          //     status: "processing",
+          //     reason: "",
+          //   })
+          //   .then((res) => res)
+          //   .catch((err) => err);
+          // navigation.navigate("export-bill", route.params);
+          //     }}
+          //     leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
+          //   >
+          //     Xác nhận
+          //   </Button>
+          // ),
         })}
       />
       <OrderStack.Screen

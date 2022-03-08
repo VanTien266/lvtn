@@ -65,6 +65,8 @@ const ExportBill = ({ route, navigation }) => {
           <Products
             product={order?.products}
             setParams={navigation.setParams}
+            navigation={navigation}
+            route={route}
           />
         );
       case "customer-info":
