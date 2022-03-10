@@ -1,30 +1,42 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, TouchableOpacity, View, Alert } from "react-native";
+import React from "react";
 import { Button } from "native-base";
 import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderBackButton } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import OrderList from "../pages/Order/OrderList";
 import OrderDetail from "../pages/OrderDetail/OrderDetail";
 import BillDetail from "../pages/BillDetail/BillDetail";
 import { Ionicons } from "@expo/vector-icons";
+import OrderSearch from "../pages/Order/OrderSearch";
+import OrderFilter from "../pages/Order/OrderFilter";
+import ExportBill from "../pages/ExportBill/ExportBill";
+import ScanBarCode from "../pages/ExportBill/components/ScanBarCode";
+import ReviewBill from "../pages/ReviewBill/ReviewBill";
+import billApi from "../api/billApi";
+import orderApi from "../api/orderApi";
 
 const OrderStack = createStackNavigator();
 
+const createBill = (orderId, ids) => {
+  const response = billApi.createBill({ orderId: orderId, ids: ids });
+  return response;
+};
+
 const OrderStackNavigation = () => {
-  const [displaySearch, setDisplaySearch] = useState(false);
-  let handleDisplaySearch = () => {
-    setDisplaySearch(!displaySearch);
-  };
   return (
     <OrderStack.Navigator>
       <OrderStack.Screen
         name="order-list"
         component={OrderList}
-        options={{
+        options={({ navigation }) => ({
           title: "Danh sách đơn đặt hàng",
           headerRight: () => (
             <View style={styles.titleBar}>
-              <TouchableOpacity style={styles.iconBtnBar}>
+              <TouchableOpacity
+                style={styles.iconBtnBar}
+                onPress={() => navigation.push("order-filter")}
+              >
                 <Ionicons name="filter" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.iconBtnBar}>
@@ -32,30 +44,47 @@ const OrderStackNavigation = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBtnBar}
-                onPress={handleDisplaySearch}
+                onPress={() => navigation.push("order-search")}
               >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
             </View>
           ),
           headerStyle: { borderBottomWidth: 0 },
-
-        }}
+        })}
       />
       <OrderStack.Screen
         name="order-detail"
         component={OrderDetail}
-        options={{
+        options={({ navigation, route }) => ({
           title: "Chi tiết đơn đặt hàng",
           headerRight: () => (
             <Button
               variant={"ghost"}
-              leftIcon={<Icon name="file-upload" size={14} />}
+              colorScheme="light"
+              onPress={() => {
+                orderApi
+                  .updateStatus(route.params.orderId, {
+                    status: "processing",
+                    reason: "",
+                  })
+                  .then((res) => res)
+                  .catch((err) => err);
+                navigation.navigate("export-bill", route.params);
+              }}
+              leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
             >
-              Xuất hóa đơn
+              Xuất HĐ
             </Button>
           ),
-        }}
+        })}
+      />
+      <OrderStack.Screen
+        name="scan-barcode"
+        component={ScanBarCode}
+        options={({ navigation, route }) => ({
+          title: "Quét mã",
+        })}
       />
       <OrderStack.Screen
         name="bill-detail"
@@ -65,11 +94,96 @@ const OrderStackNavigation = () => {
           headerRight: () => (
             <Button
               variant={"ghost"}
+              colorScheme="light"
               leftIcon={<Icon name="local-printshop" size={14} />}
             >
               In hóa đơn
             </Button>
           ),
+        }}
+      />
+      <OrderStack.Screen
+        name="export-bill"
+        component={ExportBill}
+        options={({ navigation, route }) => ({
+          title: "Xuất hóa đơn",
+          headerRight: () => (
+            <Button
+              variant={"ghost"}
+              colorScheme="light"
+              onPress={() => {
+                if (route.params.listProductAdded.length === 0) {
+                  Alert.alert("Chưa có sản phẩm nào được thêm vào!");
+                } else navigation.navigate("review-bill", route.params);
+              }}
+              leftIcon={<Icon name="file-upload" size={20} color="#000040" />}
+            >
+              Tạo HĐ
+            </Button>
+          ),
+          headerLeft: (props) => (
+            <HeaderBackButton
+              {...props}
+              onPress={() => {
+                Alert.alert("Hóa đơn chưa được xuất", " Bạn có muốn thoát?", [
+                  {
+                    text: "Ở lại",
+                    onPress: () => null,
+                    style: "cancel",
+                  },
+                  {
+                    text: "Đồng ý",
+                    onPress: () => {
+                      orderApi.cancleStatus(route.params.orderId);
+                      navigation.navigate("order-detail", route.params);
+                    },
+                  },
+                ]);
+              }}
+            />
+          ),
+        })}
+      />
+      <OrderStack.Screen
+        name="review-bill"
+        component={ReviewBill}
+        options={({ navigation, route }) => ({
+          title: "Xem lại hóa dơn",
+          headerRight: () => (
+            <Button
+              variant={"ghost"}
+              colorScheme="light"
+              onPress={() => {
+                createBill(route.params.orderId, route.params.listProductAdded);
+                Alert.alert("Tạo hóa đơn bán hàng thành công!");
+                navigation.navigate("order-detail", route.params);
+              }}
+              leftIcon={<Icon name="file-upload" size={20} color="#000040" />}
+            >
+              Xuất
+            </Button>
+          ),
+        })}
+      />
+      <OrderStack.Screen
+        name="order-search"
+        component={OrderSearch}
+        options={{
+          title: "Tìm kiếm đơn đặt hàng",
+        }}
+      />
+      <OrderStack.Screen
+        name="order-filter"
+        component={OrderFilter}
+        options={{
+          title: "Lọc đơn đặt hàng",
+        }}
+      />
+      <OrderStack.Screen
+        name="bill-search"
+        component={BillDetail}
+        options={{
+          title: "Tìm kiếm hóa đơn",
         }}
       />
     </OrderStack.Navigator>
@@ -79,6 +193,11 @@ const OrderStackNavigation = () => {
 export default OrderStackNavigation;
 
 const styles = StyleSheet.create({
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 5,
+  },
   verticalCenter: {
     direction: "inherit",
     display: "flex",

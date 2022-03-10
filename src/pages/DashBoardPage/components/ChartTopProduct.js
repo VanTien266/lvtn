@@ -10,7 +10,7 @@ import {
 import {
   BarChart,
 } from 'react-native-chart-kit';
-import productApi from "../../../api/productApi";
+import billApi from "../../../api/billApi";
 
 const ChartTopProduct = () => {
   const [fabrictypesell, setFabricTypeSell] = useState([]);
@@ -18,7 +18,7 @@ const ChartTopProduct = () => {
   useEffect(() => {
     const fetchFabricTypeSell = async () => {
         try {
-          const response = await productApi.getFabricTypeSell();
+          const response = await billApi.getBillFabricTypeSell();
           console.log(response);
           setFabricTypeSell(response);
         }catch (error) {

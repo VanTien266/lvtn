@@ -1,105 +1,119 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
+import transferOrderStatus from "../../utils/transferOrderStatus";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
+
+  //Get order list
+  const fetchListOrder = async () => {
+    try {
+      const response = await orderApi.getAll();
+      setListOrder(response);
+    } catch (error) {
+      console.log("Failed to fetch order list", error);
+    }
+  };
+
+  //refresh page
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchListOrder();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchListOrder();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const [displaySearch, setDisplaySearch] = useState(false);
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetchListOrder = async () => {
-      try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
-      } catch (error) {
-        console.log("Failed to fetch bill complete count", error);
-      }
-    };
     fetchListOrder();
   }, []);
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.titleBar}>
-        <TouchableOpacity style={styles.iconBtnBar}>
-          <Ionicons name="filter" size={24} color="#000040" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtnBar}>
-          <Ionicons name="notifications" size={24} color="#000040" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconBtnBar}
-          onPress={handleDisplaySearch}
-        >
-          <Ionicons name="search-sharp" size={24} color="#000040" />
-        </TouchableOpacity>
-      </View>
-      {displaySearch && (
-        <Input
-          placeholder="Search"
-          variant="filled"
-          width="100%"
-          bg="gray.100"
-          borderRadius="5"
-          py="1"
-          px="2"
-          placeholderTextColor="gray.500"
-          _hover={{ bg: "gray.200", borderWidth: 0 }}
-          borderWidth="0"
-          _web={{
-            _focus: { style: { boxShadow: "none" } },
-          }}
-          InputLeftElement={
-            <Icon
-              ml="2"
-              size="5"
-              color="gray.500"
-              as={<Ionicons name="ios-search" />}
-            />
-          }
-        />
-      )}
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 5 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Người nhận</Text>
         </View>
-        <View style={[styles.verticalCenter, { flex: 3 }]}>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text style={styles.headerText}>Trạng thái</Text>
+        </View>
       </View>
-      {listOrder.map((order, idx) => (
-        <TouchableOpacity
-          style={styles.orderItem}
-          key={idx}
-          onPress={() =>
-            navigation.push("order-detail", { orderId: order._id })
-          }
-        >
-          <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-            <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 5 }]}>
-            <Text style={styles.orderItemText}>{order.clientID.name}</Text>
-          </View>
-          <View style={[styles.verticalCenter, { flex: 3 }]}>
-            <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {listOrder.map(
+        (order, idx) =>
+          order.orderStatus && (
+            <TouchableOpacity
+              style={styles.orderItem}
+              key={idx}
+              onPress={() =>
+                navigation.push("order-detail", { orderId: order._id })
+              }
+            >
+              <View
+                style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+              >
+                <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.clientID.name}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
+              </View>
+              <View style={[styles.verticalCenter, { flex: 4 }]}>
+                <Text
+                  style={[
+                    styles.orderItemText,
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).style,
+                  ]}
+                >
+                  {
+                    transferOrderStatus(
+                      order.orderStatus[order.orderStatus.length - 1].name
+                    ).name
+                  }
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )
+      )}
     </ScrollView>
   );
 };
@@ -109,7 +123,7 @@ export default OrderList;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
   headerList: {
     flex: 1,

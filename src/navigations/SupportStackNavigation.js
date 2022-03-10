@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import SupportList from "../pages/Support/SupportList";
+import ReplySupport from "../pages/ReplySupport/ReplySupport";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 
 const SupportStack = createStackNavigator();
 
@@ -20,19 +20,19 @@ export default function SupportStackNavigation() {
                 <Ionicons name="filter" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.iconBtnBar}>
-                <Ionicons name="notifications" size={24} color="#000040" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.iconBtnBar}
-              >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
             </View>
           ),
         }}
       ></SupportStack.Screen>
-      <SupportStack.Screen name="support-reply" component={SupportReply}>
-      </SupportStack.Screen>
+      <SupportStack.Screen
+        name="support-reply"
+        component={ReplySupport}
+        options={{
+          title: "Phản hồi yêu cầu hỗ trợ"
+        }}
+      ></SupportStack.Screen>
     </SupportStack.Navigator>
   );
 }

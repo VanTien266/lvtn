@@ -3,8 +3,11 @@ import { StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import { Box, Text, Flex } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { orderBy } from "lodash";
 
-const CustomerInfo = () => {
+const CustomerInfo = (props) => {
+  const { bill } = props;
+
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Thông tin khách hàng</Card.Title>
@@ -12,12 +15,12 @@ const CustomerInfo = () => {
         <Box flex={1}>
           <Flex flexDirection="row" alignItems="center" justify="space-between">
             <Text fontSize="md" bold>
-              Lưu Văn Tiến
+              {bill.clientID?.name}
             </Text>
             <Flex flexDirection="row" alignItems="center">
               <Icon
                 name="border-color"
-                color="#000040"
+                color="#00004080"
                 size={24}
                 style={styles.icon}
               />
@@ -25,29 +28,33 @@ const CustomerInfo = () => {
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
-            <Icon name="place" color="#000040" size={24} style={styles.icon} />
+            <Icon
+              name="place"
+              color="#00004080"
+              size={24}
+              style={styles.icon}
+            />
             <Flex>
-              <Text>KTX khu B</Text>
-              <Text>Đông Hòa - Dĩ An -Bình Dương</Text>
+              <Text>{bill.clientID?.address}</Text>
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-post-office"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
-            <Text>tien.luu.van@hcmut.edu.vn</Text>
+            <Text>{bill.clientID?.email}</Text>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-phone"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
-            <Text>0826755114</Text>
+            <Text>{bill.clientID?.phone}</Text>
           </Flex>
         </Box>
       </Flex>
@@ -56,20 +63,25 @@ const CustomerInfo = () => {
           Người nhận
         </Text>
         <Flex flexDirection="row" alignItems="center">
-          <Icon name="place" color="#000040" size={24} style={styles.icon} />
+          <Icon name="place" color="#00004000" size={24} style={styles.icon} />
           <Box>
-            <Text>KTX khu A</Text>
-            <Text>Linh Trung - Thủ Đức - TP HCM</Text>
+            <Text bold>{bill.orderID?.receiverName}</Text>
+          </Box>
+        </Flex>
+        <Flex flexDirection="row" alignItems="center">
+          <Icon name="place" color="#00004080" size={24} style={styles.icon} />
+          <Box>
+            <Text>{bill.orderID?.receiverAddress}</Text>
           </Box>
         </Flex>
         <Flex flexDirection="row" alignItems="center">
           <Icon
             name="local-phone"
-            color="#000040"
+            color="#00004080"
             size={24}
             style={styles.icon}
           />
-          <Text>01296755114</Text>
+          <Text>{bill.orderID?.receiverPhone}</Text>
         </Flex>
       </Box>
     </Card>

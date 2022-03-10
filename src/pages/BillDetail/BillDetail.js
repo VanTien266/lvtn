@@ -1,23 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Status, CustomerInfo } from "./components";
+import { Status, CustomerInfo, AnortherInfo, ItemList } from "./components";
 import { FlatList } from "native-base";
+import billApi from "../../api/billApi";
 
 const BillDetail = ({ route, navigation }) => {
-  // const { orderId } = route.params;
-  // console.log(orderId);
+  const { billId } = route.params;
+  const [bill, setBill] = useState({});
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const response = await billApi.getOne(billId);
+      setBill(response);
+    };
+    fetchOrder();
+  }, [billId]);
+
   const data = [
     { id: 1, name: "status" },
     { id: 2, name: "item" },
-    { id: 3, name: "another-info" },
-    { id: 4, name: "customer-info" },
+    { id: 3, name: "customer-info" },
+    { id: 4, name: "another-info" },
   ];
   const renderItem = ({ item }) => {
     switch (item.name) {
       case "status":
-        return <Status />;
+        return <Status billStatus={bill?.status} />;
+      case "item":
+        return <ItemList listFabricId={bill?.fabricRoll} />;
       case "customer-info":
-        return <CustomerInfo />;
+        return <CustomerInfo bill={bill} />;
+      case "another-info":
+        return <AnortherInfo bill={bill} />;
     }
   };
   return (
