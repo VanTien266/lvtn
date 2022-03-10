@@ -7,20 +7,14 @@ const OrderDetail = ({ route, navigation }) => {
   const { orderId } = route.params;
   const [order, setOrder] = useState({});
 
-  useEffect(() => {
-    let mounted = true;
-    const fetchOrderDetail = async () => {
-      const response = await orderApi.getOne(orderId);
-      if (mounted) {
-        setOrder(response);
-      }
-    };
-    fetchOrderDetail();
+  const fetchOrderDetail = async () => {
+    const response = await orderApi.getOne(orderId);
+    setOrder(response);
+  };
 
-    return () => {
-      mounted = false;
-    };
-  }, [orderId]);
+  useEffect(() => {
+    fetchOrderDetail();
+  }, [orderId, navigation]);
 
   const data = [
     { id: 1, name: "status" },
@@ -50,12 +44,6 @@ const OrderDetail = ({ route, navigation }) => {
         keyExtractor={(item) => item.id}
       />
     </View>
-    // <ScrollView>
-    //   <Status orderStatus={order.orderStatus} />
-    //   {/* <ItemList />
-    //   <ListBill navigation={navigation} />
-    //   <CustomerInfo /> */}
-    // </ScrollView>
   );
 };
 

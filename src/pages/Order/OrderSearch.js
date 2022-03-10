@@ -1,19 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input, Icon } from "native-base";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function OrderSearch() {
   const [searchTxt, setSearchTxt] = useState("");
   const searchOrder = (txtValue) => {
     setSearchTxt(txtValue);
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -44,22 +38,22 @@ export default function OrderSearch() {
         />
       </View>
       <View style={styles.result}>
-          <Text>Không có kết quả phù hợp</Text>
+        <Text>Không có kết quả phù hợp</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "white",
-        padding: 10,
-        flex: 1
-    },
-    result: {
-        flexGrow: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center"
-    }
-})
+  container: {
+    backgroundColor: "white",
+    padding: 10,
+    flex: 1,
+  },
+  result: {
+    flexGrow: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
