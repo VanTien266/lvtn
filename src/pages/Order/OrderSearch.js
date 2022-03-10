@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input, Icon } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
-export default function OrderSearch() {
+export default function OrderSearch({ navigation }) {
   const [searchTxt, setSearchTxt] = useState("");
   const [listOrder, setListOrder] = useState([]);
   const [result, setResult] = useState([]);
