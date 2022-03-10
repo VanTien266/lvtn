@@ -1,4 +1,4 @@
-import { StyleSheet, View, StatusBar, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, View, StatusBar, SafeAreaView, ScrollView, FlatList } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { Text, Icon } from "react-native-elements";
@@ -17,8 +17,9 @@ import MonthYearPicker from "../../components/MonthYearPicker";
 export default function DashBoard() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-      <View style={styles.overview}>
+      <FlatList
+      ListHeaderComponent={
+        <View style={styles.overview}>
         <Text style={styles.textTitle}>Tổng quan</Text>
         <View style={styles.containerDate}>
           <MonthYearPicker />
@@ -48,8 +49,11 @@ export default function DashBoard() {
           />
         </View>
       </View>
-
-      <View style={styles.statistics}>
+      }
+      
+      ListFooterComponent={
+        <>
+        <View style={styles.statistics}>
         <View style={styles.orderbillStatistics}>
           <View style={styles.orderStatistics}>
             <TotalSale />
@@ -88,7 +92,9 @@ export default function DashBoard() {
       <View style={styles.chartbillstatus}>
         <ChartBillStatus />
       </View>
-      </ScrollView>
+      </>
+      }
+      />
     </SafeAreaView>
   );
 }

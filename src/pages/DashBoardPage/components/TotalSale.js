@@ -95,7 +95,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
-import {fNumber} from "../../../utils/formatNumber";
+import {formattedValue} from "../../../utils/formatNumber";
 import orderApi from "../../../api/orderApi";
 
 const TotalSale = () => {
@@ -118,12 +118,12 @@ const TotalSale = () => {
       <View style={styles.cardbackground}>
         <Icon
           reverse
-          name='sc-telegram'
-          type='evilicon'
+          name='local-mall'
+          type='material'
           color='#26C636'
         />
         <Text style={styles.textNumber}>
-          {fNumber(orderTotal)}
+          {formattedValue(orderTotal)}
         </Text>
         <Text style={styles.text}>
           Tổng đơn hàng
