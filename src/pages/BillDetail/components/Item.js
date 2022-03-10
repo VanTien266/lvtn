@@ -1,7 +1,8 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { HStack, Box, FlatList, Button } from "native-base";
+import { HStack, Box, FlatList } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { formattedValue } from "../../../utils/formatNumber";
 
 const Item = (props) => {
   const { item, index } = props;
@@ -13,9 +14,11 @@ const Item = (props) => {
         <Box flex={2}>{index}</Box>
         <Box flex={2}>{item.item.colorCode}</Box>
         <Box flex={3}>{item.lot}</Box>
-        <Box flex={4}>{item.length}</Box>
+        <Box flex={4}>{formattedValue(item.length)}</Box>
         <Box flex={5}>
-          {item.item.marketPrice[item.item.marketPrice.length - 1].price}
+          {formattedValue(
+            item.item.marketPrice[item.item.marketPrice.length - 1].price
+          )}
         </Box>
         <Box flex={1}></Box>
       </HStack>

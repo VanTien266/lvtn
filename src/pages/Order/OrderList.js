@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
@@ -15,19 +13,28 @@ const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
+
+  const fetchListOrder = async () => {
+    try {
+      const response = await orderApi.getAll();
+      setListOrder(response);
+    } catch (error) {
+      console.log("Failed to fetch order list", error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchListOrder();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const [displaySearch, setDisplaySearch] = useState(false);
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetchListOrder = async () => {
-      try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
-      } catch (error) {
-        console.log("Failed to fetch order list", error);
-      }
-    };
     fetchListOrder();
   }, []);
   return (

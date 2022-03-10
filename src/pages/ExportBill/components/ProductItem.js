@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import validateProduct from "../../../utils/validateProduct";
+import { formattedValue } from "../../../utils/formatNumber";
 
 const CHILD_ROW_HEIGHT = 20;
 
@@ -24,12 +25,12 @@ const ProductItem = (props) => {
       <Text style={styles.childCell}>{item.colorCode.colorCode}</Text>
       <Text style={{ flex: 2, fontSize: 10 }}>{item.colorCode.name || ""}</Text>
       <Text style={styles.childCell}>
-        {item.shippedLength}
-        {lengthAdded > 0 && "+" + lengthAdded}
+        {formattedValue(item.shippedLength)}
+        {lengthAdded > 0 && "+" + formattedValue(lengthAdded)}
       </Text>
       <Text style={styles.childCell}>
-        {item.length - item.shippedLength}
-        {lengthAdded > 0 && "-" + lengthAdded}
+        {formattedValue(item.length - item.shippedLength)}
+        {lengthAdded > 0 && "-" + formattedValue(lengthAdded)}
       </Text>
     </View>
   );
