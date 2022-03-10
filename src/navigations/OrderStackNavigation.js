@@ -84,25 +84,6 @@ const OrderStackNavigation = () => {
         component={ScanBarCode}
         options={({ navigation, route }) => ({
           title: "Quét mã",
-          // headerRight: () => (
-          //   <Button
-          //     variant={"ghost"}
-          //     colorScheme="light"
-          //     onPress={() => {
-          // orderApi
-          //   .updateStatus(route.params.orderId, {
-          //     status: "processing",
-          //     reason: "",
-          //   })
-          //   .then((res) => res)
-          //   .catch((err) => err);
-          // navigation.navigate("export-bill", route.params);
-          //     }}
-          //     leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
-          //   >
-          //     Xác nhận
-          //   </Button>
-          // ),
         })}
       />
       <OrderStack.Screen
@@ -113,6 +94,7 @@ const OrderStackNavigation = () => {
           headerRight: () => (
             <Button
               variant={"ghost"}
+              colorScheme="light"
               leftIcon={<Icon name="local-printshop" size={14} />}
             >
               In hóa đơn

@@ -29,9 +29,9 @@ const BillDetail = ({ route, navigation }) => {
       case "item":
         return <ItemList listFabricId={bill?.fabricRoll} />;
       case "customer-info":
-        return <CustomerInfo />;
+        return <CustomerInfo bill={bill} />;
       case "another-info":
-        return <AnortherInfo />;
+        return <AnortherInfo bill={bill} />;
     }
   };
   return (

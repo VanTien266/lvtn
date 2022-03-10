@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Icon } from "native-base";
+import { Input, Icon } from "native-base";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import orderApi from "../../api/orderApi";
@@ -49,21 +49,22 @@ export default function OrderSearch({ navigation }) {
           placeholder="Search"
           variant="filled"
           width="100%"
-          bg="gray.100"
+          bg="gray.500"
           borderRadius="5"
           py="1"
           px="2"
-          placeholderTextColor="gray.500"
-          _hover={{ bg: "gray.200", borderWidth: 0 }}
+          placeholderTextColor="gray.100"
+          _hover={{ bg: "gray.100", borderWidth: 0 }}
           borderWidth="0"
           _web={{
             _focus: { style: { boxShadow: "none" } },
           }}
+          color="gray.100"
           InputLeftElement={
             <Icon
               ml="2"
               size="5"
-              color="gray.500"
+              color="gray.100"
               as={<Ionicons name="ios-search" />}
             />
           }

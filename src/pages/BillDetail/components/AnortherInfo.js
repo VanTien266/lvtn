@@ -3,8 +3,11 @@ import React from "react";
 import { Card } from "react-native-elements";
 import { Box, Text, Flex, TextArea } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import moment from "moment";
 
-const AnortherInfo = () => {
+const AnortherInfo = (props) => {
+  const { bill } = props;
+
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Thông tin khác</Card.Title>
@@ -20,8 +23,8 @@ const AnortherInfo = () => {
             <Text fontSize="md" bold>
               Nhân viên phụ trách
             </Text>
-            <Text>Luu Van Tien</Text>
-            <Text>0826755114</Text>
+            <Text>{bill.salesmanID?.name}</Text>
+            <Text>{bill.salesmanID?.phone}</Text>
           </Box>
         </Flex>
         <Flex direction="row">
@@ -33,9 +36,9 @@ const AnortherInfo = () => {
           ></Icon>
           <Box>
             <Text fontSize="md" bold>
-              Ngay xuat
+              ngày xuất
             </Text>
-            <Text>14/10/2021</Text>
+            <Text>{moment(bill.exportBillTime).format("DD/MM/YYYY")}</Text>
           </Box>
         </Flex>
       </Flex>
@@ -48,10 +51,10 @@ const AnortherInfo = () => {
         ></Icon>
         <Box>
           <Text fontSize="md" bold>
-            Nhan vien giao hang
+            Nhân viên giao hàng
           </Text>
-          <Text>Tran Trong Nghia</Text>
-          <Text>01296755114</Text>
+          <Text>{bill?.shipperID?.name}</Text>
+          <Text>{bill?.shipperID?.phone}</Text>
         </Box>
       </Flex>
       <Flex flexDirection="row" alignItems="center">
@@ -68,8 +71,8 @@ const AnortherInfo = () => {
       <Box alignItems="center" mt={3}>
         <TextArea
           h={20}
-          placeholder="Day la ghi chu"
-          value="Don hang de chay no"
+          placeholder="Không có ghi chú nào"
+          value={bill.note}
           w="90%"
           isDisabled
         />
