@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
 
+  //Get order list
   const fetchListOrder = async () => {
     try {
       const response = await orderApi.getAll();
@@ -22,6 +28,15 @@ const OrderList = ({ navigation }) => {
       console.log("Failed to fetch order list", error);
     }
   };
+
+  //refresh page
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchListOrder();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -38,7 +53,13 @@ const OrderList = ({ navigation }) => {
     fetchListOrder();
   }, []);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>

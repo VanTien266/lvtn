@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { Box, Button, Flex } from "native-base";
 
 export default function ScanBarCode({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [data, setData] = useState("");
   console.log(route.params);
 
   useEffect(() => {
@@ -16,20 +18,8 @@ export default function ScanBarCode({ navigation, route }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    Alert.alert("Scan thành công!", "Thêm sản phẩm vào hóa đơn?", [
-      // {
-      //   text: "Scan lại?",
-      //   onPress: () => setScanned(false),
-      //   style: "cancel",
-      // },
-      {
-        text: "Xác nhận",
-        onPress: () => {
-          route.params.handleGetFabricInfo(data);
-          navigation.navigate("export-bill", route.params);
-        },
-      },
-    ]);
+    setData(data);
+    Alert.alert("Scan thành công!");
   };
 
   if (hasPermission === null) {
@@ -40,12 +30,25 @@ export default function ScanBarCode({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
+    <Box style={styles.container}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-    </View>
+      {scanned && (
+        <Flex direction="row">
+          <Button onPress={() => setScanned(false)}>Scan lại</Button>
+          <Button
+            onPress={() => {
+              route.params.handleGetFabricInfo(data);
+              navigation.navigate("export-bill", route.params);
+            }}
+          >
+            Xác nhận
+          </Button>
+        </Flex>
+      )}
+    </Box>
   );
 }
 
@@ -54,5 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
   },
 });

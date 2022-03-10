@@ -13,14 +13,25 @@ const Products = (props) => {
   const [fabricId, setFabricId] = useState("");
   const [listProductAdded, setListProductAdded] = useState([]);
   const [newProduct, setNewProduct] = useState({});
+  useEffect(() => {
+    setParams({ handleGetFabricInfo: handleGetFabricInfo });
+  }, []);
 
   useEffect(() => {
     const handleAddToBill = () => {
       const listColorCode = product
         ? product.map((item) => item.colorCode.colorCode)
         : [];
-      if (listColorCode.includes(newProduct.colorCode))
-        setListProductAdded([...listProductAdded, newProduct]);
+      if (listColorCode.includes(newProduct.colorCode)) {
+        console.log(listProductAdded);
+        console.log(newProduct);
+        if (
+          listProductAdded.filter((item) => item._id === newProduct._id)
+            .length > 0
+        ) {
+          Alert.alert("Sản phẩm đã tồn tại!");
+        } else setListProductAdded([...listProductAdded, newProduct]);
+      }
     };
 
     handleAddToBill();
@@ -48,7 +59,6 @@ const Products = (props) => {
         />
         <Button
           onPress={() => {
-            setParams({ handleGetFabricInfo });
             navigation.navigate("scan-barcode", route.params);
           }}
         >

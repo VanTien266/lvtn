@@ -38,7 +38,13 @@ const ListBill = (props) => {
         <Text fontSize={"sm"} flex={3.5}>
           {moment(item.exportBillTime).format("DD/MM/YYYY")}
         </Text>
-        <Button size={"xs"} flex={2.5} variant="ghost">
+        <Button
+          size={"xs"}
+          flex={2.5}
+          variant="ghost"
+          bg="transparent"
+          color="gray.100"
+        >
           Chi tiết
         </Button>
         <Text
