@@ -1,8 +1,13 @@
-import { StyleSheet, View, StatusBar, SafeAreaView, ScrollView } from "react-native";
-// import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  SafeAreaView,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import React, { useState } from "react";
 import { Text, Icon } from "react-native-elements";
-
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
 import Revenue from "./components/Revenue";
@@ -17,78 +22,83 @@ import MonthYearPicker from "../../components/MonthYearPicker";
 export default function DashBoard() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-      <View style={styles.overview}>
-        <Text style={styles.textTitle}>Tổng quan</Text>
-        <View style={styles.containerDate}>
-          <MonthYearPicker />
-        </View>
+      <FlatList
+        ListHeaderComponent={
+          <View style={styles.overview}>
+            <Text style={styles.textTitle}>Tổng quan</Text>
+            <View style={styles.containerDate}>
+              <MonthYearPicker />
+            </View>
 
-        <View style={styles.iconSearch}>
-          <Icon
-            style={styles.iconSearchStyle}
-            name="search"
-            type="evillcons"
-            color="grey"
-            solid="true"
-            size={28}
-            onPress={() => console.log("search")}
-          />
-        </View>
-        
-        <View style={styles.iconNotification}>
-          <Icon
-            style={styles.iconNotificationStyle}
-            name="notifications-outline"
-            type="ionicon"
-            color="grey"
-            solid="true"
-            size={28}
-            onPress={() => console.log("notification")}
-          />
-        </View>
-      </View>
+            <View style={styles.iconSearch}>
+              <Icon
+                style={styles.iconSearchStyle}
+                name="search"
+                type="evillcons"
+                color="grey"
+                solid="true"
+                size={28}
+                onPress={() => console.log("search")}
+              />
+            </View>
 
-      <View style={styles.statistics}>
-        <View style={styles.orderbillStatistics}>
-          <View style={styles.orderStatistics}>
-            <TotalSale />
+            <View style={styles.iconNotification}>
+              <Icon
+                style={styles.iconNotificationStyle}
+                name="notifications-outline"
+                type="ionicon"
+                color="grey"
+                solid="true"
+                size={28}
+                onPress={() => console.log("notification")}
+              />
+            </View>
           </View>
-          <View style={styles.billStatistics}>
-            <BillCompleted />
-          </View>
-        </View>
+        }
+        ListFooterComponent={
+          <>
+            <View style={styles.statistics}>
+              <View style={styles.orderbillStatistics}>
+                <View style={styles.orderStatistics}>
+                  <TotalSale />
+                </View>
+                <View style={styles.billStatistics}>
+                  <BillCompleted />
+                </View>
+              </View>
 
-        <View style={styles.revenuefabricStatistics}>
-          <View style={styles.revenueStatistics}>
-            <Revenue />
-          </View>
-          <View style={styles.fabricStatistics}>
-            <FabricRollCompleted />
-          </View>
-        </View>
-      </View>
+              <View style={styles.revenuefabricStatistics}>
+                <View style={styles.revenueStatistics}>
+                  <Revenue />
+                </View>
+                <View style={styles.fabricStatistics}>
+                  <FabricRollCompleted />
+                </View>
+              </View>
+            </View>
 
-      <View style={styles.chartordermonthly}>
-        <ChartOrderMonthly />
-      </View>
+            <View style={styles.chartordermonthly}>
+              <ChartOrderMonthly />
+            </View>
 
-      <View style={styles.chartfabricwarehouse}>
-        <ChartFabricWarehouse />
-      </View>
+            <View style={styles.chartfabricwarehouse}>
+              <ChartFabricWarehouse />
+            </View>
 
-      <View style={styles.charttopproduct}>
-        <ChartTopProduct />
-      </View>
+            <View style={styles.charttopproduct}>
+              <ChartTopProduct />
+            </View>
 
-      <View style={styles.chartorderstatus}>
-        <ChartOrderStatus />
-      </View>
+            <View style={styles.chartorderstatus}>
+              <ChartOrderStatus />
+            </View>
 
-      <View style={styles.chartbillstatus}>
-        <ChartBillStatus />
-      </View>
-      </ScrollView>
+            <View style={styles.chartbillstatus}>
+              <ChartBillStatus />
+            </View>
+          </>
+        }
+      />
     </SafeAreaView>
   );
 }
@@ -171,8 +181,7 @@ const styles = StyleSheet.create({
   iconNotification: {
     flex: 1,
   },
-  iconNotification:{
-    flex:1,
-  }
-
+  iconNotification: {
+    flex: 1,
+  },
 });

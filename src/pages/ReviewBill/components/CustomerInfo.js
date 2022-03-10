@@ -4,9 +4,7 @@ import { Card } from "react-native-elements";
 import { Box, Text, Flex } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const CustomerInfo = (props) => {
-  const { order } = props;
-
+const CustomerInfo = () => {
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Thông tin khách hàng</Card.Title>
@@ -14,12 +12,12 @@ const CustomerInfo = (props) => {
         <Box flex={1}>
           <Flex flexDirection="row" alignItems="center" justify="space-between">
             <Text fontSize="md" bold>
-              {order.clientID?.name}
+              Lưu Văn Tiến
             </Text>
             <Flex flexDirection="row" alignItems="center">
               <Icon
                 name="border-color"
-                color="#000040"
+                color="#00004080"
                 size={24}
                 style={styles.icon}
               />
@@ -27,29 +25,34 @@ const CustomerInfo = (props) => {
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
-            <Icon name="place" color="#000040" size={24} style={styles.icon} />
+            <Icon
+              name="place"
+              color="#00004080"
+              size={24}
+              style={styles.icon}
+            />
             <Flex>
-              <Text>{order.clientID?.address}</Text>
-              {/* <Text>Đông Hòa - Dĩ An -Bình Dương</Text> */}
+              <Text>KTX khu B</Text>
+              <Text>Đông Hòa - Dĩ An -Bình Dương</Text>
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-post-office"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
-            <Text>{order.clientID?.email}</Text>
+            <Text>tien.luu.van@hcmut.edu.vn</Text>
           </Flex>
           <Flex flexDirection="row" alignItems="center">
             <Icon
               name="local-phone"
-              color="#000040"
+              color="#00004080"
               size={24}
               style={styles.icon}
             />
-            <Text>{order.clientID?.phone}</Text>
+            <Text>0826755114</Text>
           </Flex>
         </Box>
       </Flex>
@@ -58,27 +61,20 @@ const CustomerInfo = (props) => {
           Người nhận
         </Text>
         <Flex flexDirection="row" alignItems="center">
-          <Icon name="place" color="#00004000" size={24} style={styles.icon} />
+          <Icon name="place" color="#00004080" size={24} style={styles.icon} />
           <Box>
-            <Text fontSize="sm" bold>
-              {order.receiverName}
-            </Text>
-          </Box>
-        </Flex>
-        <Flex flexDirection="row" alignItems="center">
-          <Icon name="place" color="#000040" size={24} style={styles.icon} />
-          <Box>
-            <Text>{order.receiverAddress}</Text>
+            <Text>KTX khu A</Text>
+            <Text>Linh Trung - Thủ Đức - TP HCM</Text>
           </Box>
         </Flex>
         <Flex flexDirection="row" alignItems="center">
           <Icon
             name="local-phone"
-            color="#000040"
+            color="#00004080"
             size={24}
             style={styles.icon}
           />
-          <Text>{order.receiverPhone}</Text>
+          <Text>01296755114</Text>
         </Flex>
       </Box>
     </Card>
