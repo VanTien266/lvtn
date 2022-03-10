@@ -2,12 +2,45 @@ import React, { useState, useEffect } from "react";
 import { Button, Input, Icon } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import orderApi from "../../api/orderApi";
+import transferOrderStatus from "../../utils/transferOrderStatus";
 
 export default function OrderSearch() {
   const [searchTxt, setSearchTxt] = useState("");
+  const [listOrder, setListOrder] = useState([]);
+  const [result, setResult] = useState([]);
+  useEffect(() => {
+    const fetchListOrder = async () => {
+      try {
+        const response = await orderApi.getAll();
+        setListOrder(response);
+      } catch (error) {
+        console.log("Failed to fetch order list", error);
+      }
+    };
+    fetchListOrder();
+  }, []);
   const searchOrder = (txtValue) => {
     setSearchTxt(txtValue);
+    if (listOrder.length > 0) {
+      let orderSearch = listOrder.filter((item) => {
+        return item.orderId.toString().startsWith(txtValue.substring(3));
+      });
+      setResult(orderSearch);
+    }
   };
+
+  useEffect(() => {
+    const fetchListOrder = async () => {
+      try {
+        const response = await orderApi.getAll();
+        setListOrder(response);
+      } catch (error) {
+        console.log("Failed to fetch order list", error);
+      }
+    };
+    fetchListOrder();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -37,8 +70,55 @@ export default function OrderSearch() {
           onChangeText={searchOrder}
         />
       </View>
-      <View style={styles.result}>
-        <Text>Không có kết quả phù hợp</Text>
+      <View style={styles.resultBox}>
+        {result.length === 0 ? (
+          <Text>Không có kết quả phù hợp</Text>
+        ) : (
+          result.map(
+            (order, idx) =>
+              order.orderStatus && (
+                <TouchableOpacity
+                  style={styles.orderItem}
+                  key={idx}
+                  onPress={() =>
+                    navigation.push("order-detail", { orderId: order._id })
+                  }
+                >
+                  <View
+                    style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+                  >
+                    <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text style={styles.orderItemText}>
+                      {order.clientID.name}
+                    </Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text style={styles.orderItemText}>
+                      {order.receiverPhone}
+                    </Text>
+                  </View>
+                  <View style={[styles.verticalCenter, { flex: 4 }]}>
+                    <Text
+                      style={[
+                        styles.orderItemText,
+                        transferOrderStatus(
+                          order.orderStatus[order.orderStatus.length - 1].name
+                        ).style,
+                      ]}
+                    >
+                      {
+                        transferOrderStatus(
+                          order.orderStatus[order.orderStatus.length - 1].name
+                        ).name
+                      }
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )
+          )
+        )}
       </View>
     </View>
   );
@@ -54,6 +134,34 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  verticalCenter: {
+    direction: "inherit",
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  orderItem: {
+    backgroundColor: "#F6F6F8",
+    borderRadius: 5,
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5,
+    minHeight: 40,
+  },
+  orderItemText: {
+    fontFamily: "Roboto",
+    color: "#000040",
+    fontSize: 12,
+  },
+  resultBox: {
+    marginTop: 10,
+  },
+  noResultTxt: {
+    flex: 1,
+    flexDirection: "row",
     justifyContent: "center",
   },
 });
