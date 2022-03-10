@@ -9,6 +9,7 @@ export default function OrderSearch({ navigation }) {
   const [searchTxt, setSearchTxt] = useState("");
   const [listOrder, setListOrder] = useState([]);
   const [result, setResult] = useState([]);
+
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
@@ -20,9 +21,11 @@ export default function OrderSearch({ navigation }) {
     };
     fetchListOrder();
   }, []);
+  
   const searchOrder = (txtValue) => {
     setSearchTxt(txtValue);
-    if (listOrder.length > 0) {
+    setResult([]);
+    if (txtValue.length > 3) {
       let orderSearch = listOrder.filter((item) => {
         return item.orderId.toString().startsWith(txtValue.substring(3));
       });
@@ -72,7 +75,9 @@ export default function OrderSearch({ navigation }) {
         />
       </View>
       <View style={styles.resultBox}>
-        {result.length === 0 ? (
+        {searchTxt.length === 0 ? (
+          <Text></Text>
+        ) : result.length === 0 ? (
           <Text>Không có kết quả phù hợp</Text>
         ) : (
           result.map(
