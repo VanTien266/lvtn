@@ -20,6 +20,8 @@ import ChartTopProduct from "./components/ChartTopProduct";
 import MonthYearPicker from "../../components/MonthYearPicker";
 
 export default function DashBoard() {
+  const [month, setMonth] = useState(new Date(Date.now()).getMonth() + 1);
+  console.log("Month: ", month);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -27,7 +29,7 @@ export default function DashBoard() {
           <View style={styles.overview}>
             <Text style={styles.textTitle}>Tổng quan</Text>
             <View style={styles.containerDate}>
-              <MonthYearPicker />
+              <MonthYearPicker month={month} setMonth={setMonth} />
             </View>
 
             <View style={styles.iconSearch}>

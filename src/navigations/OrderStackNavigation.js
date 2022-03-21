@@ -15,6 +15,7 @@ import ScanBarCode from "../pages/ExportBill/components/ScanBarCode";
 import ReviewBill from "../pages/ReviewBill/ReviewBill";
 import billApi from "../api/billApi";
 import orderApi from "../api/orderApi";
+import StatusDetail from "../pages/OrderDetail/components/StatusDetail";
 
 const OrderStack = createStackNavigator();
 
@@ -78,6 +79,11 @@ const OrderStackNavigation = () => {
             </Button>
           ),
         })}
+      />
+      <OrderStack.Screen
+        name="status-detail"
+        component={StatusDetail}
+        options={() => ({ title: "Chi tiết trạng thái" })}
       />
       <OrderStack.Screen
         name="scan-barcode"

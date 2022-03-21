@@ -1,28 +1,12 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { Button, ScrollView } from "native-base";
+import { StyleSheet, View } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import orderApi from "../../../api/orderApi";
 
-const Status = (props) => {
-  const { navigation, orderId } = props;
-  const [order, setOrder] = useState({});
-
-  //get order data
-  const fetchOrderDetail = async () => {
-    const response = await orderApi.getOne(orderId);
-    setOrder(response);
-    // console.log(response);
-  };
-
-  useEffect(() => {
-    fetchOrderDetail();
-  }, [orderId]);
-
-  const { detailBill, orderStatus } = order;
+const StatusDetail = ({ route }) => {
+  const { detailBill, orderStatus } = route.params;
 
   let status = [];
   orderStatus?.forEach((item, index, orderStatus) => {
@@ -41,7 +25,7 @@ const Status = (props) => {
         } else {
           description = "Đơn hàng đang đợi xử lý";
         }
-        icon = <Icon name="hourglass-bottom" size={12} color="#fff" />;
+        icon = <Icon name="done" size={12} color="#fff" />;
         descStyle = styles.wait;
         cỉcleDotStyle = "#CDAB34";
         break;
@@ -51,7 +35,7 @@ const Status = (props) => {
         description = `Đang xử lý đơn hàng MHD${
           detailBill[Math.floor(index / 2)].billID
         }`;
-        icon = <Icon name="done" size={12} color="#fff" />;
+        icon = <Icon name="hourglass-bottom" size={12} color="#fff" />;
         descStyle = styles.process;
         cỉcleDotStyle = "#747FFF";
         break;
@@ -69,48 +53,35 @@ const Status = (props) => {
         cỉcleDotStyle = "#BD2C2C";
         break;
     }
-    if (index > orderStatus.length - 4)
-      if (index === orderStatus.length - 1)
-        status.push({
-          time: moment(item.date).format("DD/MM/YYYY"),
-          title: title,
-          description: description,
-          timeStyle: descStyle,
-          titleStyle: descStyle,
-          descriptionStyle: descStyle,
-          circleColor: cỉcleDotStyle,
-          lineColor: cỉcleDotStyle,
-          icon: icon,
-        });
-      else
-        status.push({
-          time: moment(item.date).format("DD/MM/YYYY"),
-          title: title,
-          description: description,
-          timeStyle: styles.default,
-          titleStyle: styles.default,
-          descriptionStyle: styles.default,
-          icon: icon,
-        });
+    if (index === orderStatus.length - 1)
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: descStyle,
+        titleStyle: descStyle,
+        descriptionStyle: descStyle,
+        circleColor: cỉcleDotStyle,
+        lineColor: cỉcleDotStyle,
+        icon: icon,
+      });
+    else
+      status.push({
+        time: moment(item.date).format("DD/MM/YYYY"),
+        title: title,
+        description: description,
+        timeStyle: styles.default,
+        titleStyle: styles.default,
+        descriptionStyle: styles.default,
+        icon: icon,
+      });
   });
 
   return (
-    <Card containerStyle={{ marginHorizontal: 0 }}>
-      <Card.Title>Trạng thái</Card.Title>
-      {orderStatus?.length > 3 && (
-        <Button
-          variant="link"
-          onPress={() =>
-            navigation.navigate("status-detail", {
-              orderStatus: orderStatus,
-              detailBill: detailBill,
-            })
-          }
-        >
-          Chi tiết
-        </Button>
-      )}
-      <ScrollView style={styles.container}>
+    <Card
+      containerStyle={{ marginHorizontal: 0, height: "100%", width: "100%" }}
+    >
+      <View style={{ height: "100%" }}>
         <Timeline
           data={status}
           circleColor="#B4B4C1"
@@ -122,16 +93,17 @@ const Status = (props) => {
             marginBottom: 5,
             borderRadius: 5,
           }}
-          innerCircle="icon"
+          innerCircle={"icon"}
         />
-      </ScrollView>
+      </View>
     </Card>
   );
 };
 
-export default Status;
+export default StatusDetail;
 
 const styles = StyleSheet.create({
+  container: { display: "flex", width: "100%" },
   title: { fontSize: 16, fontWeight: "bold" },
   description: {
     fontSize: 10,

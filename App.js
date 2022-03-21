@@ -16,6 +16,7 @@ LogBox.ignoreLogs([
 ]);
 
 import { AuthContext } from "./src/components/Context";
+import ShipperNavigation from "./src/navigations/ShipperNavigation";
 
 export default function App() {
   const initialLoginState = {
@@ -125,7 +126,9 @@ export default function App() {
           <StatusBar backgroundColor="#00004080" />
           {/* <BottomNavigation /> */}
           <NavigationContainer>
-            {loginState.userToken !== null ? (
+            {loginState.userToken === "shipper" ? (
+              <ShipperNavigation />
+            ) : loginState.userToken !== null ? (
               <BottomNavigation />
             ) : (
               <SignStackNavigation />
