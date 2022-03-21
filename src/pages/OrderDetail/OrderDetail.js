@@ -38,7 +38,13 @@ const OrderDetail = ({ route, navigation }) => {
   const renderItem = ({ item }) => {
     switch (item.name) {
       case "status":
-        return <Status orderStatus={order?.orderStatus} />;
+        return (
+          <Status
+            orderStatus={order?.orderStatus}
+            orderId={orderId}
+            navigation={navigation}
+          />
+        );
       case "item":
         return <ItemList products={order?.products} />;
       case "list-bill":

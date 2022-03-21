@@ -5,7 +5,7 @@ import Timeline from "react-native-timeline-flatlist";
 import moment from "moment";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const Status = (props) => {
+const CheckStatus = (props) => {
   const { billStatus } = props;
 
   let status = [];
@@ -46,7 +46,7 @@ const Status = (props) => {
       default:
         if (counter >= 2) {
           title = "Thất bại";
-          description = `Đơn hàng vận chuyển thất bại`;
+          description = `Đơn hàng vận chuyển thất bại\nLý do: ${item.reason}`;
         } else {
           counter += 1;
           title = `Tái vận chuyển lần ${counter}`;
@@ -101,7 +101,7 @@ const Status = (props) => {
   );
 };
 
-export default Status;
+export default CheckStatus;
 
 const styles = StyleSheet.create({
   container: {
