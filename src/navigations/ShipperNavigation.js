@@ -12,7 +12,7 @@ const Tab = createMaterialBottomTabNavigator();
 const ShipperNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="order"
+      initialRouteName="order-list"
       barStyle={{ backgroundColor: "#fff" }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {

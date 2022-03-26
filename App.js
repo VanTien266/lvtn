@@ -3,10 +3,12 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { NativeBaseProvider, StatusBar } from "native-base";
 import { BottomNavigation } from "./src/navigations";
 import { LogBox } from "react-native";
-// import Constants from "expo-constants";
+import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import SignStackNavigation from "./src/navigations/SignStackNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import store from "./src/redux/store";
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -120,23 +122,16 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <Provider store={store}>
       <NativeBaseProvider>
         <View style={styles.container}>
           <StatusBar backgroundColor="#00004080" />
-          {/* <BottomNavigation /> */}
           <NavigationContainer>
-            {loginState.userToken === "shipper" ? (
-              <ShipperNavigation />
-            ) : loginState.userToken !== null ? (
-              <BottomNavigation />
-            ) : (
-              <SignStackNavigation />
-            )}
+            <SignStackNavigation />
           </NavigationContainer>
         </View>
       </NativeBaseProvider>
-    </AuthContext.Provider>
+    </Provider>
   );
 }
 

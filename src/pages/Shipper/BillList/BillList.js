@@ -26,7 +26,7 @@ const BillList = ({ navigation }) => {
     }
   };
 
-  //refresh page
+  //refresh page by hand
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = useCallback(() => {

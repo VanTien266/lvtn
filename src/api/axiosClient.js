@@ -9,7 +9,7 @@ const axiosClient = axios.create({
     //   ? "https://server-dclv.herokuapp.com/api/"
     //   : "https://server-dclv.herokuapp.com/api/",
     //"http://172.17.24.175:5000/api",
-    "http://192.168.1.64:5000/api",
+    "http://192.168.1.129:5000/api",
   headers: {
     "content-type": "application/json",
   },
