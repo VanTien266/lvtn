@@ -16,6 +16,7 @@ const WareHouseStackNavigation = () => {
         component={WareHouseList}
         options={{
           title: "Danh sách kho hàng",
+          headerLeft: null,
           headerStyle: { borderBottomWidth: 0 },
         }}
       />

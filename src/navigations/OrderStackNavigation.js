@@ -32,6 +32,7 @@ const OrderStackNavigation = () => {
         component={OrderList}
         options={({ navigation }) => ({
           title: "Danh sách đơn đặt hàng",
+          headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
               <TouchableOpacity

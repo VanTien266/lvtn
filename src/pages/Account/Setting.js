@@ -5,6 +5,7 @@ import { logout } from "../../redux/actions/sessionActions";
 
 const Setting = ({ navigation }) => {
   const dispatch = useDispatch();
+
   const signOut = () => {
     dispatch(logout());
     navigation.navigate("splashscreen");

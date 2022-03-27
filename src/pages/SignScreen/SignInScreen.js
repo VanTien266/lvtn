@@ -7,15 +7,12 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import CustomInput from "../../components/CustomInput";
-import InputPassword from "../../components/InputPassword";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-import { AuthContext } from "../../components/Context";
 import staffApi from "../../api/staffApi";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/sessionActions";
+import customerApi from "../../api/customerApi";
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
@@ -80,10 +77,18 @@ const SignInScreen = () => {
 
   const loginHandle = async (userEmail, password) => {
     try {
-      const response = await staffApi.login({
-        email: userEmail,
-        password: password,
-      });
+      let response;
+      if (userEmail.includes("@bk.fabric.com")) {
+        response = await staffApi.login({
+          email: userEmail,
+          password: password,
+        });
+      } else {
+        response = await customerApi.login({
+          email: userEmail,
+          password: password,
+        });
+      }
       dispatch(login(response));
       switch (response.role) {
         case "SALESMAN":
@@ -91,6 +96,9 @@ const SignInScreen = () => {
           break;
         case "SHIPPER":
           navigation.navigate("ShipperNavigation", { screen: "order-list" });
+          break;
+        default:
+          navigation.navigate("UserNavigation", { screen: "product" });
           break;
       }
     } catch (err) {
@@ -250,6 +258,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   inputField: {
+    width: "80%",
     padding: 10,
     fontSize: 16,
   },
