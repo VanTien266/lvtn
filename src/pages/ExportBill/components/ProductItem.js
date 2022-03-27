@@ -25,12 +25,10 @@ const ProductItem = (props) => {
       <Text style={styles.childCell}>{item.colorCode.colorCode}</Text>
       <Text style={{ flex: 2, fontSize: 10 }}>{item.colorCode.name || ""}</Text>
       <Text style={styles.childCell}>
-        {formattedValue(item.shippedLength)}
-        {lengthAdded > 0 && "+" + formattedValue(lengthAdded)}
+        {formattedValue(item.shippedLength + lengthAdded)}
       </Text>
       <Text style={styles.childCell}>
-        {formattedValue(item.length - item.shippedLength)}
-        {lengthAdded > 0 && "-" + formattedValue(lengthAdded)}
+        {formattedValue(item.length - item.shippedLength - lengthAdded)}
       </Text>
     </View>
   );

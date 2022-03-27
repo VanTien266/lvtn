@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
-const staffApi = {
+const customerApi = {
   login: (data) => {
-    const url = "/staff/login";
+    const url = "/customer/login";
     return axiosClient.post(url, data);
   },
   getAll: (params) => {
@@ -15,4 +15,4 @@ const staffApi = {
   },
 };
 // const staffApi = new StaffApi();
-export default staffApi;
+export default customerApi;

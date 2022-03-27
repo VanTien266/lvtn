@@ -5,7 +5,6 @@ import Order from "../pages/Order/Order";
 import WareHouse from "../pages/WareHouse/WareHouse";
 import Support from "../pages/Support/Support";
 import Account from "../pages/Account/Account";
-import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialIcons";
 

@@ -23,7 +23,7 @@ const ItemList = (props) => {
             renderItem={({ item, index }) => (
               <Item item={item} index={index + 1} />
             )}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => item.colorCode.colorCode}
           />
         )}
       </View>

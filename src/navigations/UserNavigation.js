@@ -3,16 +3,17 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import History from "../pages/Shipper/History/History";
+import Product from "../pages/user/Product";
+import Order from "../pages/Order/Order";
+import Support from "../pages/Support/Support";
 import Account from "../pages/Account/Account";
-import Bill from "../pages/Shipper/BillList/Bill";
 
 const Tab = createMaterialBottomTabNavigator();
 
-const ShipperNavigation = () => {
+const UserNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="order-list"
+      initialRouteName="product"
       barStyle={{ backgroundColor: "#fff" }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -20,11 +21,14 @@ const ShipperNavigation = () => {
           color = focused ? "#000040" : "#00004050";
           let iconName;
           switch (route.name) {
-            case "order-list":
+            case "product":
+              iconName = "local-parking";
+              break;
+            case "user-order":
               iconName = "local-mall";
               break;
-            case "history":
-              iconName = "restore";
+            case "support":
+              iconName = "add-call";
               break;
             default:
               iconName = "person";
@@ -39,16 +43,21 @@ const ShipperNavigation = () => {
       }}
     >
       <Tab.Screen
-        name="order-list"
-        component={Bill}
-        options={{ title: "Hóa đơn" }}
+        name="product"
+        component={Product}
+        options={{ title: "Sản phẩm" }}
       ></Tab.Screen>
       <Tab.Screen
-        name="history"
-        component={History}
+        name="user-order"
+        component={Order}
         options={{
-          title: "Lịch sử",
+          title: "Đơn hàng",
         }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name="support"
+        component={Support}
+        options={{ title: "Hỗ trợ" }}
       ></Tab.Screen>
       <Tab.Screen
         name="account"
@@ -59,7 +68,7 @@ const ShipperNavigation = () => {
   );
 };
 
-export default ShipperNavigation;
+export default UserNavigation;
 
 const styles = StyleSheet.create({
   btn: {

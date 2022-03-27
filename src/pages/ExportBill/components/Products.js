@@ -8,11 +8,10 @@ import checkProductExist from "../../../utils/exportBillValidator";
 
 const Products = (props) => {
   const { product, setParams, navigation, route } = props;
-  // console.log(setParams);
-  // console.log(product);
   const [fabricId, setFabricId] = useState("");
   const [listProductAdded, setListProductAdded] = useState([]);
   const [newProduct, setNewProduct] = useState({});
+
   useEffect(() => {
     setParams({ handleGetFabricInfo: handleGetFabricInfo });
   }, []);

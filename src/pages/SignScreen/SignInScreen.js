@@ -7,39 +7,16 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import CustomInput from "../../components/CustomInput";
-import InputPassword from "../../components/InputPassword";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-import { AuthContext } from "../../components/Context";
+import staffApi from "../../api/staffApi";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/actions/sessionActions";
+import customerApi from "../../api/customerApi";
 
 const SignInScreen = () => {
-  const Users = [
-    {
-      id: 1,
-      email: "user1@gmail.com",
-      username: "user1",
-      password: "password",
-      userToken: "token123",
-    },
-    {
-      id: 2,
-      email: "shipper@gmail.com",
-      username: "shiper",
-      password: "shipper",
-      userToken: "shipper",
-    },
-    {
-      id: 3,
-      email: "testuser@gmail.com",
-      username: "testuser",
-      password: "testpass",
-      userToken: "testtoken",
-    },
-  ];
-
-  const [data, setData] = React.useState({
+  const dispatch = useDispatch();
+  const [data, setData] = useState({
     email: "",
     password: "",
     check_textInputChange: false,
@@ -49,7 +26,6 @@ const SignInScreen = () => {
   });
   const [isSecure, setIsSecure] = useState(true);
   const navigation = useNavigation();
-  const { signIn } = React.useContext(AuthContext);
 
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
@@ -99,10 +75,39 @@ const SignInScreen = () => {
     }
   };
 
-  const loginHandle = (userEmail, password) => {
-    const foundUser = Users.filter((item) => {
-      return userEmail == item.email && password == item.password;
-    });
+  const loginHandle = async (userEmail, password) => {
+    try {
+      let response;
+      if (userEmail.includes("@bk.fabric.com")) {
+        response = await staffApi.login({
+          email: userEmail,
+          password: password,
+        });
+      } else {
+        response = await customerApi.login({
+          email: userEmail,
+          password: password,
+        });
+      }
+      dispatch(login(response));
+      switch (response.role) {
+        case "SALESMAN":
+          navigation.navigate("BottomNavigation", { screen: "dashboard" });
+          break;
+        case "SHIPPER":
+          navigation.navigate("ShipperNavigation", { screen: "order-list" });
+          break;
+        default:
+          navigation.navigate("UserNavigation", { screen: "product" });
+          break;
+      }
+    } catch (err) {
+      Alert.alert(
+        "Sai thông tin đăng nhập",
+        "Email hoặc mật khẩu không chính xác.",
+        [{ text: "OK" }]
+      );
+    }
 
     if (data.email.length == 0 || data.password.length == 0) {
       Alert.alert(
@@ -112,16 +117,6 @@ const SignInScreen = () => {
       );
       return;
     }
-
-    if (foundUser.length == 0) {
-      Alert.alert(
-        "Sai thông tin đăng nhập",
-        "Email hoặc mật khẩu không chính xác.",
-        [{ text: "OK" }]
-      );
-      return;
-    }
-    signIn(foundUser);
   };
 
   return (
@@ -178,9 +173,7 @@ const SignInScreen = () => {
 
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => {
-            loginHandle(data.email, data.password);
-          }}
+          onPress={() => loginHandle(data.email, data.password)}
         >
           <Text style={styles.textbuttonPrimary}>Đăng nhập</Text>
         </TouchableOpacity>
@@ -265,6 +258,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   inputField: {
+    width: "80%",
     padding: 10,
     fontSize: 16,
   },
