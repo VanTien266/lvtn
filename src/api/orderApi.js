@@ -6,13 +6,13 @@ const orderApi = {
     return axiosClient.get(url);
   },
 
-  countAllOrderMonthly: () => {
-    const url = "/getorderbymonth";
+  countAllOrderMonthly: (date) => {
+    const url = `/getorderbymonth?date=${date}`;
     return axiosClient.get(url);
   },
 
-  countOrderDailyMonthly: () => {
-    const url = "/getorderdaily";
+  countOrderDailyMonthly: (date) => {
+    const url = `/getorderdaily?date=${date}`;
     return axiosClient.get(url);
   },
 
@@ -21,16 +21,16 @@ const orderApi = {
     return axiosClient.get(url);
   },
 
-  totalDeposit: () => {
-    const url = "/deposit";
+  totalDeposit: (date) => {
+    const url = `/deposit?date=${date}`;
     return axiosClient.get(url);
   },
   getOne: (orderId) => {
     const url = `/order/${orderId}`;
     return axiosClient.get(url);
   },
-  getOrderStatus: () => {
-    const url="/getorderstatus";
+  getOrderStatus: (date) => {
+    const url= `/getorderstatus?date=${date}`;
     return axiosClient.get(url);
   },
   getProducts: (orderId) => {

@@ -5,13 +5,13 @@ import { Text, Icon } from 'react-native-elements';
 import {formattedValueCurrency} from "../../../utils/formatNumber";
 import orderApi from '../../../api/orderApi';
 
-const Revenue = () => {
+const Revenue = (props) => {
   const [totalDeposit, setTotalDeposit] = useState([]);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetTotalDeposit = async () => {
       try {
-        const response = await orderApi.totalDeposit();
+        const response = await orderApi.totalDeposit(props.date.toISOString().slice(0, 10));
         console.log(response);
         setTotalDeposit(response);
       }catch (error) {
@@ -22,7 +22,7 @@ const Revenue = () => {
       }
   }
     fetTotalDeposit();
-  },[]);
+  },[props.date]);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>

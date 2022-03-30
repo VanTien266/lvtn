@@ -12,13 +12,13 @@ import {
 } from 'react-native-chart-kit';
 import billApi from "../../../api/billApi";
 
-const ChartBillStatus = () => {
+const ChartBillStatus = (props) => {
   const [billstatus, setBillStatus] = useState([]);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchBillStatus = async () => {
         try {
-          const response = await billApi.getBillStatus();
+          const response = await billApi.getBillStatus(props.date.toISOString().slice(0, 10));
           console.log(response);
           setBillStatus(response);
         }catch (error) {
@@ -29,7 +29,7 @@ const ChartBillStatus = () => {
         }
     }
     fetchBillStatus();
-  }, []);
+  }, [props.date]);
   const CountBill = [];
     billstatus.forEach(function (item){
       CountBill.push(item.lastStatusBill);

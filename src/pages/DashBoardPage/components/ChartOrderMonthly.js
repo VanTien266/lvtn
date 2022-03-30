@@ -12,13 +12,13 @@ import {
 } from 'react-native-chart-kit';
 import orderApi from "../../../api/orderApi";
 
-const ChartOrderMonthly = () => {
+const ChartOrderMonthly = (props) => {
   const [orderstatus, setOrderStatus] = useState([]);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchOrderStatus = async () => {
         try {
-          const response = await orderApi.countOrderDailyMonthly();
+          const response = await orderApi.countOrderDailyMonthly(props.date.toISOString().slice(0, 10));
           console.log(response);
           setOrderStatus(response);
         }catch (error) {
@@ -29,7 +29,7 @@ const ChartOrderMonthly = () => {
         }
     }
     fetchOrderStatus();
-  }, []);
+  }, [props.date]);
   const OrderDailyLabel = [];
   const OrderDailyData = [];
     orderstatus.forEach(function (item){

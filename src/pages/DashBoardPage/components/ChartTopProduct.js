@@ -12,13 +12,13 @@ import {
 } from 'react-native-chart-kit';
 import billApi from "../../../api/billApi";
 
-const ChartTopProduct = () => {
+const ChartTopProduct = (props) => {
   const [fabrictypesell, setFabricTypeSell] = useState([]);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchFabricTypeSell = async () => {
         try {
-          const response = await billApi.getBillFabricTypeSell();
+          const response = await billApi.getBillFabricTypeSell(props.date.toISOString().slice(0, 10));
           console.log(response);
           setFabricTypeSell(response);
         }catch (error) {
@@ -29,7 +29,7 @@ const ChartTopProduct = () => {
         }
     }
     fetchFabricTypeSell();
-  }, []);
+  }, [props.date]);
 
   const TypeSellLabel = [];
   const TypeSellData = [];

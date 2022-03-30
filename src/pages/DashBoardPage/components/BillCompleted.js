@@ -4,12 +4,12 @@ import { Text, Icon } from 'react-native-elements';
 import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
-const BillCompleted = () => {
+const BillCompleted = (props) => {
   const [billComplete, setBillComplete] = useState([]);
   useEffect(() => {
     const fetCountBillComplete = async () => {
         try {
-          const response = await billApi.getBillCompleted();
+          const response = await billApi.getBillCompleted(props.date.toISOString().slice(0, 10));
           console.log(response);
           setBillComplete(response);
         }catch (error) {
@@ -17,7 +17,7 @@ const BillCompleted = () => {
         }
     }
     fetCountBillComplete();
-  }, []);
+  }, [props.date]);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>
