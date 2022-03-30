@@ -19,12 +19,12 @@ import ChartBillStatus from "./components/ChartBillStatus";
 import ChartOrderStatus from "./components/ChartOrderStatus";
 import ChartTopProduct from "./components/ChartTopProduct";
 import MonthYearPicker from "../../components/MonthYearPicker";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function DashBoard() {
   const [isPickerShow, setIsPickerShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()))
-  console.log('date today', date);
+  const [date, setDate] = useState(new Date(Date.now()));
+  console.log("date today", date);
   const showPicker = () => {
     setIsPickerShow(true);
   };
@@ -33,7 +33,7 @@ export default function DashBoard() {
     setDate(value);
   };
   let year = date.getFullYear();
-  let month = date.getUTCMonth() + 1
+  let month = date.getUTCMonth() + 1;
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -102,10 +102,10 @@ export default function DashBoard() {
             <View style={styles.statistics}>
               <View style={styles.orderbillStatistics}>
                 <View style={styles.orderStatistics}>
-                  <TotalSale date={date}/>
+                  <TotalSale date={date} />
                 </View>
                 <View style={styles.billStatistics}>
-                  <BillCompleted date={date}/>
+                  <BillCompleted date={date} />
                 </View>
               </View>
 
@@ -128,7 +128,7 @@ export default function DashBoard() {
             </View>
 
             <View style={styles.charttopproduct}>
-              <ChartTopProduct date={date}/>
+              <ChartTopProduct date={date} />
             </View>
 
             <View style={styles.chartorderstatus}>
@@ -224,18 +224,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   containerDateComponent: {
-    flex:1,
-    flexDirection: 'row',
+    flex: 1,
+    flexDirection: "row",
   },
   pickedDateContainer: {
-    flex:2,
-    paddingTop:3,
+    flex: 2,
+    paddingTop: 3,
     paddingLeft: 10,
   },
   pickedDate: {
     fontSize: 18,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   iconDatePicker: {
     flex:1,
