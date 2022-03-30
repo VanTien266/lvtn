@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  Platform
 } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -22,16 +23,26 @@ import MonthYearPicker from "../../components/MonthYearPicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function DashBoard() {
-  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
+  const [mode, setMode] = useState('date');
   console.log("date today", date);
-  const showPicker = () => {
-    setIsPickerShow(true);
+
+  const showMode = currentMode => {
+    setShow(true);
+    setMode(currentMode);
   };
 
   const onChange = (event, value) => {
-    setDate(value);
+    const currentDate = value || date;
+    setShow(Platform.OS === "ios")
+    setDate(currentDate);
   };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
   let year = date.getFullYear();
   let month = date.getUTCMonth() + 1;
   return (
@@ -56,17 +67,18 @@ export default function DashBoard() {
                     color="grey"
                     solid="true"
                     size={28}
-                    onPress={showPicker}
+                    onPress={showDatepicker}
                   />
                 </View>
 
                 {/* The date picker */}
-                {isPickerShow && (
+                {show && (
                   <DateTimePicker
                     value={date}
                     mode={"date"}
                     onChange={onChange}
                     style={styles.datePicker}
+                    display="default"
                   />
                 )}
               </View>
@@ -128,15 +140,15 @@ export default function DashBoard() {
             </View>
 
             <View style={styles.charttopproduct}>
-              <ChartTopProduct date={date} />
+              {/* <ChartTopProduct date={date} /> */}
             </View>
 
             <View style={styles.chartorderstatus}>
-              <ChartOrderStatus date={date} />
+              {/* <ChartOrderStatus date={date} /> */}
             </View>
 
             <View style={styles.chartbillstatus}>
-              <ChartBillStatus date={date} />
+              {/* <ChartBillStatus date={date} /> */}
             </View>
           </>
         }

@@ -5,7 +5,7 @@ import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
 const BillCompleted = (props) => {
-  const [billComplete, setBillComplete] = useState([]);
+  const [billComplete, setBillComplete] = useState();
   useEffect(() => {
     const fetCountBillComplete = async () => {
         try {

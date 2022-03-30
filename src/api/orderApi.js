@@ -16,11 +16,6 @@ const orderApi = {
     return axiosClient.get(url);
   },
 
-  countOrderComplete: () => {
-    const url = "/countallordercomplete";
-    return axiosClient.get(url);
-  },
-
   totalDeposit: (date) => {
     const url = `/deposit?date=${date}`;
     return axiosClient.get(url);

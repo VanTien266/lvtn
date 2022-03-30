@@ -5,7 +5,7 @@ import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
 const FabricRollCompleted = (props) => {
-  const [fabricrollcompletedTotal, setFabricRollCompletedTotal] = useState([]);
+  const [fabricrollcompletedTotal, setFabricRollCompletedTotal] = useState();
   useEffect(() => {
     const fetchFabricRollCompletedTotal = async () => {
         try {

@@ -99,7 +99,7 @@ import {formattedValue} from "../../../utils/formatNumber";
 import orderApi from "../../../api/orderApi";
 
 const TotalSale = (props) => {
-  const [orderTotal, setOrderTotal] = useState([]);
+  const [orderTotal, setOrderTotal] = useState();
   useEffect(() => {
     const fetCountOrder = async () => {
         try {

@@ -6,7 +6,7 @@ import {formattedValueCurrency} from "../../../utils/formatNumber";
 import orderApi from '../../../api/orderApi';
 
 const Revenue = (props) => {
-  const [totalDeposit, setTotalDeposit] = useState([]);
+  const [totalDeposit, setTotalDeposit] = useState();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetTotalDeposit = async () => {
