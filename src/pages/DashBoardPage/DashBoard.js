@@ -223,7 +223,6 @@ const styles = StyleSheet.create({
   iconNotification: {
     flex: 1,
   },
-<<<<<<< HEAD
   containerDateComponent: {
     flex:1,
     flexDirection: 'row',
@@ -241,9 +240,4 @@ const styles = StyleSheet.create({
   iconDatePicker: {
     flex:1,
   }
-=======
-  iconNotification: {
-    flex: 1,
-  },
->>>>>>> f906186463441f0ef8736e02c8a8976d79b25b5f
 });
