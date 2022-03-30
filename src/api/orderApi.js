@@ -40,6 +40,10 @@ const orderApi = {
   updateStatus: (orderId, data) => {
     const url = `/order/${orderId}/update_status`;
     return axiosClient.put(url, data);
-  }
+  },
+  cancleStatus: (orderId) => {
+    const url = `order/cancle-status/${orderId}`;
+    return axiosClient.put(url);
+  },
 };
 export default orderApi;

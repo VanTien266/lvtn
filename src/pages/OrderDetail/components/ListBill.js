@@ -27,30 +27,38 @@ const ListBill = (props) => {
     return style;
   };
 
-  const BillItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigation.push("bill-detail", { billId: item._id })}
-    >
-      <Flex style={styles.orderRow}>
-        <Text fontSize={"sm"} flex={3}>
-          MHĐ{item.billID}
-        </Text>
-        <Text fontSize={"sm"} flex={3.5}>
-          {moment(item.exportBillTime).format("DD/MM/YYYY")}
-        </Text>
-        <Button size={"xs"} flex={2.5} variant="ghost">
-          Chi tiết
-        </Button>
-        <Text
-          fontSize={"sm"}
-          flex={3}
-          style={handleStatusStyle(item.status[item.status.length - 1].name)}
-        >
-          {transferBillStatus(item.status[item.status.length - 1].name)}
-        </Text>
-      </Flex>
-    </TouchableOpacity>
-  );
+  const BillItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.push("bill-detail", { billId: item._id })}
+      >
+        <Flex style={styles.orderRow}>
+          <Text fontSize={"sm"} flex={3}>
+            MHĐ{item.billID}
+          </Text>
+          <Text fontSize={"sm"} flex={3.5}>
+            {moment(item.exportBillTime).format("DD/MM/YYYY")}
+          </Text>
+          <Button
+            size={"xs"}
+            flex={2.5}
+            variant="ghost"
+            bg="transparent"
+            color="gray.100"
+          >
+            Chi tiết
+          </Button>
+          <Text
+            fontSize={"sm"}
+            flex={3}
+            style={handleStatusStyle(item.status[item.status.length - 1].name)}
+          >
+            {transferBillStatus(item.status[item.status.length - 1].name).name}
+          </Text>
+        </Flex>
+      </TouchableOpacity>
+    );
+  };
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Danh sách hóa đơn</Card.Title>

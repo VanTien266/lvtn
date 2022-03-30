@@ -5,6 +5,14 @@ class BillApi {
     const url = "/bill";
     return axiosClient.get(url);
   };
+  getUncomplete = () => {
+    const url = "/bill/list/uncomplete";
+    return axiosClient.get(url);
+  };
+  getComplete = () => {
+    const url = "/bill/list/complete";
+    return axiosClient.get(url);
+  };
   getOne = (params) => {
     const url = `/bill/detail/${params}`;
     return axiosClient.get(url);
@@ -37,6 +45,10 @@ class BillApi {
     const url = `/bill/fabrictypesell?date=${date}`;
     return axiosClient.get(url);
   };
- }
+  updateStatus = (billId, data) => {
+    const url = `/bill/${billId}`;
+    return axiosClient.put(url, data);
+  };
+}
 const billApi = new BillApi();
 export default billApi;

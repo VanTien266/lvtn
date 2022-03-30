@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 export default function SupportList({ navigation }) {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Đơn đặt hàng</Text>

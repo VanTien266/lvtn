@@ -1,37 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Input, Icon } from "native-base";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
+
+  //Get order list
+  const fetchListOrder = async () => {
+    try {
+      const response = await orderApi.getAll();
+      setListOrder(response);
+    } catch (error) {
+      console.log("Failed to fetch order list", error);
+    }
+  };
+
+  //refresh page
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchListOrder();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchListOrder();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const [displaySearch, setDisplaySearch] = useState(false);
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    const fetchListOrder = async () => {
-      try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
-      } catch (error) {
-        console.log("Failed to fetch order list", error);
-      }
-    };
     fetchListOrder();
   }, []);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Mã hóa đơn</Text>

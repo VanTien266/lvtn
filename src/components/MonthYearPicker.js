@@ -42,12 +42,20 @@
 // // export default MonthYearPicker;
 
 // // App.js
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Button, Platform, SafeAreaView} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {Icon} from "react-native-elements";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Platform,
+  SafeAreaView,
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Icon } from "react-native-elements";
 
-const MonthYearPicker = () => {
+const MonthYearPicker = (props) => {
+  const { month, setMonth } = props;
   const [isPickerShow, setIsPickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
 
@@ -57,15 +65,19 @@ const MonthYearPicker = () => {
 
   const onChange = (event, value) => {
     setDate(value);
-    if (Platform.OS === 'android') {
+    setMonth(value.getUTCMonth() + 1);
+    // console.log(value.getUTCMonth() + 1);
+    if (Platform.OS === "android") {
       setIsPickerShow(false);
     }
   };
-  let month = date.getUTCMonth() + 1; 
   return (
     <View style={styles.container}>
       <View style={styles.pickedDateContainer}>
-        <Text style={styles.pickedDate}> Tháng {month}, {date.getUTCFullYear()} </Text>
+        <Text style={styles.pickedDate}>
+          {" "}
+          Tháng {month}, {date.getUTCFullYear()}{" "}
+        </Text>
       </View>
       {/* <Text style={styles.pickedDate}> Tháng {date.getUTCMonth()+1}, {date.getUTCFullYear()} </Text> */}
 
@@ -81,22 +93,23 @@ const MonthYearPicker = () => {
             onPress={showPicker} />
         </View>
       )} */}
-        <View style={styles.iconDatePicker}>
-          <Icon style={styles.iconDatePickerStyle}
-            name='calendar-outline'
-            type='ionicon'
-            color='grey'
-            solid='true'
-            size={28}
-            onPress={showPicker} />
-        </View>
-      
+      <View style={styles.iconDatePicker}>
+        <Icon
+          style={styles.iconDatePickerStyle}
+          name="calendar-outline"
+          type="ionicon"
+          color="grey"
+          solid="true"
+          size={28}
+          onPress={showPicker}
+        />
+      </View>
 
       {/* The date picker */}
       {isPickerShow && (
         <DateTimePicker
           value={date}
-          mode={'date'}
+          mode={"date"}
           onChange={onChange}
           style={styles.datePicker}
         />
@@ -107,28 +120,28 @@ const MonthYearPicker = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    flexDirection: 'row',
+    flex: 1,
+    flexDirection: "row",
     // alignItems: 'center',
     // justifyContent: 'center',
     // padding: 3,
   },
   pickedDateContainer: {
-    flex:2,
+    flex: 2,
     // padding: 10,
     // backgroundColor: '#eee',
     // borderRadius: 5,
-    paddingTop:3,
+    paddingTop: 3,
     paddingLeft: 10,
   },
   pickedDate: {
     fontSize: 18,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   iconDatePicker: {
-    flex:1,
-  }
+    flex: 1,
+  },
 });
 
 export default MonthYearPicker;

@@ -9,11 +9,17 @@ const BillDetail = ({ route, navigation }) => {
   const [bill, setBill] = useState({});
 
   useEffect(() => {
+    let mouted = true;
     const fetchOrder = async () => {
-      const response = await billApi.getOne(billId);
-      setBill(response);
+      if (mouted) {
+        const response = await billApi.getOne(billId);
+        setBill(response);
+      }
     };
     fetchOrder();
+    return () => {
+      mouted = false;
+    };
   }, [billId]);
 
   const data = [
@@ -29,9 +35,9 @@ const BillDetail = ({ route, navigation }) => {
       case "item":
         return <ItemList listFabricId={bill?.fabricRoll} />;
       case "customer-info":
-        return <CustomerInfo />;
+        return <CustomerInfo bill={bill} />;
       case "another-info":
-        return <AnortherInfo />;
+        return <AnortherInfo bill={bill} />;
     }
   };
   return (

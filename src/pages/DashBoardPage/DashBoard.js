@@ -9,7 +9,6 @@ import {
 // import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { Text, Icon } from "react-native-elements";
-
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
 import Revenue from "./components/Revenue";
@@ -224,6 +223,7 @@ const styles = StyleSheet.create({
   iconNotification: {
     flex: 1,
   },
+<<<<<<< HEAD
   containerDateComponent: {
     flex:1,
     flexDirection: 'row',
@@ -241,4 +241,9 @@ const styles = StyleSheet.create({
   iconDatePicker: {
     flex:1,
   }
+=======
+  iconNotification: {
+    flex: 1,
+  },
+>>>>>>> f906186463441f0ef8736e02c8a8976d79b25b5f
 });

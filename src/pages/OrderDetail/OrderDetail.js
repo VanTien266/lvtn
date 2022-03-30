@@ -1,26 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { FlatList, StyleSheet, View, RefreshControl } from "react-native";
 import { CustomerInfo, ItemList, ListBill, Status } from "./components";
 import orderApi from "../../api/orderApi";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const OrderDetail = ({ route, navigation }) => {
   const { orderId } = route.params;
   const [order, setOrder] = useState({});
+  //refresh page
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchOrderDetail();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  //get order data
+  const fetchOrderDetail = async () => {
+    const response = await orderApi.getOne(orderId);
+    setOrder(response);
+  };
 
   useEffect(() => {
-    let mounted = true;
-    const fetchOrderDetail = async () => {
-      const response = await orderApi.getOne(orderId);
-      if (mounted) {
-        setOrder(response);
-      }
-    };
     fetchOrderDetail();
-
-    return () => {
-      mounted = false;
-    };
-  }, [orderId]);
+  }, [orderId, navigation]);
 
   const data = [
     { id: 1, name: "status" },
@@ -31,7 +38,13 @@ const OrderDetail = ({ route, navigation }) => {
   const renderItem = ({ item }) => {
     switch (item.name) {
       case "status":
-        return <Status orderStatus={order?.orderStatus} />;
+        return (
+          <Status
+            orderStatus={order?.orderStatus}
+            orderId={orderId}
+            navigation={navigation}
+          />
+        );
       case "item":
         return <ItemList products={order?.products} />;
       case "list-bill":
@@ -39,7 +52,7 @@ const OrderDetail = ({ route, navigation }) => {
           <ListBill navigation={navigation} detailBill={order?.detailBill} />
         );
       case "customer-info":
-        return <CustomerInfo />;
+        return <CustomerInfo order={order} />;
     }
   };
   return (
@@ -48,14 +61,11 @@ const OrderDetail = ({ route, navigation }) => {
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
-    // <ScrollView>
-    //   <Status orderStatus={order.orderStatus} />
-    //   {/* <ItemList />
-    //   <ListBill navigation={navigation} />
-    //   <CustomerInfo /> */}
-    // </ScrollView>
   );
 };
 

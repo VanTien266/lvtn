@@ -1,51 +1,63 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/sessionActions";
 
-import { AuthContext } from '../../components/Context';
+const Setting = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-const Setting = ({navigation}) => {
-
-  const { signOut } = React.useContext(AuthContext);
+  const signOut = () => {
+    dispatch(logout());
+    navigation.navigate("splashscreen");
+  };
 
   return (
     <View style={styles.settingContainer}>
-      <TouchableOpacity style={styles.layoutBox} onPress={() => navigation.push("changepassword")}>
-        <Text style={styles.text}>Đổi mật khẩu</Text> 
+      <TouchableOpacity
+        style={styles.layoutBox}
+        onPress={() => navigation.push("changepassword")}
+      >
+        <Text style={styles.text}>Đổi mật khẩu</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.layoutBox} onPress={() => {signOut()}}>
-        <Text style={styles.textSignOut}>Đăng xuất</Text> 
+      <TouchableOpacity
+        style={styles.layoutBox}
+        onPress={() => {
+          signOut();
+        }}
+      >
+        <Text style={styles.textSignOut}>Đăng xuất</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 const TEXT = {
   textAlign: "center",
-  fontWeight:"bold",
-  color:"#000040",
-  fontSize:16
-}
+  fontWeight: "bold",
+  color: "#000040",
+  fontSize: 16,
+};
 const styles = StyleSheet.create({
   settingContainer: {
-    flex:1,
+    flex: 1,
     padding: 10,
   },
   layoutBox: {
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 2,
-    backgroundColor: '#fff',
-    borderColor: '#000040',
+    backgroundColor: "#fff",
+    borderColor: "#000040",
     height: 40,
     borderRadius: 5,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginTop: 5,
   },
   text: {
-    ...TEXT
+    ...TEXT,
   },
   textSignOut: {
     ...TEXT,
-    color: "red"
-  }
+    color: "red",
+  },
 });
 
 export default Setting;
