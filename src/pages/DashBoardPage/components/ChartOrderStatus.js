@@ -30,12 +30,49 @@ const ChartOrderStatus = (props) => {
     fetchOrderStatus();
   }, [props.date]);
   const CountOrder = [];
+  const length = orderstatus.length;
+  if (length === 1) {
+    if (orderstatus[0]._id === 'cancel')  {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      completedOrder = 0;
+      pendingOrder = 0;
+    }
+    else if (orderstatus[0]._id === 'completed')  {
+      completedOrder = orderstatus[0].lastStatusOrder;
+      cancelOrder = 0;
+      pendingOrder = 0;
+    }
+    else if (orderstatus[0]._id === 'pending')  {
+      pendingOrder = orderstatus[0].lastStatusOrder;
+      cancelOrder = 0;
+      completedOrder = 0;
+    }
+  }
+  else if (length === 2) {
+    if (orderstatus[0]._id === 'cancel' && orderstatus[1]._id === 'completed')  {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      completedOrder = orderstatus[1].lastStatusOrder;
+      pendingOrder = 0;
+    }
+    else if (orderstatus[0]._id === 'completed' && orderstatus[1]._id === 'pending')  {
+      completedOrder = orderstatus[0].lastStatusOrder;
+      cancelOrder = 0;
+      pendingOrder = orderstatus[1].lastStatusOrder;;
+    }
+    else if (orderstatus[0]._id === 'cancel' && orderstatus[1]._id === 'pending')  {
+      pendingOrder = orderstatus[1].lastStatusOrder;
+      cancelOrder = orderstatus[0].lastStatusOrder;;
+      completedOrder = 0;
+    }
+  }
+  else {
   orderstatus.forEach(function (item) {
     CountOrder.push(item.lastStatusOrder);
   });
-  const cancelOrder = CountOrder[0];
-  const completedOrder = CountOrder[1];
-  const pendingOrder = CountOrder[2];
+  cancelOrder = CountOrder[0];
+  completedOrder = CountOrder[1];
+  pendingOrder = CountOrder[2];
+}
   console.log("Result:", cancelOrder, completedOrder, pendingOrder);
 
   return (
@@ -45,7 +82,9 @@ const ChartOrderStatus = (props) => {
           <Text style={styles.header}>Tình trạng xử lý đơn đặt hàng</Text>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
-          ) : (
+          ) :
+          length > 0 ?
+          (
             <PieChart
               data={[
                 {
@@ -92,6 +131,12 @@ const ChartOrderStatus = (props) => {
               paddingLeft="15"
               absolute //for the absolute number remove if you want percentage
             />
+          ): (
+            <View style={styles.noDataContainer}>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                Không có dữ liệu để hiển thị
+              </Text>
+            </View>
           )}
         </View>
       </View>
@@ -115,5 +160,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
     marginTop: 10,
+  },
+  noDataContainer: {
+    borderWidth: 1,
+    borderColor: "#000",
+    width: 300,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 16,
+    backgroundColor: "#efefef",
   },
 });
