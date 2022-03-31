@@ -31,6 +31,7 @@ const ChartOrderStatus = (props) => {
   }, [props.date]);
   const CountOrder = [];
   const length = orderstatus.length;
+  let cancelOrder;
   if (length === 1) {
     if (orderstatus[0]._id === 'cancel')  {
       cancelOrder = orderstatus[0].lastStatusOrder;
