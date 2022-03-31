@@ -14,6 +14,7 @@ export default function SupportStackNavigation() {
         component={SupportList}
         options={{
           title: "Hỗ trợ",
+          headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
               <TouchableOpacity style={styles.iconBtnBar}>
@@ -30,7 +31,7 @@ export default function SupportStackNavigation() {
         name="support-reply"
         component={ReplySupport}
         options={{
-          title: "Phản hồi yêu cầu hỗ trợ"
+          title: "Phản hồi yêu cầu hỗ trợ",
         }}
       ></SupportStack.Screen>
     </SupportStack.Navigator>

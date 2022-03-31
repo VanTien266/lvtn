@@ -98,13 +98,12 @@ import { Text, Icon } from 'react-native-elements';
 import {formattedValue} from "../../../utils/formatNumber";
 import orderApi from "../../../api/orderApi";
 
-const TotalSale = () => {
-  const [orderTotal, setOrderTotal] = useState([]);
-
+const TotalSale = (props) => {
+  const [orderTotal, setOrderTotal] = useState();
   useEffect(() => {
     const fetCountOrder = async () => {
         try {
-          const response = await orderApi.countAllOrderMonthly();
+          const response = await orderApi.countAllOrderMonthly(props.date.toISOString().slice(0, 10));
           console.log(response);
           setOrderTotal(response);
         }catch (error) {
@@ -112,7 +111,7 @@ const TotalSale = () => {
         }
     }
     fetCountOrder();
-  }, []);
+  }, [props.date]);
   return (
     <View style={styles.container}>      
       <View style={styles.cardbackground}>

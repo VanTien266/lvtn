@@ -8,34 +8,39 @@ import checkProductExist from "../../../utils/exportBillValidator";
 
 const Products = (props) => {
   const { product, setParams, navigation, route } = props;
-  // console.log(setParams);
-  // console.log(product);
   const [fabricId, setFabricId] = useState("");
   const [listProductAdded, setListProductAdded] = useState([]);
   const [newProduct, setNewProduct] = useState({});
+
   useEffect(() => {
     setParams({ handleGetFabricInfo: handleGetFabricInfo });
   }, []);
 
   useEffect(() => {
+    let mouted = true;
     const handleAddToBill = () => {
-      const listColorCode = product
-        ? product.map((item) => item.colorCode.colorCode)
-        : [];
-      if (listColorCode.includes(newProduct.colorCode)) {
-        console.log(listProductAdded);
-        console.log(newProduct);
-        if (
-          listProductAdded.filter((item) => item._id === newProduct._id)
-            .length > 0
-        ) {
-          Alert.alert("Sản phẩm đã tồn tại!");
-        } else setListProductAdded([...listProductAdded, newProduct]);
+      if (mouted) {
+        const listColorCode = product
+          ? product.map((item) => item.colorCode.colorCode)
+          : [];
+        if (listColorCode.includes(newProduct.colorCode)) {
+          console.log(listProductAdded);
+          console.log(newProduct);
+          if (
+            listProductAdded.filter((item) => item._id === newProduct._id)
+              .length > 0
+          ) {
+            Alert.alert("Sản phẩm đã tồn tại!");
+          } else setListProductAdded([...listProductAdded, newProduct]);
+        }
       }
     };
 
     handleAddToBill();
     // console.log(listProductAdded);
+    return () => {
+      mouted = false;
+    };
   }, [newProduct]);
   useEffect(() => {
     setParams({ listProductAdded: listProductAdded });

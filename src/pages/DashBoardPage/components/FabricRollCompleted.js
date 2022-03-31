@@ -4,12 +4,12 @@ import { Text, Icon } from 'react-native-elements';
 import {formattedValue} from "../../../utils/formatNumber";
 import billApi from "../../../api/billApi";
 
-const FabricRollCompleted = () => {
-  const [fabricrollcompletedTotal, setFabricRollCompletedTotal] = useState([]);
+const FabricRollCompleted = (props) => {
+  const [fabricrollcompletedTotal, setFabricRollCompletedTotal] = useState();
   useEffect(() => {
     const fetchFabricRollCompletedTotal = async () => {
         try {
-          const response = await billApi.getFabricRollBillCompleted();
+          const response = await billApi.getFabricRollBillCompleted(props.date.toISOString().slice(0, 10));
           console.log(response);
           setFabricRollCompletedTotal(response);
         }catch (error) {
@@ -17,7 +17,7 @@ const FabricRollCompleted = () => {
         }
     }
     fetchFabricRollCompletedTotal();
-  }, []);
+  }, [props.date]);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>

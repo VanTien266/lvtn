@@ -7,13 +7,18 @@ import billApi from "../../api/billApi";
 const BillDetail = ({ route, navigation }) => {
   const { billId } = route.params;
   const [bill, setBill] = useState({});
-
   useEffect(() => {
+    let mouted = true;
     const fetchOrder = async () => {
-      const response = await billApi.getOne(billId);
-      setBill(response);
+      if (mouted) {
+        const response = await billApi.getOne(billId);
+        setBill(response);
+      }
     };
     fetchOrder();
+    return () => {
+      mouted = false;
+    };
   }, [billId]);
 
   const data = [

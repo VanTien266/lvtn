@@ -1,26 +1,43 @@
 import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
-import { HStack, Box, FlatList } from "native-base";
+import { HStack, Box, FlatList ,Button} from "native-base";
 import productApi from "../../../api/productApi";
 import Item from "./Item";
+import { useNavigation } from "@react-navigation/native";
 
 const ItemList = (props) => {
   const { listFabricId } = props;
   const [listFabric, setListfabric] = useState([]);
+  const navigation=useNavigation();
 
   useEffect(() => {
+    let mounted=true;
     const fetchFabricRollOfBill = async (listId) => {
       const response = await productApi.getListOfBill({ ids: listId });
       setListfabric(response);
     };
 
     fetchFabricRollOfBill(listFabricId);
+
+    return ()=>mounted=false;
   }, [listFabricId]);
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Sản phẩm</Card.Title>
+      {listFabric?.length > 10 && (
+        <Button
+          variant="link"
+          onPress={() =>
+            navigation.navigate("bill-product-detail", {
+              listFabric: listFabric,
+            })
+          }
+        >
+          Chi tiết
+        </Button>
+      )}
       <HStack space={1} justifyContent="center" style={styles.header}>
         <Box flex={2} _text={{ fontWeight: "bold", fontSize: "md" }}>
           STT
@@ -41,7 +58,7 @@ const ItemList = (props) => {
       </HStack>
       {listFabric && (
         <FlatList
-          data={listFabric}
+          data={listFabric.slice(0,10)}
           renderItem={({ item, index }) => (
             <Item item={item} index={index + 1} />
           )}

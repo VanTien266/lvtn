@@ -15,6 +15,10 @@ import ScanBarCode from "../pages/ExportBill/components/ScanBarCode";
 import ReviewBill from "../pages/ReviewBill/ReviewBill";
 import billApi from "../api/billApi";
 import orderApi from "../api/orderApi";
+import StatusDetail from "../pages/OrderDetail/components/StatusDetail";
+import ItemListDetail from "../pages/OrderDetail/components/ItemListDetail";
+import BillStatusDetail from "../pages/BillDetail/components/BillStatusDetail";
+import BillProductDetail from "../pages/BillDetail/components/BillProductDetail";
 
 const OrderStack = createStackNavigator();
 
@@ -31,6 +35,7 @@ const OrderStackNavigation = () => {
         component={OrderList}
         options={({ navigation }) => ({
           title: "Danh sách đơn đặt hàng",
+          headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
               <TouchableOpacity
@@ -78,6 +83,26 @@ const OrderStackNavigation = () => {
             </Button>
           ),
         })}
+      />
+      <OrderStack.Screen
+        name="status-detail"
+        component={StatusDetail}
+        options={() => ({ title: "Chi tiết trạng thái" })}
+      />
+      <OrderStack.Screen
+        name="product-detail"
+        component={ItemListDetail}
+        options={() => ({ title: "Chi tiết các sản phẩm" })}
+      />
+            <OrderStack.Screen
+        name="bill-status-detail"
+        component={BillStatusDetail}
+        options={() => ({ title: "Chi tiết trạng thái" })}
+      />
+      <OrderStack.Screen
+        name="bill-product-detail"
+        component={BillProductDetail}
+        options={() => ({ title: "Chi tiết các sản phẩm" })}
       />
       <OrderStack.Screen
         name="scan-barcode"
