@@ -148,7 +148,7 @@ export default function DashBoard() {
             </View>
 
             <View style={styles.chartbillstatus}>
-              {/* <ChartBillStatus date={date} /> */}
+              <ChartBillStatus date={date} />
             </View>
           </>
         }
