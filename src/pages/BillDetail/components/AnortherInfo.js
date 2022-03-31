@@ -7,7 +7,6 @@ import moment from "moment";
 
 const AnortherInfo = (props) => {
   const { bill } = props;
-
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Thông tin khác</Card.Title>

@@ -43,6 +43,7 @@ const ListBill = (props) => {
             size={"xs"}
             flex={2.5}
             variant="ghost"
+            colorScheme="light"
             bg="transparent"
             color="gray.100"
           >
@@ -67,7 +68,7 @@ const ListBill = (props) => {
           Mã hóa đơn
         </Text>
         <Text fontSize={"sm"} flex={3.5}>
-          Ngày xuát
+          Ngày xuất
         </Text>
         <Text fontSize={"sm"} flex={2.5}>
           Sản phẩm

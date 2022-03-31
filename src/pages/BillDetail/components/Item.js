@@ -10,8 +10,8 @@ const Item = (props) => {
 
   const FabricRoll = ({ item, index }) => {
     return (
-      <HStack space={1}>
-        <Box flex={2}>{index}</Box>
+      <HStack space={1} >
+        <Box flex={2}> </Box>
         <Box flex={2}>{item.item.colorCode}</Box>
         <Box flex={3}>{item.lot}</Box>
         <Box flex={4}>{formattedValue(item.length)}</Box>
@@ -27,11 +27,14 @@ const Item = (props) => {
 
   return (
     <>
-      <HStack style={styles.titleRow}>
-        <Box flex={2} _text={{ fontWeight: "bold" }}>
-          {item[0].item.name}
+      <HStack style={styles.titleRow} px={1}>
+      <Box flex={1} _text={{ fontWeight: "bold" }}>
+          {index}
         </Box>
         <Box flex={3} _text={{ fontWeight: "bold" }}>
+          {item[0].item.name}
+        </Box>
+        <Box flex={2} _text={{ fontWeight: "bold" }}>
           {item.length}
         </Box>
         <TouchableOpacity flex={1} onPress={() => setExpand(!expand)}>
