@@ -33,6 +33,15 @@ const CreateOrder = () => {
     setListType(await productApi.getFullListType());
     setListColorcode(await productApi.getListColorcode());
   }, []);
+  const listProductCode = new Map();
+  if (listType.length > 0) {
+    for (let i = 0; i < listType.length; i++)
+      for (let j = 0; j < listColorcode.length; j++)
+        listProductCode.set(
+          listType[i].id + listColorcode[j].code,
+          listType[i].name + " " + listColorcode[j].name
+        );
+  }
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
@@ -94,7 +103,7 @@ const CreateOrder = () => {
         </HStack>
         <HStack space={2}>
           <FormControl w="3/4" isRequired>
-            <FormControl.Label>Màu vải</FormControl.Label>
+            <FormControl.Label>Chiều dài</FormControl.Label>
             <Input
               placeholder="Chiều dài"
               value={product.length}
@@ -127,14 +136,23 @@ const CreateOrder = () => {
           <Modal.Content maxWidth="350" maxH="212">
             <Modal.CloseButton />
             <Modal.Header>Danh sách sản phẩm</Modal.Header>
+            <HStack justifyContent="space-between" pl={2}>
+              <Box flex={1}>STT</Box>
+              <Box flex={2}>Mã</Box>
+              <Box flex={3}>Tên</Box>
+              <Box flex={2}>Chiều dài</Box>
+            </HStack>
             <FlatList
               data={listProduct}
               renderItem={({ item, index }) => (
-                <Flex direction="row">
-                  <Box>{item.type}</Box>
-                  <Box>{item.color}</Box>
-                  <Box>{item.length}</Box>
-                </Flex>
+                <HStack justifyContent="space-between" pl={2}>
+                  <Box flex={1}>{index + 1}</Box>
+                  <Box flex={2}>{item.type + item.color}</Box>
+                  <Box flex={3}>
+                    {listProductCode.get(item.type + item.color)}
+                  </Box>
+                  <Box flex={2}>{item.length}</Box>
+                </HStack>
               )}
               keyExtractor={(item, index) => index + item.type + item.color}
             />
@@ -142,11 +160,11 @@ const CreateOrder = () => {
         </Modal>
         <FormControl>
           <FormControl.Label>Người nhận</FormControl.Label>
-          <Input placeholder={user.name} />
+          <Input placeholder={user?.name} />
           <FormControl.Label>SĐT người nhận</FormControl.Label>
-          <Input placeholder={user.phone} />
+          <Input placeholder={user?.phone} />
           <FormControl.Label>Địa chỉ người nhận</FormControl.Label>
-          <Input placeholder={user.address} />
+          <Input placeholder={user?.address} />
           <FormControl.Label>Đặt cọc</FormControl.Label>
           <Input placeholder="Đặt cọc" />
         </FormControl>

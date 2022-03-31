@@ -31,6 +31,9 @@ const ChartBillStatus = (props) => {
   }, [props.date]);
   const CountBill = [];
   const length = billstatus.length;
+  let completedBill;
+  let exportedBill;
+  let failedBill;
   if (length ===  1) {
     if (billstatus[0]._id === 'completed') {
       completedBill = billstatus[0].lastStatusBill;

@@ -1,14 +1,29 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Card } from "react-native-elements";
+import { Button } from "native-base";
 import Item from "./Item";
+import { useNavigation } from "@react-navigation/native";
 
 const ItemList = (props) => {
   const { products } = props;
+  const navigation = useNavigation();
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Sản phẩm</Card.Title>
+      {products?.length > 10 && (
+        <Button
+          variant="link"
+          onPress={() =>
+            navigation.navigate("product-detail", {
+              products: products,
+            })
+          }
+        >
+          Chi tiết
+        </Button>
+      )}
       <View>
         <View style={styles.headerContainer}>
           <Text style={styles.headerCell}>STT</Text>
@@ -19,7 +34,7 @@ const ItemList = (props) => {
         </View>
         {products && (
           <FlatList
-            data={products}
+            data={products.slice(0, 10)}
             renderItem={({ item, index }) => (
               <Item item={item} index={index + 1} />
             )}

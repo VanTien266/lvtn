@@ -2,14 +2,12 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
-import { Button } from "native-base";
 import moment from "moment";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useNavigation } from "@react-navigation/native";
 
-const Status = (props) => {
-  const { billStatus } = props;
-  const navigation=useNavigation()
+const BillStatusDetail = ({ naviagtion, route }) => {
+  const { billStatus } = route.params;
+  console.log(route.params.billStatus);
 
   let status = [];
   let counter = 0;
@@ -86,37 +84,26 @@ const Status = (props) => {
 
   return (
     <Card style={styles.container} containerStyle={{ marginHorizontal: 0 }}>
-      <Card.Title>Trạng thái</Card.Title>
-      {billStatus?.length > 3 && (
-        <Button
-          variant="link"
-          onPress={() =>
-            navigation.navigate("bill-status-detail", {
-              billStatus: billStatus,
-            })
-          }
-        >
-          Chi tiết
-        </Button>
-      )}
-      <Timeline
-        data={status.slice(status.length-3,status.length)}
-        circleColor="#B4B4C1"
-        lineColor="#B4B4C1"
-        descriptionStyle={styles.description}
-        detailContainerStyle={{
-          backgroundColor: "#F6F6F8",
-          paddingLeft: 10,
-          marginBottom: 5,
-          borderRadius: 5,
-        }}
-        innerCircle="icon"
-      />
+      <View style={{ height: "100%" }}>
+        <Timeline
+          data={status}
+          circleColor="#B4B4C1"
+          lineColor="#B4B4C1"
+          descriptionStyle={styles.description}
+          detailContainerStyle={{
+            backgroundColor: "#F6F6F8",
+            paddingLeft: 10,
+            marginBottom: 5,
+            borderRadius: 5,
+          }}
+          innerCircle="icon"
+        />
+      </View>
     </Card>
   );
 };
 
-export default Status;
+export default BillStatusDetail;
 
 const styles = StyleSheet.create({
   container: {
