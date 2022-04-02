@@ -25,7 +25,7 @@ const orderApi = {
     return axiosClient.get(url);
   },
   getOrderStatus: (date) => {
-    const url= `/getorderstatus?date=${date}`;
+    const url = `/getorderstatus?date=${date}`;
     return axiosClient.get(url);
   },
   getProducts: (orderId) => {
@@ -37,8 +37,12 @@ const orderApi = {
     return axiosClient.put(url, data);
   },
   cancleStatus: (orderId) => {
-    const url = `order/cancle-status/${orderId}`;
+    const url = `/order/cancle-status/${orderId}`;
     return axiosClient.put(url);
+  },
+  create: (data) => {
+    const url = "/order/create";
+    return axiosClient.post(url, data);
   },
 };
 export default orderApi;
