@@ -46,10 +46,10 @@ const CreateOrder = () => {
     if (mounted) {
       setOrder({
         ...order,
-        receiverName: user.name,
-        receiverPhone: user.phone,
-        receiverAddress: user.address,
-        clientID: user._id,
+        receiverName: user?.name,
+        receiverPhone: user?.phone,
+        receiverAddress: user?.address,
+        clientID: user?._id,
       });
     }
     return () => {

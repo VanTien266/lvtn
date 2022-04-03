@@ -44,5 +44,9 @@ const orderApi = {
     const url = "/order/create";
     return axiosClient.post(url, data);
   },
+  getOrderIdByCustomer: (id) => {
+    const url = `/order/customer/${id}`;
+    return axiosClient.get(url);
+  },
 };
 export default orderApi;

@@ -1,15 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import SupportList from "../pages/Support/SupportList";
+import SupportList from "../pages/User/SupportList/SupportList";
 import ReplySupport from "../pages/ReplySupport/ReplySupport";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import CreateRequest from "../pages/Support/CreateRequest";
+import CreateRequest from "../pages/User/SupportList/CreateRequest";
 
 const SupportStack = createStackNavigator();
 
 export default function SupportStackNavigation() {
   return (
-    <SupportStack.Navigator>
+    <SupportStack.Navigator initialRouteName="support-list">
       <SupportStack.Screen
         name="support-list"
         component={SupportList}

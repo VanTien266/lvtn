@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,14 +6,25 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Button, TextArea } from "native-base";
+import { Button, TextArea, useToast } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import supportApi from "../../api/supportApi";
 
 export default function ReplySupport({ route, navigation }) {
   const { item } = route.params;
-
+  const [response, setResponse] = useState("");
   const { role } = useSelector((state) => state.session);
+  const toast = useToast();
+
+  const handleResponse = () => {
+    supportApi.response({ _id: item._id, content: response });
+    toast.show({
+      title: "Đã gửi",
+      placement: "bottom",
+    });
+    navigation.navigate("support-list");
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoRow}>
@@ -47,15 +58,18 @@ export default function ReplySupport({ route, navigation }) {
         <View style={styles.replyInpBox}>
           <TextArea
             placeholder={item?.response}
-            isDisabled={role === "USER" || role === "GUEST"}
+            isDisabled={item.status || role === "USER" || role === "GUEST"}
+            onChangeText={(value) => setResponse(value)}
           />
         </View>
       </View>
       <View style={styles.infoRow}>
         <View style={{ flex: 8 }}></View>
-        <Button style={styles.confirmBtn}>
-          <Text style={styles.btnTitle}>Xác nhận</Text>
-        </Button>
+        {role === "SALESMAN" && (
+          <Button style={styles.confirmBtn} onPress={() => handleResponse()}>
+            <Text style={styles.btnTitle}>Xác nhận</Text>
+          </Button>
+        )}
       </View>
     </ScrollView>
   );
