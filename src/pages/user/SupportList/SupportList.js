@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Button } from "native-base";
-import supportApi from "../../api/supportApi";
+import supportApi from "../../../api/supportApi";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
