@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
+import { Button } from "native-base";
+import supportApi from "../../api/supportApi";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -14,6 +16,19 @@ const wait = (timeout) => {
 
 export default function SupportList({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
+  const [listSupportReq, setListSupportReq] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const getListSupportReq = async () => {
+      const response = await supportApi.getAll();
+      setListSupportReq(response);
+    };
+    if (mounted) {
+      getListSupportReq();
+    }
+    return () => (mounted = false);
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -28,6 +43,9 @@ export default function SupportList({ navigation }) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
+      <Button onPress={() => navigation.navigate("create-request")}>
+        Gửi yêu cầu
+      </Button>
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.headerText}>Đơn đặt hàng</Text>
@@ -39,20 +57,24 @@ export default function SupportList({ navigation }) {
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.orderItem}
-        onPress={() => navigation.push("support-reply")}
-      >
-        <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-          <Text style={styles.orderItemText}>MHĐ13567</Text>
-        </View>
-        <View style={[styles.verticalCenter, { flex: 5 }]}>
-          <Text style={styles.orderItemText}>Trần Trọng Nghĩa</Text>
-        </View>
-        <View style={[styles.verticalCenter, { flex: 3 }]}>
-          <Text style={styles.orderItemText}>0123456789</Text>
-        </View>
-      </TouchableOpacity>
+      {listSupportReq &&
+        listSupportReq.map((item, index) => (
+          <TouchableOpacity
+            style={styles.orderItem}
+            onPress={() => navigation.push("support-reply", { item: item })}
+            key={index}
+          >
+            <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
+              <Text style={styles.orderItemText}>MHĐ{item?.order.orderId}</Text>
+            </View>
+            <View style={[styles.verticalCenter, { flex: 5 }]}>
+              <Text style={styles.orderItemText}>{item?.customer.name}</Text>
+            </View>
+            <View style={[styles.verticalCenter, { flex: 3 }]}>
+              <Text style={styles.orderItemText}>{item?.customer.phone}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
     </ScrollView>
   );
 }

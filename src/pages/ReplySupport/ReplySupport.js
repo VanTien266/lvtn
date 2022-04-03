@@ -5,12 +5,15 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  TextInput
 } from "react-native";
-import { Button } from "native-base";
+import { Button, TextArea } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
-export default function ReplySupport({ navigation }) {
+export default function ReplySupport({ route, navigation }) {
+  const { item } = route.params;
+
+  const { role } = useSelector((state) => state.session);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoRow}>
@@ -18,7 +21,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Mã đơn đặt hàng: </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.infoValue}>MĐH1234</Text>
+          <Text style={styles.infoValue}>MHĐ{item?.order.orderId}</Text>
         </View>
       </View>
       <View style={styles.infoRow}>
@@ -26,7 +29,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Tên khách hàng: </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.infoValue}>Trần Trọng Nghĩa</Text>
+          <Text style={styles.infoValue}>{item?.customer.name}</Text>
         </View>
       </View>
       <View style={styles.support}>
@@ -34,9 +37,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Nội dung cần hỗ trợ: </Text>
         </View>
         <View>
-          <Text style={styles.supportContent}>
-            Nhân viên có thái độ không tốt đề nghị xem xét lại
-          </Text>
+          <Text style={styles.supportContent}>{item?.request}</Text>
         </View>
       </View>
       <View style={styles.reply}>
@@ -44,7 +45,10 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.replyTitle}>Phản hồi: </Text>
         </View>
         <View style={styles.replyInpBox}>
-          <TextInput editable numberOfLines={8} multiline />
+          <TextArea
+            placeholder={item?.response}
+            isDisabled={role === "USER" || role === "GUEST"}
+          />
         </View>
       </View>
       <View style={styles.infoRow}>
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
   },
   supportContent: {
     marginTop: 10,
-    paddingLeft: 5,
+    // paddingLeft: 5,
     color: "#000040",
     fontWeight: "500",
     fontSize: 14,

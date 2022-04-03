@@ -3,6 +3,7 @@ import SupportList from "../pages/Support/SupportList";
 import ReplySupport from "../pages/ReplySupport/ReplySupport";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import CreateRequest from "../pages/Support/CreateRequest";
 
 const SupportStack = createStackNavigator();
 
@@ -32,6 +33,13 @@ export default function SupportStackNavigation() {
         component={ReplySupport}
         options={{
           title: "Phản hồi yêu cầu hỗ trợ",
+        }}
+      ></SupportStack.Screen>
+      <SupportStack.Screen
+        name="create-request"
+        component={CreateRequest}
+        options={{
+          title: "Tạo yêu cầu hỗ trợ",
         }}
       ></SupportStack.Screen>
     </SupportStack.Navigator>
