@@ -6,5 +6,3 @@ const Account = () => {
 };
 
 export default Account;
-
-// const styles = StyleSheet.create({});
