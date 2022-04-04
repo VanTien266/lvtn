@@ -19,7 +19,6 @@ const ChartTopProduct = (props) => {
         const response = await billApi.getBillFabricTypeSell(
           props.date.toISOString().slice(0, 10)
         );
-        console.log(response);
         setFabricTypeSell(response);
       } catch (error) {
         console.log("Failed to fetch fabric type sell", error);
@@ -56,7 +55,6 @@ const ChartTopProduct = (props) => {
               }}
               width={Dimensions.get("window").width - 16}
               height={220}
-              // yAxisLabel={'Rs'}
               chartConfig={{
                 backgroundColor: "#1cc910",
                 backgroundGradientFrom: "#eff3ff",

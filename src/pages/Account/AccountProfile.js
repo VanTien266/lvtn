@@ -5,9 +5,6 @@ import {
   Text,
   View,
   Image,
-  Icon,
-  Button,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 

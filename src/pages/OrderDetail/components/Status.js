@@ -15,7 +15,6 @@ const Status = (props) => {
   const fetchOrderDetail = async () => {
     const response = await orderApi.getOne(orderId);
     setOrder(response);
-    // console.log(response);
   };
 
   useEffect(() => {
@@ -46,7 +45,6 @@ const Status = (props) => {
         cỉcleDotStyle = "#CDAB34";
         break;
       case "processing":
-        console.log(detailBill[Math.floor(index / 2)]);
         title = "Đang xử lý";
         description = `Đang xử lý đơn hàng MHD${
           detailBill[Math.floor(index / 2)].billID

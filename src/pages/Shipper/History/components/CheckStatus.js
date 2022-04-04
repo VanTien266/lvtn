@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
 import moment from "moment";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Input, Icon } from "native-base";
 
 export default function WareHouseList({ navigation }) {
   return (

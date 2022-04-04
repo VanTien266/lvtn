@@ -1,4 +1,3 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CreateOrder from "../pages/User/Product/CreateOrder";

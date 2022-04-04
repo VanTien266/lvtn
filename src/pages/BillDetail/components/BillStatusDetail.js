@@ -7,7 +7,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const BillStatusDetail = ({ naviagtion, route }) => {
   const { billStatus } = route.params;
-  console.log(route.params.billStatus);
 
   let status = [];
   let counter = 0;
@@ -30,8 +29,8 @@ const BillStatusDetail = ({ naviagtion, route }) => {
           title = "Đang vận chyển";
           description = "Hóa đơn bạn đang được vận chuyển";
         } else {
-          title = `Đang vận chyển lần ${counter+1}`;
-          description = ` Hóa đơn bạn đang được vận chuyển lần ${counter+1}`;
+          title = `Đang vận chyển lần ${counter + 1}`;
+          description = ` Hóa đơn bạn đang được vận chuyển lần ${counter + 1}`;
         }
         descStyle = styles.shipping;
         cỉcleDotStyle = "#747FFF";
@@ -50,8 +49,10 @@ const BillStatusDetail = ({ naviagtion, route }) => {
           description = `Đơn hàng vận chuyển thất bại\nTiến hành hoàn kho`;
         } else {
           counter += 1;
-          title = `Tái vận chuyển lần ${counter+1}`;
-          description = `Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần ${counter+1}\n Lý do: ${item.reason}`;
+          title = `Tái vận chuyển lần ${counter + 1}`;
+          description = `Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần ${
+            counter + 1
+          }\n Lý do: ${item.reason}`;
         }
         descStyle = styles.failed;
         cỉcleDotStyle = "#BD2C2C";

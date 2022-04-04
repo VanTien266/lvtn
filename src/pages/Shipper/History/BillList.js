@@ -1,4 +1,3 @@
-import { Box, Flex } from "native-base";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,

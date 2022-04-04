@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
@@ -30,7 +30,6 @@ const StatusDetail = ({ route }) => {
         cỉcleDotStyle = "#CDAB34";
         break;
       case "processing":
-        console.log(detailBill[Math.floor(index / 2)]);
         title = "Đang xử lý";
         description = `Đang xử lý đơn hàng MHD${
           detailBill[Math.floor(index / 2)].billID
