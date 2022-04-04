@@ -30,7 +30,6 @@ const CustomerInfo = (props) => {
             <Icon name="place" color="#000040" size={24} style={styles.icon} />
             <Flex>
               <Text>{order.clientID?.address}</Text>
-              {/* <Text>Đông Hòa - Dĩ An -Bình Dương</Text> */}
             </Flex>
           </Flex>
           <Flex flexDirection="row" alignItems="center">

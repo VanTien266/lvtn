@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
 import {
@@ -106,7 +106,6 @@ const CreateOrder = () => {
     }
   };
   const handleCreateOrder = async (newOrder) => {
-    console.log(newOrder);
     const res = orderApi.create(newOrder);
     if (res) {
       toast.show({

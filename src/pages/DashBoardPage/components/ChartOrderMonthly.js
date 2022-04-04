@@ -19,7 +19,6 @@ const ChartOrderMonthly = (props) => {
         const response = await orderApi.countOrderDailyMonthly(
           props.date.toISOString().slice(0, 10)
         );
-        console.log(response);
         setOrderStatus(response);
       } catch (error) {
         console.log("Failed to order daily monthly", error);
@@ -73,7 +72,9 @@ const ChartOrderMonthly = (props) => {
             />
           ) : (
             <View style={styles.noDataContainer}>
-              <Text style={{fontSize: 16, fontWeight: "bold" }}>Không có dữ liệu để hiển thị</Text>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                Không có dữ liệu để hiển thị
+              </Text>
             </View>
           )}
         </View>

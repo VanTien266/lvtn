@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
-import { HStack, Box, FlatList ,Button} from "native-base";
+import { HStack, Box, FlatList, Button } from "native-base";
 import productApi from "../../../api/productApi";
 import Item from "./Item";
 import { useNavigation } from "@react-navigation/native";
@@ -9,18 +9,19 @@ import { useNavigation } from "@react-navigation/native";
 const ItemList = (props) => {
   const { listFabricId } = props;
   const [listFabric, setListfabric] = useState([]);
-  const navigation=useNavigation();
+  const navigation = useNavigation();
 
   useEffect(() => {
-    let mounted=true;
+    let mounted = true;
     const fetchFabricRollOfBill = async (listId) => {
       const response = await productApi.getListOfBill({ ids: listId });
       setListfabric(response);
     };
+    if (mounted) {
+      fetchFabricRollOfBill(listFabricId);
+    }
 
-    fetchFabricRollOfBill(listFabricId);
-
-    return ()=>mounted=false;
+    return () => (mounted = false);
   }, [listFabricId]);
 
   return (
@@ -58,7 +59,7 @@ const ItemList = (props) => {
       </HStack>
       {listFabric && (
         <FlatList
-          data={listFabric.slice(0,10)}
+          data={listFabric.slice(0, 10)}
           renderItem={({ item, index }) => (
             <Item item={item} index={index + 1} />
           )}

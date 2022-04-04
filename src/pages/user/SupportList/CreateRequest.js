@@ -1,17 +1,13 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
 import {
   Select,
   FormControl,
-  Box,
   CheckIcon,
   HStack,
-  Input,
   VStack,
   Button,
-  Modal,
-  FlatList,
   TextArea,
   useToast,
 } from "native-base";

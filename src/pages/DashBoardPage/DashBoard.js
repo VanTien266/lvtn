@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  Platform
+  Platform,
 } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -25,22 +25,21 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 export default function DashBoard() {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
-  const [mode, setMode] = useState('date');
-  console.log("date today", date);
+  const [mode, setMode] = useState("date");
 
-  const showMode = currentMode => {
+  const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
   };
 
   const onChange = (event, value) => {
     const currentDate = value || date;
-    setShow(Platform.OS === "ios")
+    setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
 
   const showDatepicker = () => {
-    showMode('date');
+    showMode("date");
   };
 
   let year = date.getFullYear();
@@ -221,7 +220,6 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    // margin: 5,
   },
   title: {
     flex: 1,
@@ -250,6 +248,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   iconDatePicker: {
-    flex:1,
-  }
+    flex: 1,
+  },
 });

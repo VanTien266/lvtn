@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Button, TextArea, useToast } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import supportApi from "../../api/supportApi";
 
@@ -94,7 +87,6 @@ const styles = StyleSheet.create({
   },
   supportContent: {
     marginTop: 10,
-    // paddingLeft: 5,
     color: "#000040",
     fontWeight: "500",
     fontSize: 14,

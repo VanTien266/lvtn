@@ -30,7 +30,7 @@ const OrderList = ({ navigation }) => {
   };
 
   //refresh page
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -49,6 +49,7 @@ const OrderList = ({ navigation }) => {
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
+
   useEffect(() => {
     fetchListOrder();
   }, []);

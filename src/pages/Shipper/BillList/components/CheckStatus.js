@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Box, Flex, Radio, Icon, TextArea, Button } from "native-base";
 import { Card } from "react-native-elements";

@@ -5,9 +5,6 @@ import {
   Text,
   View,
   Image,
-  Icon,
-  Button,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 
@@ -17,7 +14,6 @@ import moment from "moment";
 
 const AccountProfile = ({ navigation }) => {
   const user = useSelector((state) => state.session).user;
-  console.log(user);
 
   return (
     <SafeAreaView style={styles.container}>

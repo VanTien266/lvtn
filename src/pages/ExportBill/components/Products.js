@@ -4,7 +4,6 @@ import { Card } from "react-native-elements";
 import { Flex, Input, Button } from "native-base";
 import ProductItem from "./ProductItem";
 import productApi from "../../../api/productApi";
-import checkProductExist from "../../../utils/exportBillValidator";
 
 const Products = (props) => {
   const { product, setParams, navigation, route } = props;
@@ -24,8 +23,6 @@ const Products = (props) => {
           ? product.map((item) => item.colorCode.colorCode)
           : [];
         if (listColorCode.includes(newProduct.colorCode)) {
-          console.log(listProductAdded);
-          console.log(newProduct);
           if (
             listProductAdded.filter((item) => item._id === newProduct._id)
               .length > 0
@@ -37,7 +34,6 @@ const Products = (props) => {
     };
 
     handleAddToBill();
-    // console.log(listProductAdded);
     return () => {
       mouted = false;
     };
