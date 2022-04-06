@@ -34,7 +34,6 @@ export default function OrderFilter({ navigation }) {
               item.orderStatus[item.orderStatus.length - 1].name ===
               statusFilter
           );
-          console.log(filterResult);
           setResult(filterResult);
         }
       } catch (error) {
@@ -46,12 +45,10 @@ export default function OrderFilter({ navigation }) {
 
   const showFromPicker = () => {
     setShowFromPickerDate(true);
-    console.log(showFromPickerDate);
   };
 
   const showToPicker = () => {
     setShowToPickerDate(true);
-    console.log(showToPickerDate);
   };
 
   const onChangeFromDate = (event, selectedDate) => {
@@ -304,6 +301,6 @@ const styles = StyleSheet.create({
   noResultTxt: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

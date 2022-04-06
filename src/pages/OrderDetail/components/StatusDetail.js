@@ -31,9 +31,12 @@ const StatusDetail = ({ route }) => {
         break;
       case "processing":
         title = "Đang xử lý";
-        description = `Đang xử lý đơn hàng MHD${
-          detailBill[Math.floor(index / 2)].billID
-        }`;
+        if (index === orderStatus.length - 1) {
+          description = "Nhân viên đang xử lý đơn đặt hàng";
+        } else
+          description = `Đang xử lý đơn hàng MHD${
+            detailBill[Math.floor(index / 2)].billID
+          }`;
         icon = <Icon name="hourglass-bottom" size={12} color="#fff" />;
         descStyle = styles.process;
         cỉcleDotStyle = "#747FFF";
