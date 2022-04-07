@@ -11,7 +11,7 @@ const wait = (timeout) => {
 const BillDetail = ({ route, navigation }) => {
   const { billId } = route.params;
   const [bill, setBill] = useState({});
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     let mouted = true;

@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { HStack, Box, FlatList } from "native-base";
+import { HStack, Box, FlatList, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formattedValue } from "../../../utils/formatNumber";
 
@@ -10,7 +10,7 @@ const Item = (props) => {
 
   const FabricRoll = ({ item, index }) => {
     return (
-      <HStack space={1} >
+      <HStack space={1}>
         <Box flex={2}> </Box>
         <Box flex={2}>{item.item.colorCode}</Box>
         <Box flex={3}>{item.lot}</Box>
@@ -28,15 +28,15 @@ const Item = (props) => {
   return (
     <>
       <HStack style={styles.titleRow} px={1}>
-      <Box flex={1} _text={{ fontWeight: "bold" }}>
+        <Box flex={1} _text={{ fontWeight: "bold" }}>
           {index}
         </Box>
         <Box flex={3} _text={{ fontWeight: "bold" }}>
           {item[0].item.name}
         </Box>
-        <Box flex={2} _text={{ fontWeight: "bold" }}>
-          {item.length}
-        </Box>
+        <Text flex={3} _text={{ fontWeight: "bold" }}>
+          {item.length} cây vải
+        </Text>
         <TouchableOpacity flex={1} onPress={() => setExpand(!expand)}>
           <Icon
             name={expand ? "expand-less" : "expand-more"}

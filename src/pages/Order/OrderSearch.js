@@ -21,7 +21,7 @@ export default function OrderSearch({ navigation }) {
     };
     fetchListOrder();
   }, []);
-  
+
   const searchOrder = (txtValue) => {
     setSearchTxt(txtValue);
     setResult([]);

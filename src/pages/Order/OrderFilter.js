@@ -36,7 +36,6 @@ export default function OrderFilter({ navigation }) {
               item.orderStatus[item.orderStatus.length - 1].name ===
               statusFilter
           );
-          console.log(filterResult);
           setResult(filterResult);
         }
       } catch (error) {
@@ -325,6 +324,6 @@ const styles = StyleSheet.create({
   noResultTxt: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

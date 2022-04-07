@@ -44,6 +44,7 @@ export default function DashBoard() {
 
   let year = date.getFullYear();
   let month = date.getUTCMonth() + 1;
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -54,7 +55,6 @@ export default function DashBoard() {
               <View style={styles.containerDateComponent}>
                 <View style={styles.pickedDateContainer}>
                   <Text style={styles.pickedDate}>
-                    {" "}
                     Tháng {month}, {year}{" "}
                   </Text>
                 </View>
@@ -162,12 +162,6 @@ const styles = StyleSheet.create({
   overview: {
     flex: 1,
     flexDirection: "row",
-    // position:'absolute',
-    // top: 0,
-    // bottom: 0,
-    // right: 0,
-    // left: 0,
-    // backgroundColor:"blue",
     padding: 5,
   },
   statistics: {
@@ -175,7 +169,6 @@ const styles = StyleSheet.create({
   },
   chartordermonthly: {
     flex: 1,
-    // backgroundColor: "red",
   },
   chartfabricwarehouse: {
     flex: 1,
