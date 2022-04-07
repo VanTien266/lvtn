@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Input, Icon } from "native-base";
 import {
   StyleSheet,
@@ -22,6 +22,8 @@ export default function OrderFilter({ navigation }) {
   const [showToPickerDate, setShowToPickerDate] = useState(false);
   const [result, setResult] = useState([]);
   const [listOrder, setListOrder] = useState([]);
+  const [mode, setMode] = useState("date");
+
 
   useEffect(() => {
     const fetchListOrder = async () => {
@@ -43,28 +45,48 @@ export default function OrderFilter({ navigation }) {
     fetchListOrder();
   }, [statusFilter]);
 
-  const showFromPicker = () => {
+  const getOrderbyRange = useEffect(() => {
+    const fetchListOrderbyDateRange = async () => {
+      try {
+        const response = await orderApi.getOrderByDateRange(fromDate, toDate);
+          setListOrder(response);
+          setResult(response);
+      } catch (error) {
+        console.log("Failed to fetch order list", error);
+      }
+    };
+    fetchListOrderbyDateRange();
+  }, [fromDate, toDate]);
+
+  const showModeFrom = (currentMode) => {
     setShowFromPickerDate(true);
+    setMode(currentMode);
+  };
+
+  const showModeTo = (currentMode) => {
+    setShowToPickerDate(true);
+    setMode(currentMode);
+  };
+
+  const showFromPicker = () => {
+    showModeFrom("date");
   };
 
   const showToPicker = () => {
-    setShowToPickerDate(true);
+    showModeTo("date");
   };
 
   const onChangeFromDate = (event, selectedDate) => {
-    const currentDate = selectedDate || fromDate;
-    setFromDate(currentDate);
-    if (Platform.OS === "android") {
-      setShowFromPickerDate(false);
-    }
+    const tempFromDate = selectedDate || fromDate;
+    setShowFromPickerDate(Platform.OS === "ios");
+    setFromDate(tempFromDate);
   };
 
   const onChangeToDate = (event, selectedDate) => {
-    const currentDate = selectedDate || toDate;
-    setToDate(currentDate);
-    if (Platform.OS === "android") {
-      setShowToPickerDate(false);
-    }
+    const tempToDate = selectedDate || toDate;
+    setShowToPickerDate(Platform.OS === "ios");
+    setToDate(tempToDate);
+    getOrderbyRange();
   };
 
   return (
@@ -155,17 +177,18 @@ export default function OrderFilter({ navigation }) {
         {showFromPickerDate && (
           <DateTimePicker
             value={fromDate}
-            mode="date"
-            display="calendar"
+            mode={"date"}
             onChange={onChangeFromDate}
+            display="default"
           />
         )}
         {showToPickerDate && (
           <DateTimePicker
             value={toDate}
-            mode="date"
-            display="calendar"
+            mode={"date"}
             onChange={onChangeToDate}
+            display="default"
+
           />
         )}
       </View>
