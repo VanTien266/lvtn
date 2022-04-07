@@ -4,6 +4,7 @@ import { Card } from "react-native-elements";
 import { Flex, Input, Button, useToast, Box } from "native-base";
 import ProductItem from "./ProductItem";
 import productApi from "../../../api/productApi";
+import validateProduct from "../../../utils/validateProduct";
 
 const Products = (props) => {
   const { product, setParams, navigation, route } = props;
@@ -11,6 +12,13 @@ const Products = (props) => {
   const [listProductAdded, setListProductAdded] = useState([]);
   const [newProduct, setNewProduct] = useState(null);
   const toast = useToast();
+
+  const newProducts = product
+    ?.map((item) => {
+      const status = validateProduct(item.length, item.shippedLength);
+      return { ...item, status };
+    })
+    .sort((a, b) => Number(a.status) - Number(b.status));
 
   useEffect(() => {
     setParams({ handleGetFabricInfo: handleGetFabricInfo });
@@ -20,8 +28,8 @@ const Products = (props) => {
     let mouted = true;
     const handleAddToBill = () => {
       if (mouted) {
-        const listColorCode = product
-          ? product.map((item) => item.colorCode.colorCode)
+        const listColorCode = newProducts
+          ? newProducts.map((item) => item.colorCode.colorCode)
           : [];
         if (newProduct)
           if (listColorCode.includes(newProduct.colorCode)) {
@@ -125,9 +133,9 @@ const Products = (props) => {
           <Text style={styles.headerCell}>Đã giao</Text>
           <Text style={styles.headerCell}>Còn lại</Text>
         </View>
-        {product && (
+        {newProducts && (
           <FlatList
-            data={product}
+            data={newProducts}
             renderItem={({ item, index }) => {
               const listAddedItem = listProductAdded?.filter(
                 (ele) => ele.colorCode === item.colorCode.colorCode

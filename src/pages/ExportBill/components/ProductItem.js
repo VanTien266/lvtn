@@ -12,6 +12,7 @@ const ProductItem = (props) => {
   if (listAddedItem.length > 0)
     listAddedItem.forEach((item) => (lengthAdded += item.length));
   const isDone = validateProduct(item.length, item.shippedLength + lengthAdded);
+
   return (
     <View
       style={[
