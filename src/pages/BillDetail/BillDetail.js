@@ -50,6 +50,8 @@ const BillDetail = ({ route, navigation }) => {
         return <AnortherInfo bill={bill} />;
     }
   };
+
+  console.log(bill);
   return (
     <View style={styles.container}>
       <FlatList
