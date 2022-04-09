@@ -31,7 +31,7 @@ const ItemList = (props) => {
         <Button
           variant="link"
           onPress={() =>
-            navigation.navigate("bill-product-detail", {
+            navigation.navigate("bill-product-pagination", {
               listFabric: listFabric,
             })
           }
