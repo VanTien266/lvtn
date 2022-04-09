@@ -28,6 +28,10 @@ const orderApi = {
     const url = `/getorderstatus?date=${date}`;
     return axiosClient.get(url);
   },
+  getOrderByDateRange: (from_date, to_date) => {
+    const url = `/getorderbydaterange?from_date=${from_date}&to_date=${to_date}`;
+    return axiosClient.get(url);
+  },
   getProducts: (orderId) => {
     const url = `/order/${orderId}/products`;
     return axiosClient.get(url);

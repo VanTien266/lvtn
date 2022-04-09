@@ -146,13 +146,6 @@ const ChartBillStatus = (props) => {
             <PieChart
               data={[
                 {
-                  name: "Hoàn tất",
-                  myCountBill: completedBill,
-                  color: "#4caf50",
-                  legendFontColor: "#4caf50",
-                  legendFontSize: 13,
-                },
-                {
                   name: "Đã xuất",
                   myCountBill: exportedBill,
                   color: "#f8ca00",
@@ -162,15 +155,22 @@ const ChartBillStatus = (props) => {
                 {
                   name: "Đang vận chuyển",
                   myCountBill: shippingBill,
-                  color: "#2196f3",
-                  legendFontColor: "#2196f3",
+                  color: "#F0622F",
+                  legendFontColor: "#F0622F",
+                  legendFontSize: 13,
+                },
+                {
+                  name: "Thành công",
+                  myCountBill: completedBill,
+                  color: "#4caf50",
+                  legendFontColor: "#4caf50",
                   legendFontSize: 13,
                 },
                 {
                   name: "Thất bại",
                   myCountBill: failedBill,
-                  color: "#f44336",
-                  legendFontColor: "#f44336",
+                  color: "#FF0000",
+                  legendFontColor: "#FF0000",
                   legendFontSize: 13,
                 },
               ]}
