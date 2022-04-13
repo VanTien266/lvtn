@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "react-native-paper";
 import { Provider as PaperProvider } from "react-native-paper";
 import { HStack, Box } from "native-base";
-import { StyleSheet } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import Item from "./Item";
 
-const numberOfItemsPerPageList = [10, 15, 20];
+const numberOfItemsPerPageList = [10, 15];
 
 const PaginatedItems = ({ route }) => {
   const { listFabric } = route.params;
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(numberOfItemsPerPageList[0]);
-  const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
+  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0]
   );
   const numberOfPages = Math.ceil(listFabric.length / numberOfItemsPerPage);
@@ -22,38 +21,34 @@ const PaginatedItems = ({ route }) => {
 
   return (
     <PaperProvider>
-      <DataTable>
-        <HStack space={1} justifyContent="center" style={styles.header}>
-          <Box flex={2} _text={{ fontWeight: "bold", fontSize: "md" }}>
+      <DataTable style={styles.container}>
+        <HStack style={styles.titleHeader} px={1}>
+          <Box flex={1} _text={{ fontWeight: "bold", fontSize: "md" }}>
             STT
           </Box>
-          <Box flex={2} _text={{ fontWeight: "bold", fontSize: "md" }}>
-            Mã
+          <Box flex={3} _text={{ fontWeight: "bold", fontSize: "md" }}>
+            Sản phẩm
           </Box>
           <Box flex={3} _text={{ fontWeight: "bold", fontSize: "md" }}>
-            Lô
+            Số cây vải
           </Box>
-          <Box flex={4} _text={{ fontWeight: "bold", fontSize: "md" }}>
-            Chiều dài
-          </Box>
-          <Box flex={5} _text={{ fontWeight: "bold", fontSize: "md" }}>
-            Đơn giá
-          </Box>
-          <Box flex={1}></Box>
+          <Box flex={1} _text={{ fontWeight: "bold", fontSize: "md" }}></Box>
         </HStack>
-        {listFabric
-          .slice(page * numberOfItemsPerPage, (page + 1) * numberOfItemsPerPage)
-          .map((item, index) => {
-            console.log("item", item);
-            return (
-              <Item
-                item={item}
-                key={page * numberOfItemsPerPage + index + 1}
-                index={page * numberOfItemsPerPage + index + 1}
-              />
-            );
-          })}
-
+        <FlatList
+          data={listFabric.slice(
+            page * numberOfItemsPerPage,
+            (page + 1) * numberOfItemsPerPage
+          )}
+          renderItem={({ item, index }) => (
+            <Item
+              item={item}
+              index={page * numberOfItemsPerPage + index + 1}
+              style={styles.itemStyle}
+            />
+          )}
+          keyExtractor={(item, index) => index}
+          style={styles.body}
+        />
         <DataTable.Pagination
           page={page}
           numberOfPages={numberOfPages}
@@ -64,6 +59,7 @@ const PaginatedItems = ({ route }) => {
           numberOfItemsPerPage={numberOfItemsPerPage}
           onItemsPerPageChange={onItemsPerPageChange}
           selectPageDropdownLabel={"Rows per page"}
+          style={styles.pagination}
         />
       </DataTable>
     </PaperProvider>
@@ -72,5 +68,8 @@ const PaginatedItems = ({ route }) => {
 export default PaginatedItems;
 
 const styles = StyleSheet.create({
-  header: { paddingHorizontal: 5, backgroundColor: "#B4B4C1" },
+  titleHeader: { backgroundColor: "#B4B4C1" },
+  container: { display: "flex", height: "100%" },
+  body: { flexGrow: 1 },
+  itemStyle: { paddingVertical: 5 },
 });
