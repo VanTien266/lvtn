@@ -5,7 +5,7 @@ import { HStack, Box } from "native-base";
 import { StyleSheet, FlatList } from "react-native";
 import Item from "./Item";
 
-const numberOfItemsPerPageList = [10, 15, 20];
+const numberOfItemsPerPageList = [10, 15];
 
 const PaginatedItems = ({ route }) => {
   const { listFabric } = route.params;
@@ -21,7 +21,7 @@ const PaginatedItems = ({ route }) => {
 
   return (
     <PaperProvider>
-      <DataTable>
+      <DataTable style={styles.container}>
         <HStack style={styles.titleHeader} px={1}>
           <Box flex={1} _text={{ fontWeight: "bold", fontSize: "md" }}>
             STT
@@ -40,9 +40,14 @@ const PaginatedItems = ({ route }) => {
             (page + 1) * numberOfItemsPerPage
           )}
           renderItem={({ item, index }) => (
-            <Item item={item} index={index + 1} />
+            <Item
+              item={item}
+              index={page * numberOfItemsPerPage + index + 1}
+              style={styles.itemStyle}
+            />
           )}
           keyExtractor={(item, index) => index}
+          style={styles.body}
         />
         <DataTable.Pagination
           page={page}
@@ -54,6 +59,7 @@ const PaginatedItems = ({ route }) => {
           numberOfItemsPerPage={numberOfItemsPerPage}
           onItemsPerPageChange={onItemsPerPageChange}
           selectPageDropdownLabel={"Rows per page"}
+          style={styles.pagination}
         />
       </DataTable>
     </PaperProvider>
@@ -63,4 +69,7 @@ export default PaginatedItems;
 
 const styles = StyleSheet.create({
   titleHeader: { backgroundColor: "#B4B4C1" },
+  container: { display: "flex", height: "100%" },
+  body: { flexGrow: 1 },
+  itemStyle: { paddingVertical: 5 },
 });

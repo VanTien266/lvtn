@@ -39,23 +39,17 @@ const ItemList = (props) => {
           Chi tiết
         </Button>
       )}
-      <HStack space={1} justifyContent="center" style={styles.header}>
-        <Box flex={2} _text={{ fontWeight: "bold", fontSize: "md" }}>
+      <HStack style={styles.titleHeader} px={1}>
+        <Box flex={1} _text={{ fontWeight: "bold", fontSize: "md" }}>
           STT
         </Box>
-        <Box flex={2} _text={{ fontWeight: "bold", fontSize: "md" }}>
-          Mã
+        <Box flex={3} _text={{ fontWeight: "bold", fontSize: "md" }}>
+          Sản phẩm
         </Box>
         <Box flex={3} _text={{ fontWeight: "bold", fontSize: "md" }}>
-          Lô
+          Số cây vải
         </Box>
-        <Box flex={4} _text={{ fontWeight: "bold", fontSize: "md" }}>
-          Chiều dài
-        </Box>
-        <Box flex={5} _text={{ fontWeight: "bold", fontSize: "md" }}>
-          Đơn giá
-        </Box>
-        <Box flex={1}></Box>
+        <Box flex={1} _text={{ fontWeight: "bold", fontSize: "md" }}></Box>
       </HStack>
       {listFabric && (
         <FlatList
@@ -73,5 +67,5 @@ const ItemList = (props) => {
 export default ItemList;
 
 const styles = StyleSheet.create({
-  header: { paddingHorizontal: 5, backgroundColor: "#B4B4C1" },
+  titleHeader: { backgroundColor: "#B4B4C1" },
 });

@@ -4,8 +4,9 @@ import { HStack, Box, FlatList, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formattedValue } from "../../../utils/formatNumber";
 
+const ROW_HEIGHT = 40;
 const Item = (props) => {
-  const { item, index } = props;
+  const { item, index, style } = props;
   const [expand, setExpand] = useState(false);
 
   const FabricRoll = ({ item, index }) => {
@@ -45,7 +46,7 @@ const Item = (props) => {
 
   return (
     <>
-      <HStack style={styles.titleRow} px={1}>
+      <HStack style={style} px={1}>
         <Box flex={1} _text={{ fontWeight: "bold" }}>
           {index}
         </Box>

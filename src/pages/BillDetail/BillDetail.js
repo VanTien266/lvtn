@@ -51,7 +51,6 @@ const BillDetail = ({ route, navigation }) => {
     }
   };
 
-  console.log(bill);
   return (
     <View style={styles.container}>
       <FlatList
