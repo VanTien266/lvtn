@@ -13,6 +13,7 @@ const Status = (props) => {
 
   let status = [];
   let counter = 0;
+
   billStatus?.forEach((item, index, billStatus) => {
     let title;
     let description = "";
