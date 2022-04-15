@@ -25,10 +25,16 @@
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": 1,
-      "package": "com.nguyenvantinh06.BKFabric"
+      "package": "com.nguyenvantinh06.BKFabric",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/logoapp.png"
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/perf",
+      "@react-native-firebase/crashlytics"
+    ]
   }
 }
