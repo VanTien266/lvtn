@@ -33,6 +33,7 @@ const ChartBillStatus = (props) => {
   let completedBill;
   let exportedBill;
   let failedBill;
+  let shippingBill;
   if (length === 1) {
     if (billstatus[0]._id === "completed") {
       completedBill = billstatus[0].lastStatusBill;
