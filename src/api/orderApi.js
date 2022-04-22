@@ -5,31 +5,12 @@ const orderApi = {
     const url = "/order";
     return axiosClient.get(url);
   },
-
-  countAllOrderMonthly: (date) => {
-    const url = `/getorderbymonth?date=${date}`;
-    return axiosClient.get(url);
-  },
-
-  countOrderDailyMonthly: (date) => {
-    const url = `/getorderdaily?date=${date}`;
-    return axiosClient.get(url);
-  },
-
-  totalDeposit: (date) => {
-    const url = `/deposit?date=${date}`;
-    return axiosClient.get(url);
+  create: (data) => {
+    const url = "/order/create";
+    return axiosClient.post(url, data);
   },
   getOne: (orderId) => {
-    const url = `/order/${orderId}`;
-    return axiosClient.get(url);
-  },
-  getOrderStatus: (date) => {
-    const url = `/getorderstatus?date=${date}`;
-    return axiosClient.get(url);
-  },
-  getOrderByDateRange: (from_date, to_date) => {
-    const url = `/getorderbydaterange?from_date=${from_date}&to_date=${to_date}`;
+    const url = `/order/detail/${orderId}`;
     return axiosClient.get(url);
   },
   getProducts: (orderId) => {
@@ -40,14 +21,34 @@ const orderApi = {
     const url = `/order/${orderId}/update_status`;
     return axiosClient.put(url, data);
   },
-  cancleStatus: (orderId) => {
-    const url = `/order/cancle-status/${orderId}`;
+  totalDeposit: (date) => {
+    const url = `/order/deposit?date=${date}`;
+    return axiosClient.get(url);
+  },
+  getOrderStatus: (date) => {
+    const url = `/order/getorderstatus?date=${date}`;
+    return axiosClient.get(url);
+  },
+  countAllOrderMonthly: (date) => {
+    const url = `/order/getorderbymonth?date=${date}`;
+    return axiosClient.get(url);
+  },
+
+  countOrderDailyMonthly: (date) => {
+    const url = `/order/getorderdaily?date=${date}`;
+    return axiosClient.get(url);
+  },
+
+  getOrderByDateRange: (from_date, to_date) => {
+    const url = `/order/getorderbydaterange?from_date=${from_date}&to_date=${to_date}`;
+    return axiosClient.get(url);
+  },
+
+  cancelStatus: (orderId) => {
+    const url = `/order/${orderId}/cancelStatus`;
     return axiosClient.put(url);
   },
-  create: (data) => {
-    const url = "/order/create";
-    return axiosClient.post(url, data);
-  },
+
   getOrderIdByCustomer: (id) => {
     const url = `/order/customer/${id}`;
     return axiosClient.get(url);

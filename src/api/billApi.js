@@ -18,7 +18,7 @@ class BillApi {
     return axiosClient.get(url);
   };
   getFabricRollByBillId = (params) => {
-    const url = "/bill/list";
+    const url = "/bill/list/ids";
     return axiosClient.get(url, { params });
   };
   getListByIds = (data) => {
@@ -46,7 +46,7 @@ class BillApi {
     return axiosClient.get(url);
   };
   updateStatus = (billId, data) => {
-    const url = `/bill/${billId}`;
+    const url = `/bill/${billId}/updateStatus`;
     return axiosClient.put(url, data);
   };
 }

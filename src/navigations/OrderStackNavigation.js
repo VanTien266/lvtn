@@ -165,7 +165,7 @@ const OrderStackNavigation = () => {
                   {
                     text: "Đồng ý",
                     onPress: () => {
-                      orderApi.cancleStatus(route.params.orderId);
+                      orderApi.cancelStatus(route.params.orderId);
                       navigation.navigate("order-detail", route.params);
                     },
                   },

@@ -5,10 +5,10 @@ import { Platform } from "react-native";
 const axiosClient = axios.create({
   // baseURL: Platform.OS === 'android' ? process.env.REACT_APP_API_URL_ANDROID : process.env.REACT_APP_API_IOS,
   baseURL:
-    Platform.OS === "android"
-      ? "https://server-dclv.herokuapp.com/api/"
-      : "https://server-dclv.herokuapp.com/api/",
-  //"http://172.17.24.175:5000/api",
+    // Platform.OS === "android"
+    //   ? "https://server-dclv.herokuapp.com/api/"
+    //   : "https://server-dclv.herokuapp.com/api/",
+    "https://lvtn.trongnghia.xyz/api/",
   // "http://192.168.1.64:5000/api",
   headers: {
     "content-type": "application/json",

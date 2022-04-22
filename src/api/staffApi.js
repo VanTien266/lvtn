@@ -1,22 +1,22 @@
 import axiosClient from "./axiosClient";
 
-const staffApi = {
-  login: (data) => {
-    const url = "/staff/login";
+class StaffApi {
+  login = (data) => {
+    const url = "/user/staff/login";
     return axiosClient.post(url, data);
-  },
-  getAll: (params) => {
-    const url = "/admin/liststaff";
+  };
+  getAll = (params) => {
+    const url = "/user/admin/liststaff";
     return axiosClient.get(url, { params });
-  },
-  getInfoById: (params) => {
-    const url = "/admin/liststaff/info/:id";
+  };
+  getInfoById = (params) => {
+    const url = "/user/admin/staffInfo/:id";
     return axiosClient.get(url, { params });
-  },
-  getSalesman: () => {
-    const url = "/staff/salesman";
+  };
+  getSalesman = () => {
+    const url = "/user/staff/salesman";
     return axiosClient.get(url);
-  },
-};
-// const staffApi = new StaffApi();
+  };
+}
+const staffApi = new StaffApi();
 export default staffApi;

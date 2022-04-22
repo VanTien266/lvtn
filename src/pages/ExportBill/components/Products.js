@@ -74,6 +74,7 @@ const Products = (props) => {
 
   const handleGetFabricInfo = async (id) => {
     const response = await productApi.getOne({ id: id });
+    console.log(response);
     if (response.length > 0) setNewProduct(response);
     else
       toast.show({

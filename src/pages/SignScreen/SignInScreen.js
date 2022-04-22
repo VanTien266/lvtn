@@ -90,11 +90,13 @@ const SignInScreen = () => {
     try {
       let response;
       if (userEmail.includes("@bk.fabric.com")) {
+        console.log("run");
         response = await staffApi.login({
           email: userEmail,
           password: password,
         });
       } else {
+        console.log("object");
         response = await customerApi.login({
           email: userEmail,
           password: password,
@@ -124,6 +126,7 @@ const SignInScreen = () => {
           break;
       }
     } catch (err) {
+      console.log(err);
       toast.show({
         title: "Đăng nhập thất bại!",
         status: "error",
