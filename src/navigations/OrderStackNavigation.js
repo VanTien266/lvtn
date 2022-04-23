@@ -164,8 +164,11 @@ const OrderStackNavigation = () => {
                   },
                   {
                     text: "Đồng ý",
-                    onPress: () => {
-                      orderApi.cancelStatus(route.params.orderId);
+                    onPress: async () => {
+                      const res = await orderApi.cancelStatus(
+                        route.params.orderId
+                      );
+                      console.log(res);
                       navigation.navigate("order-detail", route.params);
                     },
                   },

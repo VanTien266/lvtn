@@ -26,7 +26,7 @@ class BillApi {
     return axiosClient.post(url, data);
   };
   getBillCompleted = (date) => {
-    const url = `/bill/completed?date=${date}`;
+    const url = `/bill/countcompleted?date=${date}`;
     return axiosClient.get(url);
   };
   getFabricRollBillCompleted = (date) => {
@@ -47,6 +47,7 @@ class BillApi {
   };
   updateStatus = (billId, data) => {
     const url = `/bill/${billId}/updateStatus`;
+    console.log(url, data);
     return axiosClient.put(url, data);
   };
 }
