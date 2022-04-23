@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import SignStackNavigation from "./src/navigations/SignStackNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import 'expo-dev-client'
 
 import store from "./src/redux/store";
 
