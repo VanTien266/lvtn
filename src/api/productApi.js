@@ -2,31 +2,32 @@ import axiosClient from "./axiosClient";
 
 class ProductApi {
   getAll = (params) => {
-    const url = "/product1";
+    const url = "/fabric/product";
     return axiosClient.get(url, { params });
   };
-  getOne = (params) => {
-    const url = "/product/detail";
-    return axiosClient.get(url, { params });
+  getOne = (id) => {
+    const url = `/fabric/product/${id}?id=${id}`;
+    console.log(url);
+    return axiosClient.get(url);
   };
   getListById = (data) => {
-    const url = "/product/list";
-    return axiosClient.post(url, data);
+    const url = "/fabric/roll";
+    return axiosClient.get(url, data);
   };
   getListOfBill = (data) => {
-    const url = "/product/fabricroll-bill";
+    const url = "/fabric/rollOfBill";
     return axiosClient.post(url, data);
   };
   getChartWarehouseTrue = (params) => {
-    const url = "/chartwarehouse";
+    const url = "/fabric/chartwarehouse";
     return axiosClient.get(url, { params });
   };
   getFullListType = (params) => {
-    const url = "/product/list-type";
+    const url = "/fabric/fullTypeList";
     return axiosClient.get(url, { params });
   };
   getListColorcode = (params) => {
-    const url = "/product/colorcode";
+    const url = "/fabric/colorCode";
     return axiosClient.get(url, { params });
   };
 }

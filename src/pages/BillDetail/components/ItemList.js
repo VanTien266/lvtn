@@ -5,9 +5,12 @@ import { HStack, Box, FlatList, Button } from "native-base";
 import productApi from "../../../api/productApi";
 import Item from "./Item";
 import { useNavigation } from "@react-navigation/native";
+import moment from "moment";
+import { formattedValue } from "../../../utils/formatNumber";
 
 const ItemList = (props) => {
-  const { listFabricId } = props;
+  const { bill } = props;
+  const listFabricId = bill?.fabricRoll;
   const [listFabric, setListfabric] = useState([]);
   const navigation = useNavigation();
 
@@ -23,6 +26,32 @@ const ItemList = (props) => {
 
     return () => (mounted = false);
   }, [listFabricId]);
+
+  const getTotalLength = (listFabric) => {
+    return listFabric?.reduce((acc, item) => {
+      const sum = item.reduce((itemAcc, fabricRoll) => {
+        return itemAcc + fabricRoll.length;
+      }, 0);
+      return acc + sum;
+    }, 0);
+  };
+
+  const getTotalPrice = (listFabric) => {
+    return listFabric?.reduce((acc, item) => {
+      const sum = item.reduce((itemAcc, fabricRoll) => {
+        let price;
+        const newArr = fabricRoll.item.marketPrice.reverse();
+        for (const i of newArr) {
+          if (moment(bill.exportBillTime).isAfter(i.dayApplied)) {
+            price = i.price;
+            break;
+          }
+        }
+        return itemAcc + fabricRoll.length * price;
+      }, 0);
+      return acc + sum;
+    }, 0);
+  };
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
@@ -60,6 +89,32 @@ const ItemList = (props) => {
           keyExtractor={(item, index) => index}
         />
       )}
+      <HStack px={1} justifyContent="space-between">
+        <Box _text={{ fontWeight: "bold", fontSize: "md" }}>
+          Tổng số cây vải
+        </Box>
+        <Box _text={{ fontSize: "md" }}>{`${formattedValue(
+          listFabricId?.length
+        )} cây`}</Box>
+      </HStack>
+      <HStack px={1} justifyContent="space-between">
+        <Box _text={{ fontWeight: "bold", fontSize: "md" }}>Tổng chiều dài</Box>
+        <Box _text={{ fontSize: "md" }}>{`${formattedValue(
+          getTotalLength(listFabric)
+        )} m`}</Box>
+      </HStack>
+      <HStack px={1} justifyContent="space-between">
+        <Box _text={{ fontWeight: "bold", fontSize: "md" }}>Tổng giá</Box>
+        <Box _text={{ fontSize: "md" }}>{`${formattedValue(
+          getTotalPrice(listFabric)
+        )} vnđ`}</Box>
+      </HStack>
+      {/* <HStack px={1} justifyContent="space-between">
+        <Box _text={{ fontWeight: "bold", fontSize: "md" }}>Đã đặt cọc</Box>
+        <Box _text={{ fontSize: "md" }}>{`${getTotalLength(
+          listFabric
+        )} m`}</Box>
+      </HStack> */}
     </Card>
   );
 };
