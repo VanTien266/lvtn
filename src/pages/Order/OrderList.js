@@ -10,6 +10,7 @@ import {
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
+const SIZE = 10; //size list order per page
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
@@ -22,8 +23,15 @@ const OrderList = ({ navigation }) => {
   //Get order list
   const fetchListOrder = async () => {
     try {
+      // page = 1
       const response = await orderApi.getAll();
+      // const response = await orderApi.getAll(page, SIZE);
       setListOrder(response);
+      // if (page <= 1 )
+      // setListOrder(response);
+      // else {
+      //   setListOrder(old => [...old, response || []])
+      // }
     } catch (error) {
       console.log("Failed to fetch order list", error);
     }
@@ -32,6 +40,10 @@ const OrderList = ({ navigation }) => {
   //refresh page
   const [refreshing, setRefreshing] = useState(false);
 
+  function loadMore() {
+    fetchListOrder(Math.round(listOrder.length / SIZE) + 1);
+    console.log('loadmore')
+  }
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchListOrder();
@@ -59,7 +71,11 @@ const OrderList = ({ navigation }) => {
       contentContainerStyle={styles.scrollView}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        
       }
+      showsVerticalScrollIndicator={false}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.5}
     >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>

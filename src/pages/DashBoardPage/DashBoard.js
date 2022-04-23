@@ -22,7 +22,7 @@ import ChartTopProduct from "./components/ChartTopProduct";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-export default function DashBoard() {
+function DashBoard() {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
   const [mode, setMode] = useState("date");
@@ -154,7 +154,9 @@ export default function DashBoard() {
       />
     </SafeAreaView>
   );
-}
+};
+
+export default React.memo(DashBoard);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

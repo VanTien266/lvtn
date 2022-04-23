@@ -209,7 +209,7 @@ const ChartBillStatus = (props) => {
   );
 };
 
-export default ChartBillStatus;
+export default React.memo(ChartBillStatus);
 
 const styles = StyleSheet.create({
   container: {
