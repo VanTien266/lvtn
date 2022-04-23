@@ -43,7 +43,7 @@ const BillDetail = ({ route, navigation }) => {
       case "status":
         return <Status billStatus={bill?.status} />;
       case "item":
-        return <ItemList listFabricId={bill?.fabricRoll} />;
+        return <ItemList bill={bill} />;
       case "customer-info":
         return <CustomerInfo bill={bill} />;
       case "another-info":

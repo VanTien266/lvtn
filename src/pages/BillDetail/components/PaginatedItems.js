@@ -53,7 +53,7 @@ const PaginatedItems = ({ route }) => {
           page={page}
           numberOfPages={numberOfPages}
           onPageChange={(page) => setPage(page)}
-          label={`${page} of ${numberOfPages}`}
+          label={`${page + 1} of ${numberOfPages + 1}`}
           showFastPaginationControls
           numberOfItemsPerPageList={numberOfItemsPerPageList}
           numberOfItemsPerPage={numberOfItemsPerPage}

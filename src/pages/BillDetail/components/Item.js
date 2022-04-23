@@ -12,22 +12,6 @@ const Item = (props) => {
   const FabricRoll = ({ item, index }) => {
     return (
       <>
-        <HStack space={1} justifyContent="center" style={styles.childHeader}>
-          <Box flex={2} _text={{ fontSize: "md" }}></Box>
-          <Box flex={2} _text={{ fontSize: "md" }}>
-            Mã
-          </Box>
-          <Box flex={3} _text={{ fontSize: "md" }}>
-            Lô
-          </Box>
-          <Box flex={4} _text={{ fontSize: "md" }}>
-            Chiều dài
-          </Box>
-          <Box flex={5} _text={{ fontSize: "md" }}>
-            Đơn giá
-          </Box>
-          <Box flex={1}></Box>
-        </HStack>
         <HStack space={1} style={styles.childHeader}>
           <Box flex={2}> </Box>
           <Box flex={2}>{item.item.colorCode}</Box>
@@ -65,13 +49,31 @@ const Item = (props) => {
         </TouchableOpacity>
       </HStack>
       {expand && (
-        <FlatList
-          data={item}
-          renderItem={({ item, index }) => (
-            <FabricRoll item={item} index={index + 1} />
-          )}
-          keyExtractor={(item) => item._id}
-        />
+        <>
+          <HStack space={1} justifyContent="center" style={styles.childHeader}>
+            <Box flex={2} _text={{ fontSize: "md" }}></Box>
+            <Box flex={2} _text={{ fontSize: "md" }}>
+              Mã
+            </Box>
+            <Box flex={3} _text={{ fontSize: "md" }}>
+              Lô
+            </Box>
+            <Box flex={4} _text={{ fontSize: "md" }}>
+              Chiều dài
+            </Box>
+            <Box flex={5} _text={{ fontSize: "md" }}>
+              Đơn giá
+            </Box>
+            <Box flex={1}></Box>
+          </HStack>
+          <FlatList
+            data={item}
+            renderItem={({ item, index }) => (
+              <FabricRoll item={item} index={index + 1} />
+            )}
+            keyExtractor={(item) => item._id}
+          />
+        </>
       )}
     </>
   );

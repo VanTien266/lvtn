@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 class SupportApi {
   getAll = () => {
-    const url = "/support/all";
+    const url = "/support";
     return axiosClient.get(url);
   };
   response = (data) => {

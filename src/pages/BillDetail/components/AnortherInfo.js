@@ -35,7 +35,7 @@ const AnortherInfo = (props) => {
           ></Icon>
           <Box>
             <Text fontSize="md" bold>
-              ngày xuất
+              Ngày xuất
             </Text>
             <Text>{moment(bill.exportBillTime).format("DD/MM/YYYY")}</Text>
           </Box>
