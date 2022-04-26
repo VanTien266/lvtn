@@ -96,7 +96,6 @@ const SignInScreen = () => {
           password: password,
         });
       } else {
-        console.log("object");
         response = await customerApi.login({
           email: userEmail,
           password: password,
