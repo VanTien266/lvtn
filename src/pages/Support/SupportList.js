@@ -24,7 +24,8 @@ export default function SupportList({ navigation }) {
       const response = await supportApi.getAll();
       setListSupportReq(response);
     };
-    if (mounted) {
+    if (mounted && user) {
+      console.log("run");
       getListSupportReq();
     }
     return () => (mounted = false);

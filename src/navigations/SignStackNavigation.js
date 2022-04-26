@@ -31,7 +31,8 @@ export default function SignStackNavigation() {
         default:
           return "Usernavigation";
       }
-    } else return "splashscreen";
+    }
+    return "splashscreen";
   };
   return (
     <SignStack.Navigator

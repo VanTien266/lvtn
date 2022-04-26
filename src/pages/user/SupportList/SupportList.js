@@ -26,7 +26,7 @@ export default function SupportList({ navigation }) {
       const response = await supportApi.getAll();
       setListSupportReq(response);
     };
-    if (mounted) {
+    if (mounted && role !== "GUEST") {
       getListSupportReq();
     }
     return () => (mounted = false);
@@ -64,7 +64,7 @@ export default function SupportList({ navigation }) {
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 3 }]}>
-          <Text style={styles.headerText}>Trạng thái</Text>
+          <Text style={styles.headerText}>Trạng tháii</Text>
         </View>
       </View>
       {listSupportReq &&
