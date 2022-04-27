@@ -14,7 +14,7 @@ import orderApi from "../../api/orderApi";
 import moment from "moment";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
-export default function OrderFilter({ navigation }) {
+function OrderFilter({ navigation }) {
   const [fromDate, setFromDate] = useState(new Date(Date.now()));
   const [toDate, setToDate] = useState(new Date(Date.now()));
   const [statusFilter, setStatusFilter] = useState("");
@@ -247,6 +247,8 @@ export default function OrderFilter({ navigation }) {
     </ScrollView>
   );
 }
+
+export default React.memo(OrderFilter);
 
 const styles = StyleSheet.create({
   container: {

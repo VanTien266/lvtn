@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import 'expo-dev-client'
 
 import store from "./src/redux/store";
+import {requestUserPermission, NotificationListener} from './src/utils/FCMService';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -19,6 +20,12 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
+
+  useEffect(() => {
+    requestUserPermission();
+    NotificationListener();
+  }, []);
+
   return (
     <Provider store={store}>
       <NativeBaseProvider>

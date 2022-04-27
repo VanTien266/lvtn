@@ -79,7 +79,7 @@ const Item = (props) => {
   );
 };
 
-export default Item;
+export default React.memo(Item);
 
 const styles = StyleSheet.create({
   childHeader: { backgroundColor: "#ffffff" },

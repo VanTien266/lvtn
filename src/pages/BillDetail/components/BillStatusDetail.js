@@ -104,7 +104,7 @@ const BillStatusDetail = ({ naviagtion, route }) => {
   );
 };
 
-export default BillStatusDetail;
+export default React.memo(BillStatusDetail);
 
 const styles = StyleSheet.create({
   container: {

@@ -130,7 +130,7 @@ const Status = (props) => {
   );
 };
 
-export default Status;
+export default React.memo(Status);
 
 const styles = StyleSheet.create({
   title: { fontSize: 16, fontWeight: "bold" },

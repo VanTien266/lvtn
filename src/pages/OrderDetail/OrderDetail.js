@@ -79,6 +79,6 @@ const OrderDetail = ({ route, navigation }) => {
   );
 };
 
-export default OrderDetail;
+export default React.memo(OrderDetail);
 
 const styles = StyleSheet.create({ container: { flex: 1 } });

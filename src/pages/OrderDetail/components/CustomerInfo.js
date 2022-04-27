@@ -84,6 +84,6 @@ const CustomerInfo = (props) => {
   );
 };
 
-export default CustomerInfo;
+export default React.memo(CustomerInfo);
 
 const styles = StyleSheet.create({ icon: { marginRight: 5 } });

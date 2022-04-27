@@ -88,7 +88,7 @@ const ListBill = (props) => {
   );
 };
 
-export default ListBill;
+export default React.memo(ListBill);
 
 const styles = StyleSheet.create({
   header: { backgroundColor: "#B4B4C1", paddingHorizontal: 5 },

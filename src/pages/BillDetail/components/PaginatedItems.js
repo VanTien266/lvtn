@@ -65,7 +65,7 @@ const PaginatedItems = ({ route }) => {
     </PaperProvider>
   );
 };
-export default PaginatedItems;
+export default React.memo(PaginatedItems);
 
 const styles = StyleSheet.create({
   titleHeader: { backgroundColor: "#B4B4C1" },

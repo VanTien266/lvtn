@@ -40,7 +40,7 @@ const BillProductDetail = ({ route }) => {
   );
 };
 
-export default BillProductDetail;
+export default React.memo(BillProductDetail);
 
 const styles = StyleSheet.create({
   header: { paddingHorizontal: 5, backgroundColor: "#B4B4C1" },

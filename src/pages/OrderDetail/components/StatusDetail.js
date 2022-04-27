@@ -102,7 +102,7 @@ const StatusDetail = ({ route }) => {
   );
 };
 
-export default StatusDetail;
+export default React.memo(StatusDetail);
 
 const styles = StyleSheet.create({
   container: { display: "flex", width: "100%" },

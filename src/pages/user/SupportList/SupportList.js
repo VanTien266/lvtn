@@ -15,7 +15,7 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-export default function SupportList({ navigation }) {
+function SupportList({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [listSupportReq, setListSupportReq] = useState([]);
   const { role } = useSelector((state) => state.session);
@@ -104,6 +104,8 @@ export default function SupportList({ navigation }) {
     </ScrollView>
   );
 }
+
+export default React.memo(SupportList);
 
 const styles = StyleSheet.create({
   container: {

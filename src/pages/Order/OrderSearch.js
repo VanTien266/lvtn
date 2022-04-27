@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
-export default function OrderSearch({ navigation }) {
+function OrderSearch({ navigation }) {
   const [searchTxt, setSearchTxt] = useState("");
   const [listOrder, setListOrder] = useState([]);
   const [result, setResult] = useState([]);
@@ -129,6 +129,8 @@ export default function OrderSearch({ navigation }) {
     </View>
   );
 }
+
+export default React.memo(OrderSearch);
 
 const styles = StyleSheet.create({
   container: {

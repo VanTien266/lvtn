@@ -26,7 +26,7 @@ const ItemListDetail = ({ navigation, route }) => {
   );
 };
 
-export default ItemListDetail;
+export default React.memo(ItemListDetail);
 
 const styles = StyleSheet.create({
   headerContainer: {

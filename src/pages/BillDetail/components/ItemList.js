@@ -119,7 +119,7 @@ const ItemList = (props) => {
   );
 };
 
-export default ItemList;
+export default React.memo(ItemList);
 
 const styles = StyleSheet.create({
   titleHeader: { backgroundColor: "#B4B4C1" },

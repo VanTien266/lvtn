@@ -119,7 +119,7 @@ const Status = (props) => {
   );
 };
 
-export default Status;
+export default React.memo(Status);
 
 const styles = StyleSheet.create({
   container: {

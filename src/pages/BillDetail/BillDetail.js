@@ -65,6 +65,6 @@ const BillDetail = ({ route, navigation }) => {
   );
 };
 
-export default BillDetail;
+export default React.memo(BillDetail);
 
 const styles = StyleSheet.create({});

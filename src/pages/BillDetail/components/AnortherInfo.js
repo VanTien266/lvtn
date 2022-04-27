@@ -80,6 +80,6 @@ const AnortherInfo = (props) => {
   );
 };
 
-export default AnortherInfo;
+export default React.memo(AnortherInfo);
 
 const styles = StyleSheet.create({ icon: { marginRight: 5 } });

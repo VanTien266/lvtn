@@ -174,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountProfile;
+export default React.memo(AccountProfile);
