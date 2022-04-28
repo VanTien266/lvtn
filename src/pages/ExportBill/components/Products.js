@@ -1,16 +1,24 @@
-import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
-import { Flex, Input, Button } from "native-base";
+import { Flex, Input, Button, useToast, Box } from "native-base";
 import ProductItem from "./ProductItem";
 import productApi from "../../../api/productApi";
-import checkProductExist from "../../../utils/exportBillValidator";
+import validateProduct from "../../../utils/validateProduct";
 
 const Products = (props) => {
   const { product, setParams, navigation, route } = props;
   const [fabricId, setFabricId] = useState("");
   const [listProductAdded, setListProductAdded] = useState([]);
-  const [newProduct, setNewProduct] = useState({});
+  const [newProduct, setNewProduct] = useState(null);
+  const toast = useToast();
+
+  const newProducts = product
+    ?.map((item) => {
+      const status = validateProduct(item.length, item.shippedLength);
+      return { ...item, status };
+    })
+    .sort((a, b) => Number(a.status) - Number(b.status));
 
   useEffect(() => {
     setParams({ handleGetFabricInfo: handleGetFabricInfo });
@@ -20,24 +28,42 @@ const Products = (props) => {
     let mouted = true;
     const handleAddToBill = () => {
       if (mouted) {
-        const listColorCode = product
-          ? product.map((item) => item.colorCode.colorCode)
+        const listColorCode = newProducts
+          ? newProducts.map((item) => item.colorCode.colorCode)
           : [];
-        if (listColorCode.includes(newProduct.colorCode)) {
-          console.log(listProductAdded);
-          console.log(newProduct);
-          if (
-            listProductAdded.filter((item) => item._id === newProduct._id)
-              .length > 0
-          ) {
-            Alert.alert("Sản phẩm đã tồn tại!");
-          } else setListProductAdded([...listProductAdded, newProduct]);
-        }
+        if (newProduct)
+          if (listColorCode.includes(newProduct.colorCode)) {
+            if (
+              listProductAdded.filter((item) => item._id === newProduct._id)
+                .length > 0
+            ) {
+              toast.show({
+                render: () => {
+                  return (
+                    <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
+                      Cây vải đã tồn tại!
+                    </Box>
+                  );
+                },
+                placement: "top",
+              });
+            } else setListProductAdded([...listProductAdded, newProduct]);
+          } else {
+            toast.show({
+              render: () => {
+                return (
+                  <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
+                    Cây vải không có trong danh sách đặt hàng!
+                  </Box>
+                );
+              },
+              placement: "top",
+            });
+          }
       }
     };
 
     handleAddToBill();
-    // console.log(listProductAdded);
     return () => {
       mouted = false;
     };
@@ -47,9 +73,20 @@ const Products = (props) => {
   }, [listProductAdded]);
 
   const handleGetFabricInfo = async (id) => {
-    const response = await productApi.getOne({ id: id });
+    const response = await productApi.getOne(id);
+    // console.log(response);
     if (response.length > 0) setNewProduct(response);
-    else Alert.alert("Mã sản phẩm không đúng!");
+    else
+      toast.show({
+        render: () => {
+          return (
+            <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
+              Không tồn tại cây vải!
+            </Box>
+          );
+        },
+        placement: "top",
+      });
   };
 
   return (
@@ -73,7 +110,17 @@ const Products = (props) => {
       <Button
         onPress={() => {
           if (fabricId.length === 24) handleGetFabricInfo(fabricId);
-          else Alert.alert("Mã sản phẩm không hợp lệ!");
+          else
+            toast.show({
+              render: () => {
+                return (
+                  <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
+                    Mã cây vải không hợp lệ!
+                  </Box>
+                );
+              },
+              placement: "top",
+            });
         }}
       >
         Thêm sản phẩm
@@ -87,9 +134,9 @@ const Products = (props) => {
           <Text style={styles.headerCell}>Đã giao</Text>
           <Text style={styles.headerCell}>Còn lại</Text>
         </View>
-        {product && (
+        {newProducts && (
           <FlatList
-            data={product}
+            data={newProducts}
             renderItem={({ item, index }) => {
               const listAddedItem = listProductAdded?.filter(
                 (ele) => ele.colorCode === item.colorCode.colorCode

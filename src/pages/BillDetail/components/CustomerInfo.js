@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import { Box, Text, Flex } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { orderBy } from "lodash";
 
 const CustomerInfo = (props) => {
   const { bill } = props;

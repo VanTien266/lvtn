@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { HStack, Box, FlatList, Button } from "native-base";
+import { HStack, Box, FlatList } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const Item = (props) => {

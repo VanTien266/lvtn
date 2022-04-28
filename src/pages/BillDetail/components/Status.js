@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
 import Timeline from "react-native-timeline-flatlist";
 import { Button } from "native-base";
@@ -9,10 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const Status = (props) => {
   const { billStatus } = props;
-  const navigation=useNavigation()
+  const navigation = useNavigation();
 
   let status = [];
   let counter = 0;
+
   billStatus?.forEach((item, index, billStatus) => {
     let title;
     let description = "";
@@ -32,8 +33,8 @@ const Status = (props) => {
           title = "Đang vận chyển";
           description = "Hóa đơn bạn đang được vận chuyển";
         } else {
-          title = `Đang vận chyển lần ${counter+1}`;
-          description = ` Hóa đơn bạn đang được vận chuyển lần ${counter+1}`;
+          title = `Đang vận chyển lần ${counter + 1}`;
+          description = ` Hóa đơn bạn đang được vận chuyển lần ${counter + 1}`;
         }
         descStyle = styles.shipping;
         cỉcleDotStyle = "#747FFF";
@@ -52,8 +53,10 @@ const Status = (props) => {
           description = `Đơn hàng vận chuyển thất bại\nTiến hành hoàn kho`;
         } else {
           counter += 1;
-          title = `Tái vận chuyển lần ${counter+1}`;
-          description = `Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần ${counter+1}\n Lý do: ${item.reason}`;
+          title = `Tái vận chuyển lần ${counter + 1}`;
+          description = `Đơn hàng vận chuyển thất bại, đang đợi vận chuyển lần ${
+            counter + 1
+          }\n Lý do: ${item.reason}`;
         }
         descStyle = styles.failed;
         cỉcleDotStyle = "#BD2C2C";
@@ -100,7 +103,7 @@ const Status = (props) => {
         </Button>
       )}
       <Timeline
-        data={status.slice(status.length-3,status.length)}
+        data={status.slice(status.length - 3, status.length)}
         circleColor="#B4B4C1"
         lineColor="#B4B4C1"
         descriptionStyle={styles.description}

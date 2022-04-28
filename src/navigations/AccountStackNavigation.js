@@ -1,6 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 
 //Pages
 import AccountProfile from "../pages/Account/AccountProfile";

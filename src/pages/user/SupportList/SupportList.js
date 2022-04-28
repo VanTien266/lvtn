@@ -8,7 +8,8 @@ import {
   RefreshControl,
 } from "react-native";
 import { Button } from "native-base";
-import supportApi from "../../api/supportApi";
+import supportApi from "../../../api/supportApi";
+import { useSelector } from "react-redux";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -17,6 +18,7 @@ const wait = (timeout) => {
 export default function SupportList({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [listSupportReq, setListSupportReq] = useState([]);
+  const { role } = useSelector((state) => state.session);
 
   useEffect(() => {
     let mounted = true;
@@ -24,8 +26,7 @@ export default function SupportList({ navigation }) {
       const response = await supportApi.getAll();
       setListSupportReq(response);
     };
-    if (mounted && user) {
-      console.log("run");
+    if (mounted && role !== "GUEST") {
       getListSupportReq();
     }
     return () => (mounted = false);
@@ -44,9 +45,11 @@ export default function SupportList({ navigation }) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Button onPress={() => navigation.navigate("create-request")}>
-        Gửi yêu cầu
-      </Button>
+      {role === "USER" && (
+        <Button onPress={() => navigation.navigate("create-request")}>
+          Gửi yêu cầu
+        </Button>
+      )}
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 2 }]}>
           <Text style={styles.headerText}>Mã</Text>
@@ -61,7 +64,7 @@ export default function SupportList({ navigation }) {
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 3 }]}>
-          <Text style={styles.headerText}>Trạng thái</Text>
+          <Text style={styles.headerText}>Trạng tháii</Text>
         </View>
       </View>
       {listSupportReq &&

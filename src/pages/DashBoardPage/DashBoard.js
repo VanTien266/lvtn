@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  Platform
+  Platform,
 } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -25,26 +25,26 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 export default function DashBoard() {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
-  const [mode, setMode] = useState('date');
-  console.log("date today", date);
+  const [mode, setMode] = useState("date");
 
-  const showMode = currentMode => {
+  const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
   };
 
   const onChange = (event, value) => {
     const currentDate = value || date;
-    setShow(Platform.OS === "ios")
+    setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
 
   const showDatepicker = () => {
-    showMode('date');
+    showMode("date");
   };
 
   let year = date.getFullYear();
   let month = date.getUTCMonth() + 1;
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -55,7 +55,6 @@ export default function DashBoard() {
               <View style={styles.containerDateComponent}>
                 <View style={styles.pickedDateContainer}>
                   <Text style={styles.pickedDate}>
-                    {" "}
                     Tháng {month}, {year}{" "}
                   </Text>
                 </View>
@@ -163,12 +162,6 @@ const styles = StyleSheet.create({
   overview: {
     flex: 1,
     flexDirection: "row",
-    // position:'absolute',
-    // top: 0,
-    // bottom: 0,
-    // right: 0,
-    // left: 0,
-    // backgroundColor:"blue",
     padding: 5,
   },
   statistics: {
@@ -176,7 +169,6 @@ const styles = StyleSheet.create({
   },
   chartordermonthly: {
     flex: 1,
-    // backgroundColor: "red",
   },
   chartfabricwarehouse: {
     flex: 1,
@@ -221,7 +213,6 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    // margin: 5,
   },
   title: {
     flex: 1,
@@ -250,6 +241,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   iconDatePicker: {
-    flex:1,
-  }
+    flex: 1,
+  },
 });

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { FlatList, StyleSheet, View, RefreshControl } from "react-native";
 import { CustomerInfo, ItemList, ListBill, Status } from "./components";
 import orderApi from "../../api/orderApi";
+import validateProduct from "../../utils/validateProduct";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -27,7 +28,16 @@ const OrderDetail = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchOrderDetail();
-  }, [orderId, navigation]);
+  }, [orderId, navigation, refreshing]);
+
+  const handleSortProduct = (products) => {
+    return products
+      ?.map((item) => {
+        const status = validateProduct(item.length, item.shippedLength);
+        return { ...item, status };
+      })
+      .sort((a, b) => Number(a.status) - Number(b.status));
+  };
 
   const data = [
     { id: 1, name: "status" },
@@ -46,7 +56,7 @@ const OrderDetail = ({ route, navigation }) => {
           />
         );
       case "item":
-        return <ItemList products={order?.products} />;
+        return <ItemList products={handleSortProduct(order?.products)} />;
       case "list-bill":
         return (
           <ListBill navigation={navigation} detailBill={order?.detailBill} />
