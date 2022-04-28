@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const orderApi = {
-  getAll: () => {
-    const url = "/order";
+  getAll: (page, limit) => {
+    const url = `/order?page=${page}&limit=${limit}`;
     return axiosClient.get(url);
   },
   create: (data) => {
