@@ -20,7 +20,7 @@ const StatusDetail = ({ route }) => {
         title = "Đang đợi";
         if (index !== 0) {
           description = `Hoàn tất đơn MHD ${
-            detailBill[Math.floor((index - 1) / 2)].billID
+            detailBill[Math.floor((index - 1) / 2)]?.billID
           }\nĐợi xử lý các đơn còn lại`;
         } else {
           description = "Đơn hàng đang đợi xử lý";
@@ -35,7 +35,7 @@ const StatusDetail = ({ route }) => {
           description = "Nhân viên đang xử lý đơn đặt hàng";
         } else
           description = `Đang xử lý đơn hàng MHD${
-            detailBill[Math.floor(index / 2)].billID
+            detailBill[Math.floor(index / 2)]?.billID
           }`;
         icon = <Icon name="hourglass-bottom" size={12} color="#fff" />;
         descStyle = styles.process;
