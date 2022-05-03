@@ -15,7 +15,6 @@ const Status = (props) => {
   const fetchOrderDetail = async () => {
     const response = await orderApi.getOne(orderId);
     setOrder(response);
-    // console.log(response);
   };
 
   useEffect(() => {
@@ -46,11 +45,13 @@ const Status = (props) => {
         cỉcleDotStyle = "#CDAB34";
         break;
       case "processing":
-        console.log(detailBill[Math.floor(index / 2)]);
         title = "Đang xử lý";
-        description = `Đang xử lý đơn hàng MHD${
-          detailBill[Math.floor(index / 2)].billID
-        }`;
+        if (index === orderStatus.length - 1) {
+          description = "Nhân viên đang xử lý đơn đặt hàng";
+        } else
+          description = `Đang xử lý đơn hàng MHD${
+            detailBill[Math.floor(index / 2)].billID
+          }`;
         icon = <Icon name="done" size={12} color="#fff" />;
         descStyle = styles.process;
         cỉcleDotStyle = "#747FFF";

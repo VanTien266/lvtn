@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import validateProduct from "../../../utils/validateProduct";
 import { formattedValue } from "../../../utils/formatNumber";
@@ -12,6 +12,7 @@ const ProductItem = (props) => {
   if (listAddedItem.length > 0)
     listAddedItem.forEach((item) => (lengthAdded += item.length));
   const isDone = validateProduct(item.length, item.shippedLength + lengthAdded);
+
   return (
     <View
       style={[

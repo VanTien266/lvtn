@@ -58,7 +58,7 @@ const SplashScreen = () => {
         </Text>
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => navigation.push("signinscreen")}
+          onPress={() => navigation.push("UserNavigation")}
         >
           <Text style={styles.textbuttonPrimary}>Bắt đầu</Text>
         </TouchableOpacity>

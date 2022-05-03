@@ -1,16 +1,23 @@
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  TextInput
-} from "react-native";
-import { Button } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { Button, TextArea, useToast } from "native-base";
+import { useSelector } from "react-redux";
+import supportApi from "../../api/supportApi";
 
-export default function ReplySupport({ navigation }) {
+export default function ReplySupport({ route, navigation }) {
+  const { item } = route.params;
+  const [response, setResponse] = useState("");
+  const { role } = useSelector((state) => state.session);
+  const toast = useToast();
+
+  const handleResponse = () => {
+    supportApi.response({ _id: item._id, content: response });
+    toast.show({
+      title: "Đã gửi",
+      placement: "bottom",
+    });
+    navigation.navigate("support-list");
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoRow}>
@@ -18,7 +25,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Mã đơn đặt hàng: </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.infoValue}>MĐH1234</Text>
+          <Text style={styles.infoValue}>MHĐ{item?.order.orderId}</Text>
         </View>
       </View>
       <View style={styles.infoRow}>
@@ -26,7 +33,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Tên khách hàng: </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.infoValue}>Trần Trọng Nghĩa</Text>
+          <Text style={styles.infoValue}>{item?.customer.name}</Text>
         </View>
       </View>
       <View style={styles.support}>
@@ -34,9 +41,7 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.infoTitle}>Nội dung cần hỗ trợ: </Text>
         </View>
         <View>
-          <Text style={styles.supportContent}>
-            Nhân viên có thái độ không tốt đề nghị xem xét lại
-          </Text>
+          <Text style={styles.supportContent}>{item?.request}</Text>
         </View>
       </View>
       <View style={styles.reply}>
@@ -44,14 +49,20 @@ export default function ReplySupport({ navigation }) {
           <Text style={styles.replyTitle}>Phản hồi: </Text>
         </View>
         <View style={styles.replyInpBox}>
-          <TextInput editable numberOfLines={8} multiline />
+          <TextArea
+            placeholder={item?.response}
+            isDisabled={item.status || role === "USER" || role === "GUEST"}
+            onChangeText={(value) => setResponse(value)}
+          />
         </View>
       </View>
       <View style={styles.infoRow}>
         <View style={{ flex: 8 }}></View>
-        <Button style={styles.confirmBtn}>
-          <Text style={styles.btnTitle}>Xác nhận</Text>
-        </Button>
+        {role === "SALESMAN" && (
+          <Button style={styles.confirmBtn} onPress={() => handleResponse()}>
+            <Text style={styles.btnTitle}>Xác nhận</Text>
+          </Button>
+        )}
       </View>
     </ScrollView>
   );
@@ -76,7 +87,6 @@ const styles = StyleSheet.create({
   },
   supportContent: {
     marginTop: 10,
-    paddingLeft: 5,
     color: "#000040",
     fontWeight: "500",
     fontSize: 14,

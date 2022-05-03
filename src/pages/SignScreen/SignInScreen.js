@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +12,7 @@ import staffApi from "../../api/staffApi";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/sessionActions";
 import customerApi from "../../api/customerApi";
+import { useToast, Box } from "native-base";
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const SignInScreen = () => {
   });
   const [isSecure, setIsSecure] = useState(true);
   const navigation = useNavigation();
+  const toast = useToast();
 
   const textInputChange = (val) => {
     if (val.trim().length >= 4) {
@@ -76,9 +77,20 @@ const SignInScreen = () => {
   };
 
   const loginHandle = async (userEmail, password) => {
+    if (data.email.length == 0 || data.password.length == 0) {
+      toast.show({
+        title: "Đăng nhập thất bại!",
+        status: "error",
+        description: "Tài khoản hoặc mật khẩu không thể trống",
+        placement: "top-left",
+      });
+      return;
+    }
+
     try {
       let response;
       if (userEmail.includes("@bk.fabric.com")) {
+        console.log("run");
         response = await staffApi.login({
           email: userEmail,
           password: password,
@@ -90,6 +102,17 @@ const SignInScreen = () => {
         });
       }
       dispatch(login(response));
+      toast.show({
+        render: () => {
+          return (
+            <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
+              Đăng nhập thành công
+            </Box>
+          );
+        },
+        placement: "top",
+      });
+
       switch (response.role) {
         case "SALESMAN":
           navigation.navigate("BottomNavigation", { screen: "dashboard" });
@@ -102,19 +125,13 @@ const SignInScreen = () => {
           break;
       }
     } catch (err) {
-      Alert.alert(
-        "Sai thông tin đăng nhập",
-        "Email hoặc mật khẩu không chính xác.",
-        [{ text: "OK" }]
-      );
-    }
-
-    if (data.email.length == 0 || data.password.length == 0) {
-      Alert.alert(
-        "Vui lòng nhập thông tin!",
-        "Email hoặc mật khẩu không thể rỗng.",
-        [{ text: "OK" }]
-      );
+      console.log(err);
+      toast.show({
+        title: "Đăng nhập thất bại!",
+        status: "error",
+        description: "Tài khoản hoặc mật khẩu không đúng",
+        placement: "top",
+      });
       return;
     }
   };

@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import DashBoard from "../pages/DashBoardPage/DashBoard";
 import Order from "../pages/Order/Order";
 import WareHouse from "../pages/WareHouse/WareHouse";
@@ -75,5 +74,3 @@ const BottomNavigation = () => {
 };
 
 export default BottomNavigation;
-
-// const styles = StyleSheet.create({});

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { Box, Button, Flex } from "native-base";
+import { Box, Button, Flex, useToast } from "native-base";
 
 export default function ScanBarCode({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [data, setData] = useState("");
-  console.log(route.params);
+  const toast = useToast();
 
   useEffect(() => {
     (async () => {
@@ -19,14 +19,24 @@ export default function ScanBarCode({ navigation, route }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setData(data);
-    Alert.alert("Scan thành công!");
+    toast.show({
+      render: () => {
+        return (
+          <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
+            Scan thành công!
+          </Box>
+        );
+      },
+      placement: "top",
+      duration: 1000,
+    });
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Yêu cầu quyền truy cập máy ảnh</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Không truy cập được vào máy ảnh</Text>;
   }
 
   return (

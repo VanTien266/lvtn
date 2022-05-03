@@ -19,6 +19,7 @@ import StatusDetail from "../pages/OrderDetail/components/StatusDetail";
 import ItemListDetail from "../pages/OrderDetail/components/ItemListDetail";
 import BillStatusDetail from "../pages/BillDetail/components/BillStatusDetail";
 import BillProductDetail from "../pages/BillDetail/components/BillProductDetail";
+import PaginatedItems from "../pages/BillDetail/components/PaginatedItems";
 
 const OrderStack = createStackNavigator();
 
@@ -94,7 +95,7 @@ const OrderStackNavigation = () => {
         component={ItemListDetail}
         options={() => ({ title: "Chi tiết các sản phẩm" })}
       />
-            <OrderStack.Screen
+      <OrderStack.Screen
         name="bill-status-detail"
         component={BillStatusDetail}
         options={() => ({ title: "Chi tiết trạng thái" })}
@@ -102,6 +103,11 @@ const OrderStackNavigation = () => {
       <OrderStack.Screen
         name="bill-product-detail"
         component={BillProductDetail}
+        options={() => ({ title: "Chi tiết các sản phẩm" })}
+      />
+      <OrderStack.Screen
+        name="bill-product-pagination"
+        component={PaginatedItems}
         options={() => ({ title: "Chi tiết các sản phẩm" })}
       />
       <OrderStack.Screen
@@ -158,8 +164,11 @@ const OrderStackNavigation = () => {
                   },
                   {
                     text: "Đồng ý",
-                    onPress: () => {
-                      orderApi.cancleStatus(route.params.orderId);
+                    onPress: async () => {
+                      const res = await orderApi.cancelStatus(
+                        route.params.orderId
+                      );
+                      console.log(res);
                       navigation.navigate("order-detail", route.params);
                     },
                   },

@@ -5,94 +5,100 @@ import {
   Text,
   View,
   Image,
-  Icon,
-  Button,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { Center, Button } from "native-base";
 
 const AccountProfile = ({ navigation }) => {
   const user = useSelector((state) => state.session).user;
-  console.log(user);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.avatarSetting}>
-        <Image
-          source={{
-            uri: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-          }}
-          style={styles.imageAccount}
-          resizeMode={"cover"}
-        />
-        <Text style={styles.nameText}>{user?.name}</Text>
-        <TouchableOpacity
-          style={styles.iconSetting}
-          onPress={() => navigation.navigate("setting")}
-        >
-          <AntDesign name="setting" size={24} color="#000040" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.nameAccount}>
-        <Text style={styles.contentText}>Tên tài khoản</Text>
-        <View style={styles.contentBox}>
-          <Text style={styles.contentText}>{user?.name}</Text>
+  if (user)
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.avatarSetting}>
+          <Image
+            source={{
+              uri: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+            }}
+            style={styles.imageAccount}
+            resizeMode={"cover"}
+          />
+          <Text style={styles.nameText}>{user?.name}</Text>
+          <TouchableOpacity
+            style={styles.iconSetting}
+            onPress={() => navigation.navigate("setting")}
+          >
+            <AntDesign name="setting" size={24} color="#000040" />
+          </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.phoneAccount}>
-        <Text style={styles.contentText}>Số điện thoại</Text>
-        <View style={styles.contentBox}>
-          <Text style={styles.contentText}>{user?.phone}</Text>
-        </View>
-      </View>
-      <View style={styles.emailAccount}>
-        <Text style={styles.contentText}>Email</Text>
-        <View style={styles.contentBox}>
-          <Text style={styles.contentText}>{user?.email}</Text>
-        </View>
-      </View>
-      <View style={styles.genderDateAccount}>
-        <View style={styles.genderAccount}>
-          <Text style={styles.contentText}>Giới tính</Text>
+        <View style={styles.nameAccount}>
+          <Text style={styles.contentText}>Tên tài khoản</Text>
           <View style={styles.contentBox}>
-            <Text style={styles.contentText}>{user?.gender}</Text>
+            <Text style={styles.contentText}>{user?.name}</Text>
           </View>
         </View>
-        <View style={styles.dateAccount}>
-          <Text style={styles.contentText}>Ngày sinh</Text>
+        <View style={styles.phoneAccount}>
+          <Text style={styles.contentText}>Số điện thoại</Text>
+          <View style={styles.contentBox}>
+            <Text style={styles.contentText}>{user?.phone}</Text>
+          </View>
+        </View>
+        <View style={styles.emailAccount}>
+          <Text style={styles.contentText}>Email</Text>
+          <View style={styles.contentBox}>
+            <Text style={styles.contentText}>{user?.email}</Text>
+          </View>
+        </View>
+        <View style={styles.genderDateAccount}>
+          <View style={styles.genderAccount}>
+            <Text style={styles.contentText}>Giới tính</Text>
+            <View style={styles.contentBox}>
+              <Text style={styles.contentText}>{user?.gender}</Text>
+            </View>
+          </View>
+          <View style={styles.dateAccount}>
+            <Text style={styles.contentText}>Ngày sinh</Text>
+            <View style={styles.contentBox}>
+              <Text style={styles.contentText}>
+                {moment(user?.birthday).format("DD/MM/YYYY")}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.addressAccount}>
+          <Text style={styles.contentText}>Địa chỉ</Text>
+          <View style={styles.contentBox}>
+            <Text style={styles.contentText}>{user?.address}</Text>
+          </View>
+        </View>
+        <View style={styles.roleAccount}>
+          <Text style={styles.contentText}>Role</Text>
           <View style={styles.contentBox}>
             <Text style={styles.contentText}>
-              {moment(user?.birthday).format("DD/MM/YYYY")}
+              {user?.role === "SALESMAN"
+                ? "Nhân viên bán hàng"
+                : user?.role === "ADMIN"
+                ? "Quản lý"
+                : user?.role === "SHIPPER"
+                ? "Nhân viên giao hàng"
+                : "Khách hàng"}
             </Text>
           </View>
         </View>
-      </View>
-      <View style={styles.addressAccount}>
-        <Text style={styles.contentText}>Địa chỉ</Text>
-        <View style={styles.contentBox}>
-          <Text style={styles.contentText}>{user?.address}</Text>
-        </View>
-      </View>
-      <View style={styles.roleAccount}>
-        <Text style={styles.contentText}>Role</Text>
-        <View style={styles.contentBox}>
-          <Text style={styles.contentText}>
-            {user?.role === "SALESMAN"
-              ? "Nhân viên bán hàng"
-              : user?.role === "ADMIN"
-              ? "Quản lý"
-              : user?.role === "SHIPPER"
-              ? "Nhân viên giao hàng"
-              : "Khách hàng"}
-          </Text>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
+  else
+    return (
+      <Center height="100%">
+        <Button size="lg" onPress={() => navigation.navigate("signinscreen")}>
+          Đăng nhập
+        </Button>
+      </Center>
+    );
 };
 
 const TEXT = {

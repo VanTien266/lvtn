@@ -19,7 +19,6 @@ const ChartBillStatus = (props) => {
         const response = await billApi.getBillStatus(
           props.date.toISOString().slice(0, 10)
         );
-        console.log(response);
         setBillStatus(response);
       } catch (error) {
         console.log("Failed to fetch bill status", error);
@@ -34,92 +33,109 @@ const ChartBillStatus = (props) => {
   let completedBill;
   let exportedBill;
   let failedBill;
-  if (length ===  1) {
-    if (billstatus[0]._id === 'completed') {
+  let shippingBill;
+  if (length === 1) {
+    if (billstatus[0]._id === "completed") {
       completedBill = billstatus[0].lastStatusBill;
       exportedBill = failedBill = shippingBill = 0;
-    }
-    else if (billstatus[0]._id === 'exported') {
+    } else if (billstatus[0]._id === "exported") {
       exportedBill = billstatus[0].lastStatusBill;
-      completedBill= failedBill = shippingBill = 0;
-    }
-    else if (billstatus[0]._id === 'failed') {
+      completedBill = failedBill = shippingBill = 0;
+    } else if (billstatus[0]._id === "failed") {
       failedBill = billstatus[0].lastStatusBill;
-      completedBill= exportedBill = shippingBill = 0;
-    }
-    else {
+      completedBill = exportedBill = shippingBill = 0;
+    } else {
       shippingBill = billstatus[0].lastStatusBill;
-      completedBill= exportedBill = failedBill = 0;
+      completedBill = exportedBill = failedBill = 0;
     }
-  }
-  else if (length ===  2) {
-    if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'exported') {
+  } else if (length === 2) {
+    if (billstatus[0]._id === "completed" && billstatus[1]._id === "exported") {
       completedBill = billstatus[0].lastStatusBill;
       exportedBill = billstatus[1].lastStatusBill;
       failedBill = shippingBill = 0;
-    }
-    else if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'failed') {
+    } else if (
+      billstatus[0]._id === "completed" &&
+      billstatus[1]._id === "failed"
+    ) {
       completedBill = billstatus[0].lastStatusBill;
       failedBill = billstatus[1].lastStatusBill;
       shippingBill = exportedBill = 0;
-    }
-    else if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'shipping') {
+    } else if (
+      billstatus[0]._id === "completed" &&
+      billstatus[1]._id === "shipping"
+    ) {
       completedBill = billstatus[0].lastStatusBill;
       shippingBill = billstatus[1].lastStatusBill;
       failedBill = exportedBill = 0;
-    }
-    else if (billstatus[0]._id === 'exported' && billstatus[1]._id === 'failed') {
+    } else if (
+      billstatus[0]._id === "exported" &&
+      billstatus[1]._id === "failed"
+    ) {
       exportedBill = billstatus[0].lastStatusBill;
       failedBill = billstatus[1].lastStatusBill;
       completedBill = shippingBill = 0;
-    }
-    else if (billstatus[0]._id === 'exported' && billstatus[1]._id === 'shipping') {
+    } else if (
+      billstatus[0]._id === "exported" &&
+      billstatus[1]._id === "shipping"
+    ) {
       exportedBill = billstatus[0].lastStatusBill;
       shippingBill = billstatus[1].lastStatusBill;
       completedBill = failedBill = 0;
-    }
-    else if (billstatus[0]._id === 'failed' && billstatus[1]._id === 'shipping') {
+    } else if (
+      billstatus[0]._id === "failed" &&
+      billstatus[1]._id === "shipping"
+    ) {
       failedBill = billstatus[0].lastStatusBill;
       shippingBill = billstatus[1].lastStatusBill;
       completedBill = exportedBill = 0;
     }
-  }
-  else if (length ===  3) {
-    if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'exported' && billstatus[2]._id === 'failed') {
+  } else if (length === 3) {
+    if (
+      billstatus[0]._id === "completed" &&
+      billstatus[1]._id === "exported" &&
+      billstatus[2]._id === "failed"
+    ) {
       completedBill = billstatus[0].lastStatusBill;
       exportedBill = billstatus[1].lastStatusBill;
       failedBill = billstatus[2].lastStatusBill;
       shippingBill = 0;
-    }
-    else if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'exported' && billstatus[2]._id === 'shipping') {
+    } else if (
+      billstatus[0]._id === "completed" &&
+      billstatus[1]._id === "exported" &&
+      billstatus[2]._id === "shipping"
+    ) {
       completedBill = billstatus[0].lastStatusBill;
       exportedBill = billstatus[1].lastStatusBill;
-      shippingBill= billstatus[2].lastStatusBill;
+      shippingBill = billstatus[2].lastStatusBill;
       failedBill = 0;
-    }
-    else if (billstatus[0]._id === 'completed' && billstatus[1]._id === 'failed' && billstatus[2]._id === 'shipping') {
+    } else if (
+      billstatus[0]._id === "completed" &&
+      billstatus[1]._id === "failed" &&
+      billstatus[2]._id === "shipping"
+    ) {
       completedBill = billstatus[0].lastStatusBill;
       failedBill = billstatus[1].lastStatusBill;
-      shippingBill= billstatus[2].lastStatusBill;
+      shippingBill = billstatus[2].lastStatusBill;
       exportedBill = 0;
-    }
-    else if (billstatus[0]._id === 'exported' && billstatus[1]._id === 'failed' && billstatus[2]._id === 'shipping') {
-      exportedBill= billstatus[0].lastStatusBill;
+    } else if (
+      billstatus[0]._id === "exported" &&
+      billstatus[1]._id === "failed" &&
+      billstatus[2]._id === "shipping"
+    ) {
+      exportedBill = billstatus[0].lastStatusBill;
       failedBill = billstatus[1].lastStatusBill;
-      shippingBill= billstatus[2].lastStatusBill;
+      shippingBill = billstatus[2].lastStatusBill;
       completedBill = 0;
     }
+  } else {
+    billstatus.forEach(function (item) {
+      CountBill.push(item.lastStatusBill);
+    });
+    completedBill = CountBill[0];
+    exportedBill = CountBill[1];
+    failedBill = CountBill[2];
+    shippingBill = CountBill[3];
   }
-  else {
-  billstatus.forEach(function (item) {
-    CountBill.push(item.lastStatusBill);
-  });
-  completedBill = CountBill[0];
-  exportedBill = CountBill[1];
-  failedBill = CountBill[2];
-  shippingBill = CountBill[3];
-}
-  console.log("Result:", completedBill, exportedBill, failedBill, shippingBill);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -131,13 +147,6 @@ const ChartBillStatus = (props) => {
             <PieChart
               data={[
                 {
-                  name: "Hoàn tất",
-                  myCountBill: completedBill,
-                  color: "#4caf50",
-                  legendFontColor: "#4caf50",
-                  legendFontSize: 13,
-                },
-                {
                   name: "Đã xuất",
                   myCountBill: exportedBill,
                   color: "#f8ca00",
@@ -147,15 +156,22 @@ const ChartBillStatus = (props) => {
                 {
                   name: "Đang vận chuyển",
                   myCountBill: shippingBill,
-                  color: "#2196f3",
-                  legendFontColor: "#2196f3",
+                  color: "#F0622F",
+                  legendFontColor: "#F0622F",
+                  legendFontSize: 13,
+                },
+                {
+                  name: "Thành công",
+                  myCountBill: completedBill,
+                  color: "#4caf50",
+                  legendFontColor: "#4caf50",
                   legendFontSize: 13,
                 },
                 {
                   name: "Thất bại",
                   myCountBill: failedBill,
-                  color: "#f44336",
-                  legendFontColor: "#f44336",
+                  color: "#FF0000",
+                  legendFontColor: "#FF0000",
                   legendFontSize: 13,
                 },
               ]}

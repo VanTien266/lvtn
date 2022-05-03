@@ -1,41 +1,44 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { HStack, Box, FlatList } from "native-base";
+import { HStack, Box, FlatList, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formattedValue } from "../../../utils/formatNumber";
 
+const ROW_HEIGHT = 40;
 const Item = (props) => {
-  const { item, index } = props;
+  const { item, index, style } = props;
   const [expand, setExpand] = useState(false);
 
   const FabricRoll = ({ item, index }) => {
     return (
-      <HStack space={1} >
-        <Box flex={2}> </Box>
-        <Box flex={2}>{item.item.colorCode}</Box>
-        <Box flex={3}>{item.lot}</Box>
-        <Box flex={4}>{formattedValue(item.length)}</Box>
-        <Box flex={5}>
-          {formattedValue(
-            item.item.marketPrice[item.item.marketPrice.length - 1].price
-          )}
-        </Box>
-        <Box flex={1}></Box>
-      </HStack>
+      <>
+        <HStack space={1} style={styles.childHeader}>
+          <Box flex={2}> </Box>
+          <Box flex={2}>{item.item.colorCode}</Box>
+          <Box flex={3}>{item.lot}</Box>
+          <Box flex={4}>{formattedValue(item.length)}</Box>
+          <Box flex={5}>
+            {formattedValue(
+              item.item.marketPrice[item.item.marketPrice.length - 1].price
+            )}
+          </Box>
+          <Box flex={1}></Box>
+        </HStack>
+      </>
     );
   };
 
   return (
     <>
-      <HStack style={styles.titleRow} px={1}>
-      <Box flex={1} _text={{ fontWeight: "bold" }}>
+      <HStack style={style} px={1}>
+        <Box flex={1} _text={{ fontWeight: "bold" }}>
           {index}
         </Box>
         <Box flex={3} _text={{ fontWeight: "bold" }}>
           {item[0].item.name}
         </Box>
-        <Box flex={2} _text={{ fontWeight: "bold" }}>
-          {item.length}
+        <Box flex={3} _text={{ fontWeight: "bold" }}>
+          {`${item.length} cây vải`}
         </Box>
         <TouchableOpacity flex={1} onPress={() => setExpand(!expand)}>
           <Icon
@@ -46,13 +49,31 @@ const Item = (props) => {
         </TouchableOpacity>
       </HStack>
       {expand && (
-        <FlatList
-          data={item}
-          renderItem={({ item, index }) => (
-            <FabricRoll item={item} index={index + 1} />
-          )}
-          keyExtractor={(item) => item._id}
-        />
+        <>
+          <HStack space={1} justifyContent="center" style={styles.childHeader}>
+            <Box flex={2} _text={{ fontSize: "md" }}></Box>
+            <Box flex={2} _text={{ fontSize: "md" }}>
+              Mã
+            </Box>
+            <Box flex={3} _text={{ fontSize: "md" }}>
+              Lô
+            </Box>
+            <Box flex={4} _text={{ fontSize: "md" }}>
+              Chiều dài
+            </Box>
+            <Box flex={5} _text={{ fontSize: "md" }}>
+              Đơn giá
+            </Box>
+            <Box flex={1}></Box>
+          </HStack>
+          <FlatList
+            data={item}
+            renderItem={({ item, index }) => (
+              <FabricRoll item={item} index={index + 1} />
+            )}
+            keyExtractor={(item) => item._id}
+          />
+        </>
       )}
     </>
   );
@@ -60,4 +81,6 @@ const Item = (props) => {
 
 export default Item;
 
-const styles = StyleSheet.create({ titleRow: { backgroundColor: "#F6F6F8" } });
+const styles = StyleSheet.create({
+  childHeader: { backgroundColor: "#ffffff" },
+});

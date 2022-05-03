@@ -19,7 +19,8 @@ const ChartOrderStatus = (props) => {
         const response = await orderApi.getOrderStatus(
           props.date.toISOString().slice(0, 10)
         );
-        console.log("orderstatus", response);
+        console.log(props.date.toISOString().slice(0, 10));
+        console.log(response);
         setOrderStatus(response);
       } catch (error) {
         console.log("Failed to order status", error);
@@ -29,52 +30,159 @@ const ChartOrderStatus = (props) => {
     };
     fetchOrderStatus();
   }, [props.date]);
+  // const CountOrder = [];
+  // const length = orderstatus.length;
+  // let cancelOrder;
+  // if (length === 1) {
+  //   if (orderstatus[0]._id === "cancel") {
+  //     cancelOrder = orderstatus[0].lastStatusOrder;
+  //     completedOrder = 0;
+  //     pendingOrder = 0;
+  //   } else if (orderstatus[0]._id === "completed") {
+  //     completedOrder = orderstatus[0].lastStatusOrder;
+  //     cancelOrder = 0;
+  //     pendingOrder = 0;
+  //   } else if (orderstatus[0]._id === "pending") {
+  //     pendingOrder = orderstatus[0].lastStatusOrder;
+  //     cancelOrder = 0;
+  //     completedOrder = 0;
+  //   }
+  // } else if (length === 2) {
+  //   if (orderstatus[0]._id === "cancel" && orderstatus[1]._id === "completed") {
+  //     cancelOrder = orderstatus[0].lastStatusOrder;
+  //     completedOrder = orderstatus[1].lastStatusOrder;
+  //     pendingOrder = 0;
+  //   } else if (
+  //     orderstatus[0]._id === "completed" &&
+  //     orderstatus[1]._id === "pending"
+  //   ) {
+  //     completedOrder = orderstatus[0].lastStatusOrder;
+  //     cancelOrder = 0;
+  //     pendingOrder = orderstatus[1].lastStatusOrder;
+  //   } else if (
+  //     orderstatus[0]._id === "cancel" &&
+  //     orderstatus[1]._id === "pending"
+  //   ) {
+  //     pendingOrder = orderstatus[1].lastStatusOrder;
+  //     cancelOrder = orderstatus[0].lastStatusOrder;
+  //     completedOrder = 0;
+  //   }
+  // } else {
+  //   orderstatus.forEach(function (item) {
+  //     CountOrder.push(item.lastStatusOrder);
+  //   });
+  //   cancelOrder = CountOrder[0];
+  //   completedOrder = CountOrder[1];
+  //   pendingOrder = CountOrder[2];
+  // }
   const CountOrder = [];
   const length = orderstatus.length;
   let cancelOrder;
+  let completedOrder;
+  let pendingOrder;
+  let processingOrder;
   if (length === 1) {
-    if (orderstatus[0]._id === 'cancel')  {
+    if (orderstatus[0]._id === "cancel") {
       cancelOrder = orderstatus[0].lastStatusOrder;
-      completedOrder = 0;
-      pendingOrder = 0;
-    }
-    else if (orderstatus[0]._id === 'completed')  {
+      completedOrder = pendingOrder = processingOrder = 0;
+    } else if (orderstatus[0]._id === "completed") {
       completedOrder = orderstatus[0].lastStatusOrder;
-      cancelOrder = 0;
-      pendingOrder = 0;
-    }
-    else if (orderstatus[0]._id === 'pending')  {
+      cancelOrder = pendingOrder = processingOrder = 0;
+    } else if (orderstatus[0]._id === "pending") {
       pendingOrder = orderstatus[0].lastStatusOrder;
-      cancelOrder = 0;
-      completedOrder = 0;
+      cancelOrder = completedOrder = processingOrder = 0;
+    } else {
+      processingOrder = orderstatus[0].lastStatusOrder;
+      cancelOrder = completedOrder = pendingOrder = 0;
     }
-  }
-  else if (length === 2) {
-    if (orderstatus[0]._id === 'cancel' && orderstatus[1]._id === 'completed')  {
+  } else if (length === 2) {
+    if (orderstatus[0]._id === "cancel" && orderstatus[1]._id === "completed") {
       cancelOrder = orderstatus[0].lastStatusOrder;
       completedOrder = orderstatus[1].lastStatusOrder;
-      pendingOrder = 0;
-    }
-    else if (orderstatus[0]._id === 'completed' && orderstatus[1]._id === 'pending')  {
-      completedOrder = orderstatus[0].lastStatusOrder;
-      cancelOrder = 0;
-      pendingOrder = orderstatus[1].lastStatusOrder;;
-    }
-    else if (orderstatus[0]._id === 'cancel' && orderstatus[1]._id === 'pending')  {
+      pendingOrder = processingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "cancel" &&
+      orderstatus[1]._id === "pending"
+    ) {
+      cancelOrder = orderstatus[0].lastStatusOrder;
       pendingOrder = orderstatus[1].lastStatusOrder;
-      cancelOrder = orderstatus[0].lastStatusOrder;;
+      completedOrder = processingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "cancel" &&
+      orderstatus[1]._id === "processing"
+    ) {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      processingOrder = orderstatus[1].lastStatusOrder;
+      completedOrder = pendingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "completed" &&
+      orderstatus[1]._id === "pending"
+    ) {
+      completedOrder = orderstatus[0].lastStatusOrder;
+      pendingOrder = orderstatus[1].lastStatusOrder;
+      cancelOrder = processingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "completed" &&
+      orderstatus[1]._id === "processing"
+    ) {
+      completedOrder = orderstatus[0].lastStatusOrder;
+      processingOrder = orderstatus[1].lastStatusOrder;
+      cancelOrder = pendingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "pending" &&
+      orderstatus[1]._id === "processing"
+    ) {
+      pendingOrder = orderstatus[0].lastStatusOrder;
+      processingOrder = orderstatus[1].lastStatusOrder;
+      cancelOrder = completedOrder = 0;
+    }
+  } else if (length === 3) {
+    if (
+      orderstatus[0]._id === "cancel" &&
+      orderstatus[1]._id === "completed" &&
+      orderstatus[2]._id === "pending"
+    ) {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      completedOrder = orderstatus[1].lastStatusOrder;
+      pendingOrder = orderstatus[2].lastStatusOrder;
+      processingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "cancel" &&
+      orderstatus[1]._id === "completed" &&
+      orderstatus[2]._id === "processing"
+    ) {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      completedOrder = orderstatus[1].lastStatusOrder;
+      processingOrder = orderstatus[2].lastStatusOrder;
+      pendingOrder = 0;
+    } else if (
+      orderstatus[0]._id === "completed" &&
+      orderstatus[1]._id === "pending" &&
+      orderstatus[2]._id === "processing"
+    ) {
+      completedOrder = orderstatus[0].lastStatusOrder;
+      pendingOrder = orderstatus[1].lastStatusOrder;
+      processingOrder = orderstatus[2].lastStatusOrder;
+      cancelOrder = 0;
+    } else if (
+      orderstatus[0]._id === "cancel" &&
+      orderstatus[1]._id === "pending" &&
+      orderstatus[2]._id === "processing"
+    ) {
+      cancelOrder = orderstatus[0].lastStatusOrder;
+      pendingOrder = orderstatus[1].lastStatusOrder;
+      processingOrder = orderstatus[2].lastStatusOrder;
       completedOrder = 0;
     }
+  } else {
+    orderstatus.forEach(function (item) {
+      CountOrder.push(item.lastStatusOrder);
+    });
+    cancelOrder = CountOrder[0];
+    completedOrder = CountOrder[1];
+    pendingOrder = CountOrder[2];
+    processingOrder = CountOrder[3];
   }
-  else {
-  orderstatus.forEach(function (item) {
-    CountOrder.push(item.lastStatusOrder);
-  });
-  cancelOrder = CountOrder[0];
-  completedOrder = CountOrder[1];
-  pendingOrder = CountOrder[2];
-}
-  console.log("Result:", cancelOrder, completedOrder, pendingOrder);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -83,16 +191,21 @@ const ChartOrderStatus = (props) => {
           <Text style={styles.header}>Tình trạng xử lý đơn đặt hàng</Text>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
-          ) :
-          length > 0 ?
-          (
+          ) : length > 0 ? (
             <PieChart
               data={[
                 {
-                  name: "Đang xử lý",
+                  name: "Đợi xử lý",
                   myCountOrder: pendingOrder,
                   color: "#f8ca00",
                   legendFontColor: "#f8ca00",
+                  legendFontSize: 13,
+                },
+                {
+                  name: "Đang xử lý",
+                  myCountOrder: processingOrder,
+                  color: "#F0622F",
+                  legendFontColor: "#F0622F",
                   legendFontSize: 13,
                 },
                 {
@@ -102,12 +215,11 @@ const ChartOrderStatus = (props) => {
                   legendFontColor: "#4caf50",
                   legendFontSize: 13,
                 },
-
                 {
-                  name: "Hủy",
+                  name: "Đã Hủy",
                   myCountOrder: cancelOrder,
-                  color: "#f44336",
-                  legendFontColor: "#f44336",
+                  color: "#FF0000",
+                  legendFontColor: "#FF0000",
                   legendFontSize: 13,
                 },
               ]}
@@ -132,7 +244,7 @@ const ChartOrderStatus = (props) => {
               paddingLeft="15"
               absolute //for the absolute number remove if you want percentage
             />
-          ): (
+          ) : (
             <View style={styles.noDataContainer}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                 Không có dữ liệu để hiển thị

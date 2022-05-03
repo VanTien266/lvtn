@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -19,6 +20,7 @@ const OrderList = ({ navigation }) => {
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
 
+  const { role } = useSelector((state) => state.session);
   //Get order list
   const fetchListOrder = async () => {
     try {
@@ -30,17 +32,17 @@ const OrderList = ({ navigation }) => {
   };
 
   //refresh page
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    fetchListOrder();
+    if (role !== "GUEST") fetchListOrder();
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      fetchListOrder();
+      if (role !== "GUEST") fetchListOrder();
     });
     return unsubscribe;
   }, [navigation]);
@@ -49,8 +51,9 @@ const OrderList = ({ navigation }) => {
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
+
   useEffect(() => {
-    fetchListOrder();
+    if (role !== "GUEST") fetchListOrder();
   }, []);
   return (
     <ScrollView

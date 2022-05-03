@@ -1,8 +1,6 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { Button } from "native-base";
+import { StyleSheet, View } from "react-native";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Ionicons } from "@expo/vector-icons";
 import WareHouseList from "../pages/WareHouse/WareHouseList";
 import WareHouseDetail from "../pages/WareHouse/WareHouseDetail";
 

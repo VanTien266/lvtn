@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
-import { CheckStatus, CustomerInfo, AnortherInfo } from "./components";
+import { CheckStatus, CustomerInfo } from "./components";
 import { FlatList } from "native-base";
 
 const BillCheckStatus = ({ route, navigation }) => {
