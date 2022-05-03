@@ -18,6 +18,7 @@ import {
 import productApi from "../../../api/productApi";
 import { useSelector } from "react-redux";
 import orderApi from "../../../api/orderApi";
+import _ from "lodash";
 
 const CreateOrder = () => {
   const [listType, setListType] = useState([]);
@@ -39,6 +40,7 @@ const CreateOrder = () => {
     clientID: "",
   });
   const user = useSelector((state) => state.session).user;
+  const isRequired = user === null;
   const toast = useToast();
 
   useEffect(() => {
@@ -134,19 +136,21 @@ const CreateOrder = () => {
                   endIcon: <CheckIcon size={5} />,
                 }}
                 mt="1"
-                selectedValue={product.type}
+                selectedValue={product.type || ""}
                 onValueChange={(value) => {
                   setProduct({ ...product, type: value });
                 }}
               >
                 {listType &&
-                  listType.map((item, index) => (
-                    <Select.Item
-                      key={item.id + index}
-                      label={item.name}
-                      value={item.id}
-                    />
-                  ))}
+                  listType.map((item, index) => {
+                    return (
+                      <Select.Item
+                        key={item.id + index}
+                        label={_.capitalize(item.name)}
+                        value={item.id}
+                      />
+                    );
+                  })}
               </Select>
             </FormControl>
             <FormControl w="1/2" isRequired>
@@ -160,19 +164,21 @@ const CreateOrder = () => {
                   endIcon: <CheckIcon size={5} />,
                 }}
                 mt="1"
-                selectedValue={product.color}
+                selectedValue={product.color || ""}
                 onValueChange={(value) => {
                   setProduct({ ...product, color: value });
                 }}
               >
                 {listColorcode &&
-                  listColorcode.map((item, index) => (
-                    <Select.Item
-                      key={item.code + index}
-                      label={item.name}
-                      value={item.code}
-                    />
-                  ))}
+                  listColorcode.map((item, index) => {
+                    return (
+                      <Select.Item
+                        key={item.code + index}
+                        label={_.capitalize(item.name)}
+                        value={item.code}
+                      />
+                    );
+                  })}
               </Select>
             </FormControl>
           </HStack>
@@ -187,7 +193,12 @@ const CreateOrder = () => {
                 }}
               />
             </FormControl>
-            <Button w="1/4" onPress={() => handleAddproduct(product)}>
+            <Button
+              w="1/4"
+              h="3/4"
+              mt="auto"
+              onPress={() => handleAddproduct(product)}
+            >
               Thêm SP
             </Button>
           </HStack>
@@ -214,11 +225,13 @@ const CreateOrder = () => {
               <FlatList
                 data={order.products}
                 renderItem={({ item, index }) => (
-                  <HStack justifyContent="space-between" pl={2}>
+                  <HStack justifyContent="space-between" pl={2} key={index}>
                     <Box flex={1}>{index + 1}</Box>
                     <Box flex={2}>{item.type + item.color}</Box>
                     <Box flex={3}>
-                      {listProductCode.get(item.type + item.color)}
+                      {_.capitalize(
+                        listProductCode.get(item.type + item.color)
+                      )}
                     </Box>
                     <Box flex={2}>{parseInt(item.length)}</Box>
                   </HStack>
@@ -227,10 +240,10 @@ const CreateOrder = () => {
               />
             </Modal.Content>
           </Modal>
-          <FormControl>
+          <FormControl isRequired={isRequired}>
             <FormControl.Label>Người nhận</FormControl.Label>
             <Input
-              placeholder={user?.name}
+              placeholder={user?.name || "Vd: Nguyễn Văn A"}
               id="user-name"
               onChangeText={(val) => {
                 setOrder({ ...order, receiverName: val });
@@ -238,7 +251,7 @@ const CreateOrder = () => {
             />
             <FormControl.Label>SĐT người nhận</FormControl.Label>
             <Input
-              placeholder={user?.phone}
+              placeholder={user?.phone || "VD: 0123456789"}
               id="user-phone"
               onChangeText={(val) => {
                 setOrder({ ...order, receiverPhone: val });
@@ -246,12 +259,42 @@ const CreateOrder = () => {
             />
             <FormControl.Label>Địa chỉ người nhận</FormControl.Label>
             <Input
-              placeholder={user?.address}
+              placeholder={user?.address || "Vd: 123 đường A, quận B"}
               id="user-address"
               onChangeText={(val) => {
                 setOrder({ ...order, receiverAddress: val });
               }}
             />
+          </FormControl>
+          {user === null && (
+            <FormControl isRequired={isRequired}>
+              <FormControl.Label>Người đặt hàng</FormControl.Label>
+              <Input
+                placeholder="Vd: Nguyễn Văn A"
+                id="customer-name"
+                onChangeText={(val) => {
+                  setOrder({ ...order, customerName: val });
+                }}
+              />
+              <FormControl.Label>SĐT người đặt hàng</FormControl.Label>
+              <Input
+                placeholder="Vd: 0123456789"
+                id="customer-phone"
+                onChangeText={(val) => {
+                  setOrder({ ...order, customerPhone: val });
+                }}
+              />
+              <FormControl.Label>Địa chỉ người đặt hàng</FormControl.Label>
+              <Input
+                placeholder="Vd: 123 đường A, quận B"
+                id="customer-address"
+                onChangeText={(val) => {
+                  setOrder({ ...order, customerAddress: val });
+                }}
+              />
+            </FormControl>
+          )}
+          <FormControl>
             <FormControl.Label>Đặt cọc</FormControl.Label>
             <Input
               placeholder="Đặt cọc"
