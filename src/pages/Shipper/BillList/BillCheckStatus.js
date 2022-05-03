@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { CheckStatus, CustomerInfo } from "./components";
+import { CheckStatus, CustomerInfo, ItemList } from "./components";
 import { FlatList } from "native-base";
 
 const BillCheckStatus = ({ route, navigation }) => {
   const { bill } = route.params;
-
   const data = [
     { id: 1, name: "check-status" },
-    { id: 2, name: "customer-info" },
+    { id: 2, name: "item-list" },
+    { id: 3, name: "customer-info" },
   ];
   const renderItem = ({ item }) => {
     switch (item.name) {
@@ -16,6 +16,8 @@ const BillCheckStatus = ({ route, navigation }) => {
         return <CheckStatus navigation={navigation} billId={bill._id} />;
       case "customer-info":
         return <CustomerInfo bill={bill} />;
+      case "item-list":
+        return <ItemList bill={bill} />;
     }
   };
   return (

@@ -2,8 +2,8 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { HStack, Box, FlatList, Text } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { formattedValue } from "../../../utils/formatNumber";
-import getPriceOfFabricRoll from "../../../utils/getPriceOfFabricRoll";
+import { formattedValue } from "../../../../utils/formatNumber";
+import getPriceOfFabricRoll from "../../../../utils/getPriceOfFabricRoll";
 
 const ROW_HEIGHT = 40;
 const Item = (props) => {

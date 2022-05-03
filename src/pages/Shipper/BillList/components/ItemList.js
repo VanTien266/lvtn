@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import { HStack, Box, FlatList, Button } from "native-base";
-import productApi from "../../../api/productApi";
+import productApi from "../../../../api/productApi";
 import Item from "./Item";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
-import { formattedValue } from "../../../utils/formatNumber";
+import { formattedValue } from "../../../../utils/formatNumber";
 
 const ItemList = (props) => {
   const { bill } = props;
