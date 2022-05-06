@@ -29,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/logoapp.png"
-    }
+    },
+    "description": ""
   }
 }
