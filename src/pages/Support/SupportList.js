@@ -25,7 +25,6 @@ export default function SupportList({ navigation }) {
       setListSupportReq(response);
     };
     if (mounted && user) {
-      console.log("run");
       getListSupportReq();
     }
     return () => (mounted = false);

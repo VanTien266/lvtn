@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { login } from "../../redux/actions/sessionActions";
+import staffApi from "../../api/staffApi";
+import customerApi from "../../api/customerApi";
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -12,27 +14,32 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const validateSession = async () => {
-      let role;
-      const user = JSON.parse(await AsyncStorage.getItem("user"));
-      user && dispatch(login(user));
-      user
-        ? user.role
-          ? (role = user.role)
-          : (role = "USER")
-        : (role = "GUEST");
-      if (role)
-        switch (role) {
-          case "ADMIN":
-          case "SALESMAN":
-            navigation.navigate("BottomNavigation");
-            break;
-          case "SHIPPER":
-            navigation.navigate("ShipperNavigation");
-            break;
-          case "USER":
-            navigation.navigate("UserNavigation");
-            break;
-        }
+      try {
+        let role;
+        const user = await staffApi.getStaffInfo();
+        // const user = await customerApi.getCustomerInfo();
+        user && dispatch(login(user));
+        user
+          ? user.role
+            ? (role = user.role)
+            : (role = "USER")
+          : (role = "GUEST");
+        if (role)
+          switch (role) {
+            case "ADMIN":
+            case "SALESMAN":
+              navigation.navigate("BottomNavigation");
+              break;
+            case "SHIPPER":
+              navigation.navigate("ShipperNavigation");
+              break;
+            case "USER":
+              navigation.navigate("UserNavigation");
+              break;
+          }
+      } catch (error) {
+        console.log(error);
+      }
     };
     validateSession();
   }, []);
