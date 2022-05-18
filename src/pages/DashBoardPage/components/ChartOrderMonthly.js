@@ -83,7 +83,7 @@ const ChartOrderMonthly = (props) => {
   );
 };
 
-export default ChartOrderMonthly;
+export default React.memo(ChartOrderMonthly);
 
 const styles = StyleSheet.create({
   container: {

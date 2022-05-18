@@ -257,7 +257,7 @@ const ChartOrderStatus = (props) => {
   );
 };
 
-export default ChartOrderStatus;
+export default React.memo(ChartOrderStatus);
 
 const styles = StyleSheet.create({
   container: {
