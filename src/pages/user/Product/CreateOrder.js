@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
 import {
@@ -11,7 +11,6 @@ import {
   VStack,
   Button,
   Modal,
-  FlatList,
   TextArea,
   useToast,
 } from "native-base";
@@ -19,6 +18,7 @@ import productApi from "../../../api/productApi";
 import { useSelector } from "react-redux";
 import orderApi from "../../../api/orderApi";
 import _ from "lodash";
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 const CreateOrder = () => {
   const [listType, setListType] = useState([]);
@@ -118,10 +118,8 @@ const CreateOrder = () => {
       alert("Đặt hàng không thành công!");
     }
   };
-
-  return (
-    <ScrollView>
-      <Card containerStyle={{ marginHorizontal: 0 }}>
+  const HeaderComponent = () => (
+    <Card containerStyle={{ marginHorizontal: 0 }}>
         <Card.Title> Tạo đơn đặt hàng</Card.Title>
         <VStack space={3}>
           <HStack direction="row" space={3}>
@@ -292,6 +290,39 @@ const CreateOrder = () => {
                   setOrder({ ...order, customerAddress: val });
                 }}
               />
+              {/* <GooglePlacesAutocomplete
+              placeholder="Search"
+              styles={{
+                container: {
+                  flex: 0,
+                  borderColor: 'grey',
+                  borderWidth: 1,
+                  marginHorizontal: 3,
+                },
+                textInput: {fontSize: 14},
+              }}
+              onPress={(data, details = null) => {
+                // 'details' is provided when fetchDetails = true
+                console.log(data, details);
+                // setOrder({ ...order, customerAddress: data });
+                // dispatch(
+                  // setOrigin({
+                  //   location: details.geometry.location,
+                  //   description: data.description,
+                  // }),
+                // );
+                // dispatch(setDestination(null));
+              }}
+              fetchDetails={true}
+              returnKeyType={'search'}
+              minLength={2}
+              query={{
+                key: 'AIzaSyBL-Nce7y-Dt7ceZweXzGJ8Wjt4pNDpZeo',
+                language: 'en',
+              }}
+              enablePowerByContainer={false}
+              debounce={400}
+              /> */}
             </FormControl>
           )}
           <FormControl>
@@ -315,7 +346,11 @@ const CreateOrder = () => {
           <Button onPress={() => handleCreateOrder(order)}>Đặt hàng</Button>
         </VStack>
       </Card>
-    </ScrollView>
+  )
+  return (
+    <FlatList
+      ListHeaderComponent={HeaderComponent}
+    />
   );
 };
 
