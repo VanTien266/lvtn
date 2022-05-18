@@ -9,6 +9,10 @@ class CustomerApi {
     const url = "/user/admin/liststaff";
     return axiosClient.get(url, { params });
   };
+  getCustomerInfo = () => {
+    const url = "/user/customer/detail";
+    return axiosClient.get(url);
+  };
   getInfoById = (params) => {
     const url = "/user/admin/liststaff/info/:id";
     return axiosClient.get(url, { params });

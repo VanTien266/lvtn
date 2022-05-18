@@ -23,8 +23,13 @@ import PaginatedItems from "../pages/BillDetail/components/PaginatedItems";
 
 const OrderStack = createStackNavigator();
 
-const createBill = (orderId, ids) => {
-  const response = billApi.createBill({ orderId: orderId, ids: ids });
+const createBill = (orderId, clientID, salesmanID, ids) => {
+  const response = billApi.createBill({
+    orderId: orderId,
+    clientID: clientID,
+    salesmanID: salesmanID,
+    ids: ids,
+  });
   return response;
 };
 
@@ -188,7 +193,12 @@ const OrderStackNavigation = () => {
               variant={"ghost"}
               colorScheme="light"
               onPress={() => {
-                createBill(route.params.orderId, route.params.listProductAdded);
+                createBill(
+                  route.params.orderId,
+                  route.params.clientID,
+                  route.params.salesmanID,
+                  route.params.listProductAdded.map((i) => i._id)
+                );
                 Alert.alert("Tạo hóa đơn bán hàng thành công!");
                 navigation.navigate("order-detail", route.params);
               }}

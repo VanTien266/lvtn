@@ -17,6 +17,10 @@ class StaffApi {
     const url = "/user/staff/salesman";
     return axiosClient.get(url);
   };
+  getStaffInfo = () => {
+    const url = "/user/staff/detail";
+    return axiosClient.get(url);
+  };
 }
 const staffApi = new StaffApi();
 export default staffApi;

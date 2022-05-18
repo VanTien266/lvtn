@@ -6,7 +6,7 @@ class ProductApi {
     return axiosClient.get(url, { params });
   };
   getOne = (id) => {
-    const url = `/fabric/product/${id}?id=${id}`;
+    const url = `/fabric/product/${id}`;
     console.log(url);
     return axiosClient.get(url);
   };
