@@ -14,32 +14,38 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const validateSession = async () => {
+      let role;
+      let user;
       try {
-        let role;
-        const user = await staffApi.getStaffInfo();
-        // const user = await customerApi.getCustomerInfo();
-        user && dispatch(login(user));
-        user
-          ? user.role
-            ? (role = user.role)
-            : (role = "USER")
-          : (role = "GUEST");
-        if (role)
-          switch (role) {
-            case "ADMIN":
-            case "SALESMAN":
-              navigation.navigate("BottomNavigation");
-              break;
-            case "SHIPPER":
-              navigation.navigate("ShipperNavigation");
-              break;
-            case "USER":
-              navigation.navigate("UserNavigation");
-              break;
-          }
+        user = await staffApi.getStaffInfo();
       } catch (error) {
-        console.log(error);
+        console.log("Staff", error);
       }
+      try {
+        user = await customerApi.getCustomerInfo();
+      } catch (error) {
+        console.log("User", error);
+      }
+
+      user && dispatch(login(user));
+      user
+        ? user.role
+          ? (role = user.role)
+          : (role = "USER")
+        : (role = "GUEST");
+      if (role)
+        switch (role) {
+          case "ADMIN":
+          case "SALESMAN":
+            navigation.navigate("BottomNavigation");
+            break;
+          case "SHIPPER":
+            navigation.navigate("ShipperNavigation");
+            break;
+          case "USER":
+            navigation.navigate("UserNavigation");
+            break;
+        }
     };
     validateSession();
   }, []);
@@ -65,7 +71,7 @@ const SplashScreen = () => {
         </Text>
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => navigation.push("UserNavigation")}
+          onPress={() => navigation.navigate("UserNavigation")}
         >
           <Text style={styles.textbuttonPrimary}>Bắt đầu</Text>
         </TouchableOpacity>

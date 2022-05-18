@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import orderApi from "../../../api/orderApi";
 import _ from "lodash";
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { Ionicons } from "@expo/vector-icons";
 
 const CreateOrder = () => {
   const [listType, setListType] = useState([]);
@@ -134,6 +135,9 @@ const CreateOrder = () => {
                   endIcon: <CheckIcon size={5} />,
                 }}
                 mt="1"
+                dropdownIcon={
+                  <Ionicons size={20} color="grey" name="chevron-down" />
+                }
                 selectedValue={product.type || ""}
                 onValueChange={(value) => {
                   setProduct({ ...product, type: value });
@@ -162,6 +166,9 @@ const CreateOrder = () => {
                   endIcon: <CheckIcon size={5} />,
                 }}
                 mt="1"
+                dropdownIcon={
+                  <Ionicons size={20} color="grey" name="chevron-down" />
+                }
                 selectedValue={product.color || ""}
                 onValueChange={(value) => {
                   setProduct({ ...product, color: value });
@@ -193,7 +200,7 @@ const CreateOrder = () => {
             </FormControl>
             <Button
               w="1/4"
-              h="3/4"
+              h="2/4"
               mt="auto"
               onPress={() => handleAddproduct(product)}
             >

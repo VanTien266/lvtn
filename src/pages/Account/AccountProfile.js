@@ -15,7 +15,6 @@ import { Center, Button } from "native-base";
 
 const AccountProfile = ({ navigation }) => {
   const user = useSelector((state) => state.session).user;
-  console.log(user);
   if (user)
     return (
       <SafeAreaView style={styles.container}>
