@@ -13,6 +13,10 @@ class SupportApi {
     const url = "/support/create";
     return axiosClient.post(url, data);
   };
+  getByCustomer = (id) => {
+    const url = `/support/customer/${id}`;
+    return axiosClient.get(url);
+  }
 }
 const supportApi = new SupportApi();
 export default supportApi;

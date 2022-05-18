@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CreateOrder from "../pages/User/Product/CreateOrder";
-import ReviewOrder from "../pages/User/Product/ReviewOrder";
+import CreateOrder from "../pages/user/Product/CreateOrder";
+import ReviewOrder from "../pages/user/Product/ReviewOrder";
 
 const UserProductStack = createStackNavigator();
 

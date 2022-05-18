@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Button, Input, Icon } from "native-base";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -15,79 +16,45 @@ import moment from "moment";
 import transferOrderStatus from "../../utils/transferOrderStatus";
 
 export default function OrderFilter({ navigation }) {
-  const [fromDate, setFromDate] = useState(new Date(Date.now()));
-  const [toDate, setToDate] = useState(new Date(Date.now()));
-  const [statusFilter, setStatusFilter] = useState("");
-  const [showFromPickerDate, setShowFromPickerDate] = useState(false);
-  const [showToPickerDate, setShowToPickerDate] = useState(false);
+  // const [fromDate, setFromDate] = useState(new Date(Date.now()));
+  // const [toDate, setToDate] = useState(new Date(Date.now()));
+  const [statusFilter, setStatusFilter] = useState("pending");
+  const [sort, setSort] = useState("latest");
+  const { role, user } = useSelector((state) => state.session);
+  // const [showFromPickerDate, setShowFromPickerDate] = useState(false);
+  // const [showToPickerDate, setShowToPickerDate] = useState(false);
   const [result, setResult] = useState([]);
   const [listOrder, setListOrder] = useState([]);
-  const [mode, setMode] = useState("date");
+  // const [mode, setMode] = useState("date");
 
 
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
-        if (listOrder.length > 0 && statusFilter.length > 0) {
-          const filterResult = listOrder.filter(
-            (item) =>
-              item.orderStatus[item.orderStatus.length - 1].name ===
-              statusFilter
-          );
-          setResult(filterResult);
-        }
+        let response;
+        if (role == "USER") response = await orderApi.filterByCustomer(user._id, statusFilter, sort);
+        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await orderApi.filterByStaff(statusFilter, sort);
+        setResult(response);
       } catch (error) {
         console.log("Failed to fetch order list", error);
       }
     };
     fetchListOrder();
-  }, [statusFilter]);
+  }, [statusFilter, sort]);
 
-  const getOrderbyRange = useEffect(() => {
-    const fetchListOrderbyDateRange = async () => {
-      try {
-        const response = await orderApi.getOrderByDateRange(fromDate, toDate);
-          setListOrder(response);
-          setResult(response);
-      } catch (error) {
-        console.log("Failed to fetch order list", error);
-      }
-    };
-    fetchListOrderbyDateRange();
-  }, [fromDate, toDate]);
+  // const getOrderbyRange = useEffect(() => {
+  //   const fetchListOrderbyDateRange = async () => {
+  //     try {
+  //       const response = await orderApi.getOrderByDateRange(fromDate, toDate);
+  //         setListOrder(response);
+  //         setResult(response);
+  //     } catch (error) {
+  //       console.log("Failed to fetch order list", error);
+  //     }
+  //   };
+  //   fetchListOrderbyDateRange();
+  // }, [fromDate, toDate]);
 
-  const showModeFrom = (currentMode) => {
-    setShowFromPickerDate(true);
-    setMode(currentMode);
-  };
-
-  const showModeTo = (currentMode) => {
-    setShowToPickerDate(true);
-    setMode(currentMode);
-  };
-
-  const showFromPicker = () => {
-    showModeFrom("date");
-  };
-
-  const showToPicker = () => {
-    showModeTo("date");
-  };
-
-  const onChangeFromDate = (event, selectedDate) => {
-    const tempFromDate = selectedDate || fromDate;
-    setShowFromPickerDate(Platform.OS === "ios");
-    setFromDate(tempFromDate);
-  };
-
-  const onChangeToDate = (event, selectedDate) => {
-    const tempToDate = selectedDate || toDate;
-    setShowToPickerDate(Platform.OS === "ios");
-    setToDate(tempToDate);
-    getOrderbyRange();
-  };
 
   return (
     <ScrollView style={styles.container}>
@@ -148,49 +115,34 @@ export default function OrderFilter({ navigation }) {
       </View>
       <View>
         <View>
-          <Text style={styles.filterTypeTxt}>Lọc theo ngày</Text>
+          <Text style={styles.filterTypeTxt}>Sắp xếp</Text>
         </View>
-        <View style={styles.dateRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.dateTitleTxt}>Từ:</Text>
-          </View>
-          <View style={{ flex: 3, marginHorizontal: "1%" }}>
-            <TouchableOpacity
-              onPress={showFromPicker}
-              style={styles.datePickerBtn}
-            >
-              <Text>{moment(fromDate.toUTCString()).format("DD/MM/YYYY")}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.dateTitleTxt}>tới:</Text>
-          </View>
-          <View style={{ flex: 3, marginHorizontal: "1%" }}>
-            <TouchableOpacity
-              onPress={showToPicker}
-              style={styles.datePickerBtn}
-            >
-              <Text>{moment(toDate.toUTCString()).format("DD/MM/YYYY")}</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.statusRow}>              
+          <TouchableOpacity
+              style={[
+                styles.statusBtn,
+                sort === "latest" && {
+                  backgroundColor: "#BD2C2C",
+                  borderColor: "#BD2C2C",
+                },
+              ]}
+              onPress={() => setSort("latest")}
+          >
+            <Text style={styles.statusTxt}>Mới nhất</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+              style={[
+                styles.statusBtn,
+                sort === "oldest" && {
+                  backgroundColor: "#BD2C2C",
+                  borderColor: "#BD2C2C",
+                },
+              ]}
+              onPress={() => setSort("oldest")}
+          >
+            <Text style={styles.statusTxt}>Cũ nhất</Text>
+          </TouchableOpacity>
         </View>
-        {showFromPickerDate && (
-          <DateTimePicker
-            value={fromDate}
-            mode={"date"}
-            onChange={onChangeFromDate}
-            display="default"
-          />
-        )}
-        {showToPickerDate && (
-          <DateTimePicker
-            value={toDate}
-            mode={"date"}
-            onChange={onChangeToDate}
-            display="default"
-
-          />
-        )}
       </View>
       <View style={styles.resultBox}>
         {result.length > 0 ? (

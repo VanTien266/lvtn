@@ -1,49 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input, Icon } from "native-base";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
+import { useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 export default function OrderSearch({ navigation }) {
   const [searchTxt, setSearchTxt] = useState("");
-  const [listOrder, setListOrder] = useState([]);
   const [result, setResult] = useState([]);
+  const { role, user } = useSelector((state) => state.session);
 
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
+        let response ;
+        if (role == "USER") response = await orderApi.searchByCustomer(user._id, searchTxt);
+        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await orderApi.searchByStaff(searchTxt);
+        setResult(response);
       } catch (error) {
         console.log("Failed to fetch order list", error);
       }
     };
     fetchListOrder();
-  }, []);
+  }, [searchTxt]);
 
-  const searchOrder = (txtValue) => {
-    setSearchTxt(txtValue);
-    setResult([]);
-    if (txtValue.length > 3) {
-      let orderSearch = listOrder.filter((item) => {
-        return item.orderId.toString().startsWith(txtValue.substring(3));
-      });
-      setResult(orderSearch);
-    }
-  };
+  const debounceSearch = useRef(debounce((e) => setSearchTxt(e), 1000)).current;
+  
+  function delaySaveSearchTxt(e) {
+    debounceSearch(e);
+  }
 
-  useEffect(() => {
-    const fetchListOrder = async () => {
-      try {
-        const response = await orderApi.getAll();
-        setListOrder(response);
-      } catch (error) {
-        console.log("Failed to fetch order list", error);
-      }
-    };
-    fetchListOrder();
-  }, []);
+  // const searchOrder = (txtValue) => {
+  //   setSearchTxt(txtValue);
+  //   setResult([]);
+  //   if (txtValue.length > 3) {
+  //     let orderSearch = listOrder.filter((item) => {
+  //       return item.orderId.toString().startsWith(txtValue.substring(3));
+  //     });
+  //     setResult(orderSearch);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const fetchListOrder = async () => {
+  //     try {
+  //       const response = await orderApi.getAll();
+  //       setListOrder(response);
+  //     } catch (error) {
+  //       console.log("Failed to fetch order list", error);
+  //     }
+  //   };
+  //   fetchListOrder();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -71,7 +81,7 @@ export default function OrderSearch({ navigation }) {
               as={<Ionicons name="ios-search" />}
             />
           }
-          onChangeText={searchOrder}
+          onChangeText={delaySaveSearchTxt}
         />
       </View>
       <View style={styles.resultBox}>
