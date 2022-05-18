@@ -6,9 +6,11 @@ import {
   ScrollView,
   FlatList,
   Platform,
+  ActivityIndicator,
+  RefreshControl
 } from "react-native";
 // import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Text, Icon } from "react-native-elements";
 import TotalSale from "./components/TotalSale";
 import BillCompleted from "./components/BillCompleted";
@@ -22,11 +24,19 @@ import ChartTopProduct from "./components/ChartTopProduct";
 import MonthYearPicker from "../../components/MonthYearPicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
+
 export default function DashBoard() {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
   const [mode, setMode] = useState("date");
 
+  //refresh page
+  const [refreshing, setRefreshing] = useState(false);
+  const [freshChart, setFreshChart] = useState(false);
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -42,12 +52,22 @@ export default function DashBoard() {
     showMode("date");
   };
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setDate(new Date(Date.now()));
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   let year = date.getFullYear();
   let month = date.getUTCMonth() + 1;
 
   return (
     <SafeAreaView style={styles.container}>
+      {refreshing ? <ActivityIndicator /> : 
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         ListHeaderComponent={
           <View style={styles.overview}>
             <Text style={styles.textTitle}>Tổng quan</Text>
@@ -152,6 +172,7 @@ export default function DashBoard() {
           </>
         }
       />
+    }
     </SafeAreaView>
   );
 }

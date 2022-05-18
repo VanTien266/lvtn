@@ -8,3 +8,6 @@ describe('React Native Unit Test ChartTopProduct', () => {
         expect(queryByText('Không có dữ liệu để hiển thị')).toBeTruthy();
     });
 })
+
+
+

@@ -19,6 +19,20 @@ const TotalSale = (props) => {
     };
     fetCountOrder();
   }, [props.date]);
+
+  useEffect(() => {
+    const fetCountOrder = async () => {
+      try {
+        const response = await orderApi.countAllOrderMonthly(
+          new Date(Date.now()).toISOString().slice(0, 10)
+        );
+        setOrderTotal(response);
+      } catch (error) {
+        console.log("Failed to fetch order count", error);
+      }
+    };
+    fetCountOrder();
+  }, [props.freshChart]);
   return (
     <View style={styles.container}>
       <View style={styles.cardbackground}>

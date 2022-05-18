@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SIZE = 14; //limit page
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
@@ -20,27 +20,26 @@ const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
-
-  //refresh page
-  const [refreshing, setRefreshing] = useState(false);
-
-  const { role } = useSelector((state) => state.session);
+  const { role, user } = useSelector((state) => state.session);
   //Get order list
-  const fetchListOrder = async (page = 1) => {
+  const fetchListOrder = async () => {
     try {
-      const response = await orderApi.getAll(page, SIZE);
-      setRefreshing(false);
-      if (page <= 1)
-        setListOrder(response);
-      else {
-        setListOrder(old => [...old, ...response]);
+      let response;
+      if (role === "SALESMAN") {
+        response = await orderApi.getAll();
       }
+      if (role === "USER") {
+        response = await orderApi.getOrderIdByCustomer(user._id);
+      }
+      setListOrder(response);
     } catch (error) {
       console.log("Failed to fetch order list", error);
     }
   };
 
-  
+  //refresh page
+  const [refreshing, setRefreshing] = useState(false);
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     if (role !== "GUEST") fetchListOrder();
@@ -59,18 +58,6 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
 
-  const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20
-    return layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-  };
-  console.log('chay load more page = ', Math.ceil(listOrder.length/SIZE) + 1);
-  console.log(listOrder.length);
-
-  const handleloadMore = () => {
-    console.log('chay vao load more');
-    fetchListOrder(Math.ceil(listOrder.length / SIZE) + 1);
-  }
   useEffect(() => {
     if (role !== "GUEST") fetchListOrder();
   }, []);
@@ -81,17 +68,6 @@ const OrderList = ({ navigation }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      scrollEventThrottle={400}
-      onScroll={({nativeEvent}) => {
-        if (isCloseToBottom(nativeEvent)) {
-          handleloadMore();
-        }
-      }}
-      onMomentumScrollEnd={({nativeEvent}) => {
-        if (isCloseToBottom(nativeEvent)) {
-          handleloadMore();
-        }
-      }}
     >
       <View style={styles.headerList}>
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
