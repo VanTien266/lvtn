@@ -18,12 +18,14 @@ const wait = (timeout) => {
 export default function SupportList({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [listSupportReq, setListSupportReq] = useState([]);
-  const { role } = useSelector((state) => state.session);
+  const { role, user } = useSelector((state) => state.session);
 
   useEffect(() => {
     let mounted = true;
     const getListSupportReq = async () => {
-      const response = await supportApi.getAll();
+      let response;
+      if (role == "USER") response = await supportApi.getByCustomer(user._id);
+      else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await supportApi.getAll();
       setListSupportReq(response);
     };
     if (mounted && role !== "GUEST") {

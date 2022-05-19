@@ -9,8 +9,8 @@ const CheckStatus = (props) => {
   const { billId, navigation } = props;
   const [data, setData] = useState({ name: "", reason: "" });
 
-  const handleSubmit = () => {
-    const response = billApi.updateStatus(billId, data);
+  const handleSubmit = async () => {
+    const response = await billApi.updateStatus(billId, data);
     if (response) Alert.alert("Cập nhật trạng thái thành công!");
     navigation.navigate("bill-list");
   };

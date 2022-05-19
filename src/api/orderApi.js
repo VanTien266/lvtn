@@ -54,5 +54,27 @@ const orderApi = {
     const url = `/order/customer/${id}`;
     return axiosClient.get(url);
   },
+
+  filterByCustomer: (id, status, sort) => {
+    let sortNum = sort == "latest" ? -1 : 1;
+    const url = `/order/customer/${id}/filter?status=${status}&sort=${sortNum}`;
+    return axiosClient.get(url);
+  },
+
+  searchByCustomer: (id, keyword) => {
+    const url = `/order/customer/${id}/search?keyword=${keyword}`;
+    return axiosClient.get(url);
+  },
+
+  filterByStaff: (status, sort) => {
+    let sortNum = sort == "latest" ? -1 : 1;
+    const url = `/order/filter?status=${status}&sort=${sortNum}`;
+    return axiosClient.get(url);
+  },
+
+  searchByStaff: (keyword) => {
+    const url = `/order/search?keyword=${keyword}`;
+    return axiosClient.get(url);
+  }
 };
 export default orderApi;
