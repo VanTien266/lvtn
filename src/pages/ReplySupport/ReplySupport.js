@@ -10,8 +10,8 @@ export default function ReplySupport({ route, navigation }) {
   const { role } = useSelector((state) => state.session);
   const toast = useToast();
 
-  const handleResponse = () => {
-    supportApi.response({ _id: item._id, content: response });
+  const handleResponse = async () => {
+    await supportApi.response({ _id: item._id, content: response });
     toast.show({
       title: "Đã gửi",
       placement: "bottom",

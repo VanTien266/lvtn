@@ -20,6 +20,7 @@ import ItemListDetail from "../pages/OrderDetail/components/ItemListDetail";
 import BillStatusDetail from "../pages/BillDetail/components/BillStatusDetail";
 import BillProductDetail from "../pages/BillDetail/components/BillProductDetail";
 import PaginatedItems from "../pages/BillDetail/components/PaginatedItems";
+import { useSelector } from "react-redux";
 
 const OrderStack = createStackNavigator();
 
@@ -34,6 +35,7 @@ const createBill = (orderId, clientID, salesmanID, ids) => {
 };
 
 const OrderStackNavigation = () => {
+  const { role, user } = useSelector((state) => state.session);
   return (
     <OrderStack.Navigator>
       <OrderStack.Screen
@@ -44,12 +46,12 @@ const OrderStackNavigation = () => {
           headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
-              <TouchableOpacity
+              {role != "GUEST" && <TouchableOpacity
                 style={styles.iconBtnBar}
                 onPress={() => navigation.push("order-filter")}
               >
                 <Ionicons name="filter" size={24} color="#000040" />
-              </TouchableOpacity>
+              </TouchableOpacity>}
               <TouchableOpacity style={styles.iconBtnBar}>
                 <Ionicons name="notifications" size={24} color="#000040" />
               </TouchableOpacity>

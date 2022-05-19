@@ -1,9 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import SupportList from "../pages/User/SupportList/SupportList";
+import SupportList from "../pages/user/SupportList/SupportList";
 import ReplySupport from "../pages/ReplySupport/ReplySupport";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import CreateRequest from "../pages/User/SupportList/CreateRequest";
+import CreateRequest from "../pages/user/SupportList/CreateRequest";
 
 const SupportStack = createStackNavigator();
 
