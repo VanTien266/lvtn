@@ -20,23 +20,23 @@ export default function SupportList({ navigation }) {
   const [listSupportReq, setListSupportReq] = useState([]);
   const { role, user } = useSelector((state) => state.session);
 
+  const fetchRequestList = async () => {
+    let response;
+    if (role == "USER") response = await supportApi.getByCustomer(user._id);
+    else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await supportApi.getAll();
+    setListSupportReq(response);
+  }
+
   useEffect(() => {    
-    let mounted = true;
-    console.log(mounted);
-    const getListSupportReq = async () => {
-      let response;
-      if (role == "USER") response = await supportApi.getByCustomer(user._id);
-      else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await supportApi.getAll();
-      setListSupportReq(response);
-    };
-    if (mounted && role !== "GUEST") {
-      getListSupportReq();
-    }
-    return () => (mounted = false);
-  }, [refreshing]);
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (role !== "GUEST") fetchRequestList();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    fetchRequestList();
     wait(2000).then(() => setRefreshing(false));
   }, []);
 

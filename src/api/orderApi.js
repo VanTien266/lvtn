@@ -78,5 +78,10 @@ const orderApi = {
     const url = `/order/search?keyword=${keyword}`;
     return axiosClient.get(url);
   },
+
+  searchByGuest: (keyword, phoneNum) => {
+    const url = `/order/searchWithPhone?keyword=${keyword}&phoneNum=${phoneNum}`;
+    return axiosClient.get(url);
+  },
 };
 export default orderApi;

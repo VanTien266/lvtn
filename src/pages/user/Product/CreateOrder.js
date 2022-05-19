@@ -200,7 +200,7 @@ const CreateOrder = () => {
           </FormControl>
           <Button
             w="1/4"
-            h="2/4"
+            h="36"
             mt="auto"
             onPress={() => handleAddproduct(product)}
           >
