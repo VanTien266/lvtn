@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Icon } from "react-native-elements";
 import { formattedValue } from "../../../utils/formatNumber";
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BillCompleted;
+export default React.memo(BillCompleted);

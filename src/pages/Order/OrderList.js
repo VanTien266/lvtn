@@ -26,7 +26,7 @@ const OrderList = ({ navigation }) => {
     try {
       let response;
       if (role === "SALESMAN") {
-        response = await orderApi.getAll();
+        response = await orderApi.getAll(1, 20);
       }
       if (role === "USER") {
         response = await orderApi.getOrderIdByCustomer(user._id);

@@ -81,7 +81,7 @@ const ChartTopProduct = () => {
   );
 };
 
-export default ChartTopProduct;
+export default React.memo(ChartTopProduct);
 
 const styles = StyleSheet.create({
   container: {
