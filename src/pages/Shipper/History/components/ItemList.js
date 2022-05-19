@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Card } from "react-native-elements";
 import { HStack, Box, FlatList, Button } from "native-base";
-import productApi from "../../../api/productApi";
+import productApi from "../../../../api/productApi";
 import Item from "./Item";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
-import { formattedValue } from "../../../utils/formatNumber";
+import { formattedValue } from "../../../../utils/formatNumber";
 
 const ItemList = (props) => {
   const { bill } = props;
@@ -38,6 +38,7 @@ const ItemList = (props) => {
 
   const getTotalPrice = (listFabric) => {
     return listFabric?.reduce((acc, item) => {
+      console.log("Loop");
       const sum = item.reduce((itemAcc, fabricRoll) => {
         let price;
         const newArr = [...fabricRoll.item.marketPrice].reverse();
@@ -47,8 +48,10 @@ const ItemList = (props) => {
             break;
           }
         }
+        console.log(price * fabricRoll.length);
         return itemAcc + fabricRoll.length * price;
       }, 0);
+      console.log(sum, acc);
       return acc + sum;
     }, 0);
   };

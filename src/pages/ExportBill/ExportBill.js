@@ -2,10 +2,14 @@ import { StyleSheet, FlatList, View, Alert, BackHandler } from "react-native";
 import orderApi from "../../api/orderApi";
 import React, { useState, useEffect } from "react";
 import { AnortherInfo, CustomerInfo, Products } from "./components";
+import { useSelector } from "react-redux";
 
 const ExportBill = ({ route, navigation }) => {
   const { orderId } = route.params;
   const [order, setOrder] = useState({});
+
+  const user = useSelector((state) => state.session).user;
+  console.log(user);
 
   useEffect(() => {
     let mounted = true;
@@ -16,6 +20,7 @@ const ExportBill = ({ route, navigation }) => {
         navigation.setParams({
           clientID: response?.clientID?._id,
           note: response.note,
+          salesmanID: user._id,
         });
       }
     };

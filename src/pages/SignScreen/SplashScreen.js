@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { login } from "../../redux/actions/sessionActions";
+import staffApi from "../../api/staffApi";
+import customerApi from "../../api/customerApi";
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -13,7 +15,18 @@ const SplashScreen = () => {
   useEffect(() => {
     const validateSession = async () => {
       let role;
-      const user = JSON.parse(await AsyncStorage.getItem("user"));
+      let user;
+      try {
+        user = await staffApi.getStaffInfo();
+      } catch (error) {
+        console.log("Staff", error);
+      }
+      try {
+        user = await customerApi.getCustomerInfo();
+      } catch (error) {
+        console.log("User", error);
+      }
+
       user && dispatch(login(user));
       user
         ? user.role
@@ -58,7 +71,7 @@ const SplashScreen = () => {
         </Text>
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => navigation.push("UserNavigation")}
+          onPress={() => navigation.navigate("UserNavigation")}
         >
           <Text style={styles.textbuttonPrimary}>Bắt đầu</Text>
         </TouchableOpacity>

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/sessionActions";
 import customerApi from "../../api/customerApi";
 import { useToast, Box } from "native-base";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
@@ -90,7 +91,6 @@ const SignInScreen = () => {
     try {
       let response;
       if (userEmail.includes("@bk.fabric.com")) {
-        console.log("run");
         response = await staffApi.login({
           email: userEmail,
           password: password,
@@ -101,6 +101,7 @@ const SignInScreen = () => {
           password: password,
         });
       }
+      await AsyncStorage.setItem("access_token", response.access_token);
       dispatch(login(response));
       toast.show({
         render: () => {

@@ -24,7 +24,7 @@ const Status = (props) => {
   const { detailBill, orderStatus } = order;
 
   let status = [];
-  orderStatus?.forEach((item, index, orderStatus) => {
+  orderStatus?.forEach((item, index) => {
     let title;
     let description = "";
     let descStyle;
@@ -35,7 +35,7 @@ const Status = (props) => {
         title = "Đang đợi";
         if (index !== 0) {
           description = `Hoàn tất đơn MHD ${
-            detailBill[Math.floor((index - 1) / 2)].billID
+            detailBill[Math.floor((index - 1) / 2)]?.billID
           }\nĐợi xử lý các đơn còn lại`;
         } else {
           description = "Đơn hàng đang đợi xử lý";
@@ -48,10 +48,11 @@ const Status = (props) => {
         title = "Đang xử lý";
         if (index === orderStatus.length - 1) {
           description = "Nhân viên đang xử lý đơn đặt hàng";
-        } else
+        } else {
           description = `Đang xử lý đơn hàng MHD${
-            detailBill[Math.floor(index / 2)].billID
+            detailBill[Math.floor(index / 2)]?.billID
           }`;
+        }
         icon = <Icon name="done" size={12} color="#fff" />;
         descStyle = styles.process;
         cỉcleDotStyle = "#747FFF";

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -19,12 +20,17 @@ const OrderList = ({ navigation }) => {
   const [listOrder, setListOrder] = useState([
     { orderId: "", clientID: { name: "" }, receiverPhone: "" },
   ]);
-
-  const { role } = useSelector((state) => state.session);
+  const { role, user } = useSelector((state) => state.session);
   //Get order list
   const fetchListOrder = async () => {
     try {
-      const response = await orderApi.getAll();
+      let response;
+      if (role === "SALESMAN") {
+        response = await orderApi.getAll();
+      }
+      if (role === "USER") {
+        response = await orderApi.getOrderIdByCustomer(user._id);
+      }
       setListOrder(response);
     } catch (error) {
       console.log("Failed to fetch order list", error);

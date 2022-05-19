@@ -23,6 +23,7 @@ const OrderDetail = ({ route, navigation }) => {
   //get order data
   const fetchOrderDetail = async () => {
     const response = await orderApi.getOne(orderId);
+    console.log(response);
     setOrder(response);
   };
 

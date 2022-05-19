@@ -86,17 +86,17 @@ const BillList = ({ navigation }) => {
               </View>
               <View style={[styles.verticalCenter, { flex: 4 }]}>
                 <Text style={styles.orderItemText}>
-                  {bill.orderID.receiverName}
+                  {bill.orderID?.receiverName}
                 </Text>
               </View>
               <View style={[styles.verticalCenter, { flex: 4 }]}>
                 <Text style={styles.orderItemText}>
-                  {bill.orderID.receiverPhone}
+                  {bill.orderID?.receiverPhone}
                 </Text>
               </View>
               <View style={[styles.verticalCenter, { flex: 5 }]}>
                 <Text style={styles.orderItemText}>
-                  {bill.orderID.receiverAddress}
+                  {bill.orderID?.receiverAddress}
                 </Text>
               </View>
             </TouchableOpacity>
