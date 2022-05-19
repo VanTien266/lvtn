@@ -2,7 +2,9 @@ import axiosClient from "./axiosClient";
 
 const orderApi = {
   getAll: (page, limit) => {
-    const url = `/order?page=${page}&limit=${limit}`;
+    let url;
+    if (page && limit) url = `/order?page=${page}&limit=${limit}`;
+    else url = `/order`;
     return axiosClient.get(url);
   },
   create: (data) => {
@@ -75,6 +77,6 @@ const orderApi = {
   searchByStaff: (keyword) => {
     const url = `/order/search?keyword=${keyword}`;
     return axiosClient.get(url);
-  }
+  },
 };
 export default orderApi;
