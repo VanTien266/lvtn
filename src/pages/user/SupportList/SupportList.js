@@ -20,8 +20,9 @@ export default function SupportList({ navigation }) {
   const [listSupportReq, setListSupportReq] = useState([]);
   const { role, user } = useSelector((state) => state.session);
 
-  useEffect(() => {
+  useEffect(() => {    
     let mounted = true;
+    console.log(mounted);
     const getListSupportReq = async () => {
       let response;
       if (role == "USER") response = await supportApi.getByCustomer(user._id);
@@ -66,7 +67,7 @@ export default function SupportList({ navigation }) {
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 3 }]}>
-          <Text style={styles.headerText}>Trạng tháii</Text>
+          <Text style={styles.headerText}>Trạng thái</Text>
         </View>
       </View>
       {listSupportReq &&
