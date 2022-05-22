@@ -8,6 +8,7 @@ import {
   ScrollView,
   RefreshControl,
   FlatList,
+  ActivityIndicator
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
@@ -17,22 +18,31 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
+// let stopFetchMore = true;
+
+const SIZE = 12;
 const OrderList = ({ navigation }) => {
-  const [listOrder, setListOrder] = useState([
-    { orderId: "", clientID: { name: "" }, receiverPhone: "" },
-  ]);
+  // const [listOrder, setListOrder] = useState([
+  //   { orderId: "", clientID: { name: "" }, receiverPhone: "" },
+  // ]);
+  const [listOrder, setListOrder] = useState([]);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [pageCurrent, setPageCurrent] = useState(1);
   const { role, user } = useSelector((state) => state.session);
   //Get order list
   const fetchListOrder = async () => {
     try {
       let response;
       if (role === "SALESMAN") {
-        response = await orderApi.getAll(1, 20);
+        response = await orderApi.getAll(pageCurrent, SIZE);
+        setRefreshing(false);
+        setLoadingMore(false);
       }
       if (role === "USER") {
+        setLoadingMore(false);        
         response = await orderApi.getOrderIdByCustomer(user._id);
       }
-      setListOrder(response);
+      setListOrder(listOrder.concat(response));
     } catch (error) {
       console.log("Failed to fetch order list", error);
     }
@@ -47,9 +57,23 @@ const OrderList = ({ navigation }) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const ListFooterComponent = () => {
+    return (
+      loadingMore ?
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" />
+        </View>
+        : null
+    );
+
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      if (role !== "GUEST") fetchListOrder();
+      if (role !== "GUEST") {
+      setLoadingMore(true);  
+      fetchListOrder();
+      }
     });
     return unsubscribe;
   }, [navigation]);
@@ -58,10 +82,34 @@ const OrderList = ({ navigation }) => {
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
+  const handleLoadMore = () => {
+    console.log('handleLoadMore');
+    setPageCurrent(Math.ceil(listOrder.length / SIZE) + 1);
+    setLoadingMore(true);
+  };
+
+  // const handleOnEndReached = async () => {
+  //   // setLoadingMore(true);
+  //   // if (!stopFetchMore) {
+  //   //   const response = await orderApi.getAll(Math.ceil(listOrder.length / SIZE) + 1, SIZE);
+  //   //   if (response === 'done') return setLoadingMore(false);
+  //   //   setListOrder([...listOrder, ...response]);
+  //   //   stopFetchMore = true;
+  //   // }
+  //   // setLoadingMore(false);
+  // };
+
+
   console.log('list Order', listOrder);
   useEffect(() => {
-    if (role !== "GUEST") fetchListOrder();
-  }, []);
+    if (role !== "GUEST") {
+      console.log('useEffect');
+      console.log('useEffect pageCurrent', pageCurrent);
+    setLoadingMore(true);  
+    fetchListOrder();
+    }
+  }, [pageCurrent]);
+
   const HeaderComponent = () => (
     <View style={styles.headerList}>
       <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
@@ -83,7 +131,7 @@ const OrderList = ({ navigation }) => {
     return (
       <TouchableOpacity
         style={styles.orderItem}
-        // key={idx}
+        key={_id}
         onPress={() =>
           navigation.push("order-detail", { orderId: _id })
         }
@@ -191,6 +239,12 @@ const OrderList = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       ListHeaderComponent={HeaderComponent}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      // onScrollBeginDrag={() => {
+      //   stopFetchMore = false;
+      // }}
+      ListFooterComponent={() => loadingMore && <ListFooterComponent />}
     />
   );
 };
