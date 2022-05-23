@@ -20,7 +20,7 @@ const wait = (timeout) => {
 
 // let stopFetchMore = true;
 
-const SIZE = 12;
+const SIZE = 20;
 const OrderList = ({ navigation }) => {
   // const [listOrder, setListOrder] = useState([
   //   { orderId: "", clientID: { name: "" }, receiverPhone: "" },
@@ -116,7 +116,7 @@ const OrderList = ({ navigation }) => {
         <Text style={styles.headerText}>Mã hóa đơn</Text>
       </View>
       <View style={[styles.verticalCenter, { flex: 4 }]}>
-        <Text style={styles.headerText}>Người nhận</Text>
+        <Text style={styles.headerText}>Khách hàng</Text>
       </View>
       <View style={[styles.verticalCenter, { flex: 4 }]}>
         <Text style={styles.headerText}>Số điện thoại</Text>
@@ -127,7 +127,7 @@ const OrderList = ({ navigation }) => {
     </View>
   );
   const renderItem = ({ item }) => {
-    const { orderStatus, _id, orderId, clientID, receiverPhone } = item;
+    const { orderStatus, _id, orderId, clientID, receiverName, receiverPhone } = item;
     return (
       <TouchableOpacity
         style={styles.orderItem}
@@ -142,7 +142,7 @@ const OrderList = ({ navigation }) => {
           <Text style={styles.orderItemText}>MHĐ{orderId}</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
-          <Text style={styles.orderItemText}>{clientID.name}</Text>
+          <Text style={styles.orderItemText}>{clientID ? clientID.name : receiverName}</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.orderItemText}>{receiverPhone}</Text>
