@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Card } from "react-native-elements";
 import {
   Select,
@@ -7,9 +7,9 @@ import {
   Box,
   CheckIcon,
   HStack,
-  Input,
   VStack,
   Button,
+  Input,
   Modal,
   TextArea,
   useToast,
@@ -21,7 +21,15 @@ import _ from "lodash";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
 
+const GOOGLE_PLACES_API_KEY = 'AIzaSyBL-Nce7y-Dt7ceZweXzGJ8Wjt4pNDpZeo';
+
 const CreateOrder = () => {
+  // const ref = useRef();
+
+  // useEffect(() => {
+  //   ref.current?.setAddressText('Some Text');
+  // }, []);
+
   const [listType, setListType] = useState([]);
   const [listColorcode, setListColorcode] = useState([]);
   const [product, setProduct] = useState({
@@ -295,8 +303,9 @@ const CreateOrder = () => {
                 setOrder({ ...order, customerAddress: val });
               }}
             />
-            {/* <GooglePlacesAutocomplete
-              placeholder="Search"
+            <GooglePlacesAutocomplete
+              // ref={ref}
+              placeholder="Vd: 123 đường A, quận B"
               styles={{
                 container: {
                   flex: 0,
@@ -318,16 +327,29 @@ const CreateOrder = () => {
                 // );
                 // dispatch(setDestination(null));
               }}
+              // getAddressText={() => setOrder({ ...order, customerAddress: data })}
               fetchDetails={true}
               returnKeyType={'search'}
               minLength={2}
               query={{
-                key: 'AIzaSyBL-Nce7y-Dt7ceZweXzGJ8Wjt4pNDpZeo',
-                language: 'en',
+                key: 'AIzaSyCupBWEYhjFOzo4gEk7_CtSJW84KeAkVtU',
+                language: 'vi',
               }}
               enablePowerByContainer={false}
               debounce={400}
-              /> */}
+              />
+            {/* <GooglePlacesAutocomplete
+              query={{
+                key: GOOGLE_PLACES_API_KEY,
+                language: 'en', // language of the results
+              }}
+              onPress={(data, details) => console.log(data, details)}
+              textInputProps={{
+                InputComp: Input,
+                leftIcon: { type: 'font-awesome', name: 'chevron-left' },
+                errorStyle: { color: 'red' },
+              }} */}
+            {/* /> */}
           </FormControl>
         )}
         <FormControl>
