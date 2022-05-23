@@ -100,7 +100,7 @@ const OrderList = ({ navigation }) => {
   // };
 
 
-  console.log('list Order', listOrder);
+  // console.log('list Order', listOrder);
   useEffect(() => {
     if (role !== "GUEST") {
       console.log('useEffect');
@@ -148,7 +148,7 @@ const OrderList = ({ navigation }) => {
           <Text style={styles.orderItemText}>{receiverPhone}</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
-          {/* <Text
+          <Text
             style={[
               styles.orderItemText,
               transferOrderStatus(
@@ -161,7 +161,7 @@ const OrderList = ({ navigation }) => {
                 orderStatus[item.orderStatus.length - 1].name
               ).name
             }
-          </Text> */}
+          </Text>
         </View>
       </TouchableOpacity>
     )
