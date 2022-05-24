@@ -25,6 +25,7 @@ export default function WareHouseList({ navigation }) {
         {lstWarehouse.map((item, idx) => (
           <TouchableOpacity
             style={styles.button}
+            key={idx}
             onPress={() => navigation.push("warehouse-detail", { warehouseId: item.id})}
           >
             <View style={styles.contentBox}>

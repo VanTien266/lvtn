@@ -122,8 +122,8 @@ export default function OrderFilter({ navigation }) {
               style={[
                 styles.statusBtn,
                 sort === "latest" && {
-                  backgroundColor: "#BD2C2C",
-                  borderColor: "#BD2C2C",
+                  backgroundColor: "#327ba8",
+                  borderColor: "#327ba8",
                 },
               ]}
               onPress={() => setSort("latest")}
@@ -134,8 +134,8 @@ export default function OrderFilter({ navigation }) {
               style={[
                 styles.statusBtn,
                 sort === "oldest" && {
-                  backgroundColor: "#BD2C2C",
-                  borderColor: "#BD2C2C",
+                  backgroundColor: "#327ba8",
+                  borderColor: "#327ba8",
                 },
               ]}
               onPress={() => setSort("oldest")}

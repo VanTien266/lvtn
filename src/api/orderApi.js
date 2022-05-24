@@ -52,8 +52,10 @@ const orderApi = {
     return axiosClient.put(url);
   },
 
-  getOrderIdByCustomer: (id) => {
-    const url = `/order/customer/${id}`;
+  getOrderIdByCustomer: (customerId, page, limit) => {
+    let url;
+    if (page && limit) url = `/order/customer/${id}?page=${page}&limit=${limit}`;
+    else url = `/order/customer/${id}`;
     return axiosClient.get(url);
   },
 

@@ -20,7 +20,7 @@ const CheckStatus = (props) => {
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
-      <Card.Title>Đánh giấu trạng thái</Card.Title>
+      <Card.Title>Đánh dấu trạng thái</Card.Title>
       <Flex>
         <Radio.Group
           name="myRadioGroup"
