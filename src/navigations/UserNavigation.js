@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Product from "../pages/User/Product/CreateOrder"; //check CreateOrder or Product
+import Product from "../pages/user/Product/CreateOrder"; //check CreateOrder or Product
 import Order from "../pages/Order/Order";
 import Support from "../pages/Support/Support";
 import Account from "../pages/Account/Account";

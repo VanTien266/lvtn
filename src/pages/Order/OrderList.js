@@ -39,8 +39,9 @@ const OrderList = ({ navigation }) => {
         setLoadingMore(false);
       }
       if (role === "USER") {
+        setRefreshing(false);
         setLoadingMore(false);        
-        response = await orderApi.getOrderIdByCustomer(user._id);
+        response = await orderApi.getOrderIdByCustomer(user._id, pageCurrent, SIZE);
       }
       setListOrder(listOrder.concat(response));
     } catch (error) {
@@ -71,8 +72,8 @@ const OrderList = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (role !== "GUEST") {
-      setLoadingMore(true);  
-      fetchListOrder();
+        setLoadingMore(true);  
+        fetchListOrder();
       }
     });
     return unsubscribe;
@@ -105,8 +106,8 @@ const OrderList = ({ navigation }) => {
     if (role !== "GUEST") {
       console.log('useEffect');
       console.log('useEffect pageCurrent', pageCurrent);
-    setLoadingMore(true);  
-    fetchListOrder();
+      setLoadingMore(true);  
+      fetchListOrder();
     }
   }, [pageCurrent]);
 

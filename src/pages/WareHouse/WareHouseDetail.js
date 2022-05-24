@@ -10,13 +10,14 @@ import {
 import productApi from "../../api/productApi";
 import LotItem from "./LotItem";
 
-export default function WareHouseDetail({ navigation }) {
+export default function WareHouseDetail({ route, navigation }) {
+  const { warehouseId } = route.params;
   const [isLoading, setIsLoading] = useState(true);
   const [listFabricType, setListFabricType] = useState([]);
   useEffect(() => {
     const fetchListFabricType = async () => {
       try {
-        const response = await productApi.getAll();
+        const response = await productApi.getAll(warehouseId);
         setListFabricType(response);
         setIsLoading(false);
       } catch (error) {

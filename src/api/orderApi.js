@@ -52,8 +52,10 @@ const orderApi = {
     return axiosClient.put(url);
   },
 
-  getOrderIdByCustomer: (id) => {
-    const url = `/order/customer/${id}`;
+  getOrderIdByCustomer: (customerId, page, limit) => {
+    let url;
+    if (page && limit) url = `/order/customer/${id}?page=${page}&limit=${limit}`;
+    else url = `/order/customer/${id}`;
     return axiosClient.get(url);
   },
 
@@ -76,6 +78,11 @@ const orderApi = {
 
   searchByStaff: (keyword) => {
     const url = `/order/search?keyword=${keyword}`;
+    return axiosClient.get(url);
+  },
+
+  searchByGuest: (keyword, phoneNum) => {
+    const url = `/order/searchWithPhone?keyword=${keyword}&phoneNum=${phoneNum}`;
     return axiosClient.get(url);
   },
 };

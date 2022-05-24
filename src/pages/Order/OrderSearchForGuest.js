@@ -1,42 +1,45 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Input, Icon } from "native-base";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
-import { useSelector } from "react-redux";
 import { debounce } from "lodash";
 
-export default function OrderSearch({ navigation }) {
+export default function OrderSearchForGuest({ navigation }) {
   const [searchTxt, setSearchTxt] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
   const [result, setResult] = useState([]);
-  const { role, user } = useSelector((state) => state.session);
 
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
-        let response ;
-        if (role == "USER") response = await orderApi.searchByCustomer(user._id, searchTxt);
-        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await orderApi.searchByStaff(searchTxt);
+        let response;
+        if (searchTxt && phoneNum) response = await orderApi.searchByGuest(searchTxt, phoneNum);
         setResult(response);
       } catch (error) {
-        console.log("Failed to fetch order list", error);
+        console.log("Failed to fetch order", error);
       }
     };
     fetchListOrder();
-  }, [searchTxt]);
+  }, [searchTxt, phoneNum]);
 
-  const debounceSearch = useRef(debounce((e) => setSearchTxt(e), 1000)).current;
+  const debounceSearchTxt = useRef(debounce((e) => setSearchTxt(e), 1000)).current;
   
   function delaySaveSearchTxt(e) {
-    debounceSearch(e);
+    debounceSearchTxt(e);
+  }
+
+  const debouncePhoneNum = useRef(debounce((e) => setPhoneNum(e), 1000)).current;
+  
+  function delaySavePhoneNum(e) {
+    debouncePhoneNum(e);
   }
 
   return (
     <View style={styles.container}>
       <View>
         <Input
-          placeholder="Tìm kiếm"
+          placeholder="Mã đơn đặt hàng"
           variant="filled"
           width="100%"
           bg="gray.500"
@@ -50,24 +53,35 @@ export default function OrderSearch({ navigation }) {
             _focus: { style: { boxShadow: "none" } },
           }}
           color="gray.100"
-          InputLeftElement={
-            <Icon
-              ml="2"
-              size="5"
-              color="gray.100"
-              as={<Ionicons name="ios-search" />}
-            />
-          }
           onChangeText={delaySaveSearchTxt}
         />
       </View>
+      <View style={styles.phoneNumBox}>
+        <Input
+          placeholder="Số điện thoại nhận hàng"
+          variant="filled"
+          width="100%"
+          bg="gray.500"
+          borderRadius="5"
+          py="1"
+          px="2"
+          placeholderTextColor="gray.100"
+          _hover={{ bg: "gray.100", borderWidth: 0 }}
+          borderWidth="0"
+          _web={{
+            _focus: { style: { boxShadow: "none" } },
+          }}
+          color="gray.100"
+          onChangeText={delaySavePhoneNum}
+        />
+      </View>
       <View style={styles.resultBox}>
-        {searchTxt.length === 0 ? (
+        { searchTxt?.length === 0 ? (
           <Text></Text>
-        ) : result.length === 0 ? (
+        ) : result?.length === 0 ? (
           <Text>Không có kết quả phù hợp</Text>
         ) : (
-          result.map(
+          result?.map(
             (order, idx) =>
               order.orderStatus && (
                 <TouchableOpacity
@@ -157,4 +171,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  phoneNumBox: {
+    marginTop: 10
+  }
 });

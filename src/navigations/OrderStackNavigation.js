@@ -20,6 +20,7 @@ import ItemListDetail from "../pages/OrderDetail/components/ItemListDetail";
 import BillStatusDetail from "../pages/BillDetail/components/BillStatusDetail";
 import BillProductDetail from "../pages/BillDetail/components/BillProductDetail";
 import PaginatedItems from "../pages/BillDetail/components/PaginatedItems";
+import OrderSearchForGuest from "../pages/Order/OrderSearchForGuest";
 import { useSelector } from "react-redux";
 
 const OrderStack = createStackNavigator();
@@ -57,7 +58,7 @@ const OrderStackNavigation = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBtnBar}
-                onPress={() => navigation.push("order-search")}
+                onPress={() => role == "GUEST" ? navigation.push("order-search-for-guest") : navigation.push("order-search")}
               >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
@@ -231,6 +232,22 @@ const OrderStackNavigation = () => {
         options={{
           title: "Tìm kiếm hóa đơn",
         }}
+      />
+      <OrderStack.Screen
+        name="order-search-for-guest"
+        component={OrderSearchForGuest}
+        options={({ navigation }) => ({
+          title: "Tìm kiếm đơn đặt hàng",
+          headerLeft: null,
+          headerRight: () => (
+            <View style={styles.titleBar}>
+              <TouchableOpacity style={styles.iconBtnBar}>
+                <Ionicons name="notifications" size={24} color="#000040" />
+              </TouchableOpacity>
+            </View>
+          ),
+          headerStyle: { borderBottomWidth: 0 },
+        })}
       />
     </OrderStack.Navigator>
   );

@@ -50,6 +50,10 @@ class BillApi {
     console.log(url, data);
     return axiosClient.put(url, data);
   };
+  updateShipper = (billId, shipperId) => {
+    const url = `/bill/${billId}/updateShipper`;
+    return axiosClient.put(url, { shipperId })
+  }
 }
 const billApi = new BillApi();
 export default billApi;

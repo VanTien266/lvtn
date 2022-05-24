@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, FlatList } from "react-native";
+import { StyleSheet, ScrollView, FlatList, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
 import {
@@ -355,7 +355,7 @@ const CreateOrder = () => {
   // return <FlatList ListHeaderComponent={HeaderComponent} />;
   return (
     <ScrollView>
-      <Card containerStyle={{ marginHorizontal: 0 }}>
+      <Card containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}>
         <Card.Title> Tạo đơn đặt hàng</Card.Title>
         <VStack space={3}>
           <HStack direction="row" space={3}>
@@ -425,22 +425,26 @@ const CreateOrder = () => {
           <HStack space={2}>
             <FormControl w="3/4" isRequired>
               <FormControl.Label>Chiều dài</FormControl.Label>
-              <Input
-                placeholder="Chiều dài"
-                value={product.length}
-                onChangeText={(val) => {
-                  setProduct({ ...product, length: val });
-                }}
-              />
-            </FormControl>
-            <Button
-              w="1/4"
-              h="2/4"
-              mt="auto"
-              onPress={() => handleAddproduct(product)}
-            >
-              Thêm SP
-            </Button>
+              <View style={{height: 45}}>
+                <Input
+                  placeholder="Chiều dài"
+                  value={product.length}
+                  onChangeText={(val) => {
+                    setProduct({ ...product, length: val });
+                  }}
+                  style={{minHeight: "100%"}}
+                />
+              </View>
+            </FormControl>            
+              <Button
+                w="1/4"
+                mt="auto"
+                onPress={() => handleAddproduct(product)}
+                style={{height: 45}}
+              >
+                Thêm SP
+              </Button>
+            
           </HStack>
           <Button onPress={() => setShowModal(true)}>Danh sách sản phẩm</Button>
           <Modal

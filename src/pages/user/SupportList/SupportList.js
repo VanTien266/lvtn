@@ -20,22 +20,23 @@ export default function SupportList({ navigation }) {
   const [listSupportReq, setListSupportReq] = useState([]);
   const { role, user } = useSelector((state) => state.session);
 
-  useEffect(() => {
-    let mounted = true;
-    const getListSupportReq = async () => {
-      let response;
-      if (role == "USER") response = await supportApi.getByCustomer(user._id);
-      else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await supportApi.getAll();
-      setListSupportReq(response);
-    };
-    if (mounted && role !== "GUEST") {
-      getListSupportReq();
-    }
-    return () => (mounted = false);
-  }, [refreshing]);
+  const fetchRequestList = async () => {
+    let response;
+    if (role == "USER") response = await supportApi.getByCustomer(user._id);
+    else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await supportApi.getAll();
+    setListSupportReq(response);
+  }
+
+  useEffect(() => {    
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (role !== "GUEST") fetchRequestList();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    fetchRequestList();
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
@@ -66,7 +67,7 @@ export default function SupportList({ navigation }) {
           <Text style={styles.headerText}>Số điện thoại</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 3 }]}>
-          <Text style={styles.headerText}>Trạng tháii</Text>
+          <Text style={styles.headerText}>Trạng thái</Text>
         </View>
       </View>
       {listSupportReq &&

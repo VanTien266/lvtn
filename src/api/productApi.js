@@ -2,8 +2,8 @@ import axiosClient from "./axiosClient";
 
 class ProductApi {
   getAll = (params) => {
-    const url = "/fabric/product";
-    return axiosClient.get(url, { params });
+    const url = `/fabric/product?warehouseId=${params}`;
+    return axiosClient.get(url);
   };
   getOne = (id) => {
     const url = `/fabric/product/${id}`;

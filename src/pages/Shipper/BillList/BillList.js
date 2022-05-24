@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  ActivityIndicator
 } from "react-native";
 import billApi from "../../../api/billApi";
 
@@ -14,7 +15,7 @@ const wait = (timeout) => {
 };
 
 const BillList = ({ navigation }) => {
-  const [listBill, setListBill] = useState([]);
+  const [listBill, setListBill]= useState([]);
 
   //Get order list
   const fetchListBill = async () => {
@@ -47,7 +48,11 @@ const BillList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   useEffect(() => {
-    fetchListBill();
+    let mounted = true;
+    if (mounted) {
+      fetchListBill();
+    }
+    return () => (mounted = false);
   }, []);
   return (
     <ScrollView
@@ -85,7 +90,7 @@ const BillList = ({ navigation }) => {
                 <Text style={styles.orderItemText}>MHĐ{bill.billID}</Text>
               </View>
               <View style={[styles.verticalCenter, { flex: 4 }]}>
-                <Text style={styles.orderItemText}>
+                <Text style={styles.orderItemText} numberOfLines={1}>
                   {bill.orderID?.receiverName}
                 </Text>
               </View>
@@ -95,7 +100,7 @@ const BillList = ({ navigation }) => {
                 </Text>
               </View>
               <View style={[styles.verticalCenter, { flex: 5 }]}>
-                <Text style={styles.orderItemText}>
+                <Text style={styles.orderItemText} numberOfLines={1}>
                   {bill.orderID?.receiverAddress}
                 </Text>
               </View>

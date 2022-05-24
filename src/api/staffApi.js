@@ -21,6 +21,10 @@ class StaffApi {
     const url = "/user/staff/detail";
     return axiosClient.get(url);
   };
+  getShipper = () => {
+    const url = "/user/staff/shipper";
+    return axiosClient.get(url);
+  }
 }
 const staffApi = new StaffApi();
 export default staffApi;
