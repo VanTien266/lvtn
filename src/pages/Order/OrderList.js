@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  FlatList,
+  ActivityIndicator
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
@@ -16,22 +18,31 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
+// let stopFetchMore = true;
+
+const SIZE = 20;
 const OrderList = ({ navigation }) => {
-  const [listOrder, setListOrder] = useState([
-    { orderId: "", clientID: { name: "" }, receiverPhone: "" },
-  ]);
+  // const [listOrder, setListOrder] = useState([
+  //   { orderId: "", clientID: { name: "" }, receiverPhone: "" },
+  // ]);
+  const [listOrder, setListOrder] = useState([]);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [pageCurrent, setPageCurrent] = useState(1);
   const { role, user } = useSelector((state) => state.session);
   //Get order list
   const fetchListOrder = async () => {
     try {
       let response;
       if (role === "SALESMAN") {
-        response = await orderApi.getAll(1, 20);
+        response = await orderApi.getAll(pageCurrent, SIZE);
+        setRefreshing(false);
+        setLoadingMore(false);
       }
       if (role === "USER") {
+        setLoadingMore(false);        
         response = await orderApi.getOrderIdByCustomer(user._id);
       }
-      setListOrder(response);
+      setListOrder(listOrder.concat(response));
     } catch (error) {
       console.log("Failed to fetch order list", error);
     }
@@ -46,9 +57,23 @@ const OrderList = ({ navigation }) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  const ListFooterComponent = () => {
+    return (
+      loadingMore ?
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" />
+        </View>
+        : null
+    );
+
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      if (role !== "GUEST") fetchListOrder();
+      if (role !== "GUEST") {
+      setLoadingMore(true);  
+      fetchListOrder();
+      }
     });
     return unsubscribe;
   }, [navigation]);
@@ -57,73 +82,170 @@ const OrderList = ({ navigation }) => {
   let handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
+  const handleLoadMore = () => {
+    console.log('handleLoadMore');
+    setPageCurrent(Math.ceil(listOrder.length / SIZE) + 1);
+    setLoadingMore(true);
+  };
 
+  // const handleOnEndReached = async () => {
+  //   // setLoadingMore(true);
+  //   // if (!stopFetchMore) {
+  //   //   const response = await orderApi.getAll(Math.ceil(listOrder.length / SIZE) + 1, SIZE);
+  //   //   if (response === 'done') return setLoadingMore(false);
+  //   //   setListOrder([...listOrder, ...response]);
+  //   //   stopFetchMore = true;
+  //   // }
+  //   // setLoadingMore(false);
+  // };
+
+
+  // console.log('list Order', listOrder);
   useEffect(() => {
-    if (role !== "GUEST") fetchListOrder();
-  }, []);
+    if (role !== "GUEST") {
+      console.log('useEffect');
+      console.log('useEffect pageCurrent', pageCurrent);
+    setLoadingMore(true);  
+    fetchListOrder();
+    }
+  }, [pageCurrent]);
+
+  const HeaderComponent = () => (
+    <View style={styles.headerList}>
+      <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
+        <Text style={styles.headerText}>Mã hóa đơn</Text>
+      </View>
+      <View style={[styles.verticalCenter, { flex: 4 }]}>
+        <Text style={styles.headerText}>Khách hàng</Text>
+      </View>
+      <View style={[styles.verticalCenter, { flex: 4 }]}>
+        <Text style={styles.headerText}>Số điện thoại</Text>
+      </View>
+      <View style={[styles.verticalCenter, { flex: 4 }]}>
+        <Text style={styles.headerText}>Trạng thái</Text>
+      </View>
+    </View>
+  );
+  const renderItem = ({ item }) => {
+    const { orderStatus, _id, orderId, clientID, receiverName, receiverPhone } = item;
+    return (
+      <TouchableOpacity
+        style={styles.orderItem}
+        key={_id}
+        onPress={() =>
+          navigation.push("order-detail", { orderId: _id })
+        }
+      >
+        <View
+          style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+        >
+          <Text style={styles.orderItemText}>MHĐ{orderId}</Text>
+        </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text style={styles.orderItemText}>{clientID ? clientID.name : receiverName}</Text>
+        </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text style={styles.orderItemText}>{receiverPhone}</Text>
+        </View>
+        <View style={[styles.verticalCenter, { flex: 4 }]}>
+          <Text
+            style={[
+              styles.orderItemText,
+              transferOrderStatus(
+                orderStatus[item.orderStatus.length - 1].name
+              ).style,
+            ]}
+          >
+            {
+              transferOrderStatus(
+                orderStatus[item.orderStatus.length - 1].name
+              ).name
+            }
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
+  };
   return (
-    <ScrollView
+    // <ScrollView
+    //   style={styles.container}
+    //   contentContainerStyle={styles.scrollView}
+    //   refreshControl={
+    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //   }
+    // >
+    //   <View style={styles.headerList}>
+    //     <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
+    //       <Text style={styles.headerText}>Mã hóa đơn</Text>
+    //     </View>
+    //     <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //       <Text style={styles.headerText}>Người nhận</Text>
+    //     </View>
+    //     <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //       <Text style={styles.headerText}>Số điện thoại</Text>
+    //     </View>
+    //     <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //       <Text style={styles.headerText}>Trạng thái</Text>
+    //     </View>
+    //   </View>
+    //   {listOrder.map(
+    //     (order, idx) =>
+    //       order.orderStatus && (
+    //         <TouchableOpacity
+    //           style={styles.orderItem}
+    //           key={idx}
+    //           onPress={() =>
+    //             navigation.push("order-detail", { orderId: order._id })
+    //           }
+    //         >
+    //           <View
+    //             style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
+    //           >
+    //             <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
+    //           </View>
+    //           <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //             <Text style={styles.orderItemText}>{order.clientID.name}</Text>
+    //           </View>
+    //           <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //             <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
+    //           </View>
+    //           <View style={[styles.verticalCenter, { flex: 4 }]}>
+    //             <Text
+    //               style={[
+    //                 styles.orderItemText,
+    //                 transferOrderStatus(
+    //                   order.orderStatus[order.orderStatus.length - 1].name
+    //                 ).style,
+    //               ]}
+    //             >
+    //               {
+    //                 transferOrderStatus(
+    //                   order.orderStatus[order.orderStatus.length - 1].name
+    //                 ).name
+    //               }
+    //             </Text>
+    //           </View>
+    //         </TouchableOpacity>
+    //       )
+    //   )}
+    // </ScrollView>
+    <FlatList
+      data={listOrder}
+      renderItem={renderItem}
+      keyExtractor={(item) => item._id}
       style={styles.container}
       contentContainerStyle={styles.scrollView}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-    >
-      <View style={styles.headerList}>
-        <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-          <Text style={styles.headerText}>Mã hóa đơn</Text>
-        </View>
-        <View style={[styles.verticalCenter, { flex: 4 }]}>
-          <Text style={styles.headerText}>Người nhận</Text>
-        </View>
-        <View style={[styles.verticalCenter, { flex: 4 }]}>
-          <Text style={styles.headerText}>Số điện thoại</Text>
-        </View>
-        <View style={[styles.verticalCenter, { flex: 4 }]}>
-          <Text style={styles.headerText}>Trạng thái</Text>
-        </View>
-      </View>
-      {listOrder.map(
-        (order, idx) =>
-          order.orderStatus && (
-            <TouchableOpacity
-              style={styles.orderItem}
-              key={idx}
-              onPress={() =>
-                navigation.push("order-detail", { orderId: order._id })
-              }
-            >
-              <View
-                style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
-              >
-                <Text style={styles.orderItemText}>MHĐ{order.orderId}</Text>
-              </View>
-              <View style={[styles.verticalCenter, { flex: 4 }]}>
-                <Text style={styles.orderItemText}>{order.clientID.name}</Text>
-              </View>
-              <View style={[styles.verticalCenter, { flex: 4 }]}>
-                <Text style={styles.orderItemText}>{order.receiverPhone}</Text>
-              </View>
-              <View style={[styles.verticalCenter, { flex: 4 }]}>
-                <Text
-                  style={[
-                    styles.orderItemText,
-                    transferOrderStatus(
-                      order.orderStatus[order.orderStatus.length - 1].name
-                    ).style,
-                  ]}
-                >
-                  {
-                    transferOrderStatus(
-                      order.orderStatus[order.orderStatus.length - 1].name
-                    ).name
-                  }
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )
-      )}
-    </ScrollView>
+      ListHeaderComponent={HeaderComponent}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      // onScrollBeginDrag={() => {
+      //   stopFetchMore = false;
+      // }}
+      ListFooterComponent={() => loadingMore && <ListFooterComponent />}
+    />
   );
 };
 
