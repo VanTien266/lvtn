@@ -1,12 +1,52 @@
-import { StyleSheet } from "react-native";
-import React from "react";
+import { StyleSheet, View,  } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Card } from "react-native-elements";
-import { Box, Text, Flex, TextArea } from "native-base";
+import { Box, Text, Flex, TextArea, Select, CheckIcon, Button, useToast } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import moment from "moment";
+import staffApi from "../../../api/staffApi";
+import billApi from "../../../api/billApi";
+import _ from "lodash";
 
 const AnortherInfo = (props) => {
   const { bill } = props;
+  const { role } = useSelector((state) => state.session);
+  const [shipper, setShipper] = useState({
+    name: null,
+    id: null
+  })
+  const [lstShipper, setLstShipper] = useState([]);
+  const toast = useToast();
+
+  const updateShipperForBill = async () => {
+    try {
+      const result = await billApi.updateShipper(bill._id, shipper.id);
+      if (result) {
+        toast.show({
+          title: "Cập nhật thành công",
+          placement: "bottom",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchLstShipper = async() => {
+      let getLstShipper;
+      try {
+        getLstShipper = await staffApi.getShipper();
+      } catch (error) {
+        console.log(error);
+        getLstShipper = [];
+      }
+      setLstShipper(getLstShipper);
+    };
+    if (!bill?.shipperID) fetchLstShipper();
+  }, []);
+
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Thông tin khác</Card.Title>
@@ -52,8 +92,48 @@ const AnortherInfo = (props) => {
           <Text fontSize="md" bold>
             Nhân viên giao hàng
           </Text>
-          <Text>{bill?.shipperID?.name}</Text>
-          <Text>{bill?.shipperID?.phone}</Text>
+          {
+            !bill?.shipperID && role == "SALESMAN" ? (
+              <Flex direction="row">
+                <View style={{marginEnd: 10, height: 50}}>
+                  <Select
+                    minWidth="100"
+                    maxHeight="100"
+                    accessibilityLabel="Chọn loại vải"
+                    placeholder="Nhân viên giao hàng"
+                    _selectedItem={{
+                      bg: "teal.600",
+                      endIcon: <CheckIcon size={5} />,
+                    }}
+                    mt="1"
+                    selectedValue={shipper.id || ""}
+                    onValueChange={(value) => {
+                      setShipper({ id: value });
+                    }}
+                  >
+                    {lstShipper &&
+                      lstShipper.map((item, index) => {
+                        return (
+                          <Select.Item
+                            key={item._id}
+                            label={item.name}
+                            value={item._id}
+                          />
+                        );
+                      })}
+                  </Select>
+                </View>      
+                <View style={{height: 50, paddingTop: 7}}>          
+                  <Button onPress={() => updateShipperForBill()} style={{height: "100%"}}>Cập nhật</Button>
+                </View>
+              </Flex>  
+              ) : (
+              <View> 
+                <Text>{bill?.shipperID?.name}</Text>
+                <Text>{bill?.shipperID?.phone}</Text>
+              </View>
+            )
+          }         
         </Box>
       </Flex>
       <Flex flexDirection="row" alignItems="center">
