@@ -27,13 +27,18 @@ export default function OrderFilter({ navigation }) {
   const [listOrder, setListOrder] = useState([]);
   // const [mode, setMode] = useState("date");
 
-
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
         let response;
-        if (role == "USER") response = await orderApi.filterByCustomer(user._id, statusFilter, sort);
-        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await orderApi.filterByStaff(statusFilter, sort);
+        if (role == "USER")
+          response = await orderApi.filterByCustomer(
+            user._id,
+            statusFilter,
+            sort
+          );
+        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN")
+          response = await orderApi.filterByStaff(statusFilter, sort);
         setResult(response);
       } catch (error) {
         console.log("Failed to fetch order list", error);
@@ -41,20 +46,6 @@ export default function OrderFilter({ navigation }) {
     };
     fetchListOrder();
   }, [statusFilter, sort]);
-
-  // const getOrderbyRange = useEffect(() => {
-  //   const fetchListOrderbyDateRange = async () => {
-  //     try {
-  //       const response = await orderApi.getOrderByDateRange(fromDate, toDate);
-  //         setListOrder(response);
-  //         setResult(response);
-  //     } catch (error) {
-  //       console.log("Failed to fetch order list", error);
-  //     }
-  //   };
-  //   fetchListOrderbyDateRange();
-  // }, [fromDate, toDate]);
-
 
   return (
     <ScrollView style={styles.container}>
@@ -117,28 +108,28 @@ export default function OrderFilter({ navigation }) {
         <View>
           <Text style={styles.filterTypeTxt}>Sắp xếp</Text>
         </View>
-        <View style={styles.statusRow}>              
+        <View style={styles.statusRow}>
           <TouchableOpacity
-              style={[
-                styles.statusBtn,
-                sort === "latest" && {
-                  backgroundColor: "#327ba8",
-                  borderColor: "#327ba8",
-                },
-              ]}
-              onPress={() => setSort("latest")}
+            style={[
+              styles.statusBtn,
+              sort === "latest" && {
+                backgroundColor: "#327ba8",
+                borderColor: "#327ba8",
+              },
+            ]}
+            onPress={() => setSort("latest")}
           >
             <Text style={styles.statusTxt}>Mới nhất</Text>
           </TouchableOpacity>
           <TouchableOpacity
-              style={[
-                styles.statusBtn,
-                sort === "oldest" && {
-                  backgroundColor: "#327ba8",
-                  borderColor: "#327ba8",
-                },
-              ]}
-              onPress={() => setSort("oldest")}
+            style={[
+              styles.statusBtn,
+              sort === "oldest" && {
+                backgroundColor: "#327ba8",
+                borderColor: "#327ba8",
+              },
+            ]}
+            onPress={() => setSort("oldest")}
           >
             <Text style={styles.statusTxt}>Cũ nhất</Text>
           </TouchableOpacity>

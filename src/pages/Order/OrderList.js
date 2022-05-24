@@ -8,7 +8,7 @@ import {
   ScrollView,
   RefreshControl,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import orderApi from "../../api/orderApi";
 import transferOrderStatus from "../../utils/transferOrderStatus";
@@ -40,8 +40,12 @@ const OrderList = ({ navigation }) => {
       }
       if (role === "USER") {
         setRefreshing(false);
-        setLoadingMore(false);        
-        response = await orderApi.getOrderIdByCustomer(user._id, pageCurrent, SIZE);
+        setLoadingMore(false);
+        response = await orderApi.getOrderIdByCustomer(
+          user._id,
+          pageCurrent,
+          SIZE
+        );
       }
       setListOrder(listOrder.concat(response));
     } catch (error) {
@@ -59,20 +63,17 @@ const OrderList = ({ navigation }) => {
   }, []);
 
   const ListFooterComponent = () => {
-    return (
-      loadingMore ?
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" />
-        </View>
-        : null
-    );
-
+    return loadingMore ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" />
+      </View>
+    ) : null;
   };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (role !== "GUEST") {
-        setLoadingMore(true);  
+        setLoadingMore(true);
         fetchListOrder();
       }
     });
@@ -84,29 +85,13 @@ const OrderList = ({ navigation }) => {
     setDisplaySearch(!displaySearch);
   };
   const handleLoadMore = () => {
-    console.log('handleLoadMore');
     setPageCurrent(Math.ceil(listOrder.length / SIZE) + 1);
     setLoadingMore(true);
   };
 
-  // const handleOnEndReached = async () => {
-  //   // setLoadingMore(true);
-  //   // if (!stopFetchMore) {
-  //   //   const response = await orderApi.getAll(Math.ceil(listOrder.length / SIZE) + 1, SIZE);
-  //   //   if (response === 'done') return setLoadingMore(false);
-  //   //   setListOrder([...listOrder, ...response]);
-  //   //   stopFetchMore = true;
-  //   // }
-  //   // setLoadingMore(false);
-  // };
-
-
-  // console.log('list Order', listOrder);
   useEffect(() => {
     if (role !== "GUEST") {
-      console.log('useEffect');
-      console.log('useEffect pageCurrent', pageCurrent);
-      setLoadingMore(true);  
+      setLoadingMore(true);
       fetchListOrder();
     }
   }, [pageCurrent]);
@@ -128,22 +113,21 @@ const OrderList = ({ navigation }) => {
     </View>
   );
   const renderItem = ({ item }) => {
-    const { orderStatus, _id, orderId, clientID, receiverName, receiverPhone } = item;
+    const { orderStatus, _id, orderId, clientID, receiverName, receiverPhone } =
+      item;
     return (
       <TouchableOpacity
         style={styles.orderItem}
         key={_id}
-        onPress={() =>
-          navigation.push("order-detail", { orderId: _id })
-        }
+        onPress={() => navigation.push("order-detail", { orderId: _id })}
       >
-        <View
-          style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}
-        >
+        <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
           <Text style={styles.orderItemText}>MHĐ{orderId}</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
-          <Text style={styles.orderItemText}>{clientID ? clientID.name : receiverName}</Text>
+          <Text style={styles.orderItemText}>
+            {clientID ? clientID.name : receiverName}
+          </Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.orderItemText}>{receiverPhone}</Text>
@@ -152,20 +136,18 @@ const OrderList = ({ navigation }) => {
           <Text
             style={[
               styles.orderItemText,
-              transferOrderStatus(
-                orderStatus[item.orderStatus.length - 1].name
-              ).style,
+              transferOrderStatus(orderStatus[item.orderStatus.length - 1].name)
+                .style,
             ]}
           >
             {
-              transferOrderStatus(
-                orderStatus[item.orderStatus.length - 1].name
-              ).name
+              transferOrderStatus(orderStatus[item.orderStatus.length - 1].name)
+                .name
             }
           </Text>
         </View>
       </TouchableOpacity>
-    )
+    );
   };
   return (
     // <ScrollView

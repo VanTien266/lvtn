@@ -15,7 +15,7 @@ const ShipperBillStackNavigation = () => {
         component={BillList}
         options={({ navigation }) => ({
           title: "Danh sách hóa đơn",
-          headerLeft: null,
+          headerLeft: () => null,
           headerRight: () => (
             <View style={styles.titleBar}>
               <TouchableOpacity

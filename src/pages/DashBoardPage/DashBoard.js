@@ -7,7 +7,7 @@ import {
   FlatList,
   Platform,
   ActivityIndicator,
-  RefreshControl
+  RefreshControl,
 } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 import React, { useState, useCallback } from "react";
@@ -27,7 +27,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
-
 
 function DashBoard() {
   const [show, setShow] = useState(false);
@@ -63,119 +62,119 @@ function DashBoard() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {refreshing ? <ActivityIndicator /> : 
-      <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        ListHeaderComponent={
-          <View style={styles.overview}>
-            <Text style={styles.textTitle}>Tổng quan</Text>
-            <View style={styles.containerDate}>
-              <View style={styles.containerDateComponent}>
-                <View style={styles.pickedDateContainer}>
-                  <Text style={styles.pickedDate}>
-                    Tháng {month}, {year}{" "}
-                  </Text>
-                </View>
-                <View style={styles.iconDatePicker}>
-                  <Icon
-                    style={styles.iconDatePickerStyle}
-                    name="calendar-outline"
-                    type="ionicon"
-                    color="grey"
-                    solid="true"
-                    size={28}
-                    onPress={showDatepicker}
-                  />
-                </View>
+      {refreshing ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListHeaderComponent={
+            <View style={styles.overview}>
+              <Text style={styles.textTitle}>Tổng quan</Text>
+              <View style={styles.containerDate}>
+                <View style={styles.containerDateComponent}>
+                  <View style={styles.pickedDateContainer}>
+                    <Text style={styles.pickedDate}>
+                      Tháng {month}, {year}{" "}
+                    </Text>
+                  </View>
+                  <View style={styles.iconDatePicker}>
+                    <Icon
+                      style={styles.iconDatePickerStyle}
+                      name="calendar-outline"
+                      type="ionicon"
+                      color="grey"
+                      solid="true"
+                      size={28}
+                      onPress={showDatepicker}
+                    />
+                  </View>
 
-                {/* The date picker */}
-                {show && (
-                  <DateTimePicker
-                    value={date}
-                    mode={"date"}
-                    onChange={onChange}
-                    style={styles.datePicker}
-                    display="default"
-                  />
-                )}
-              </View>
-            </View>
-
-            <View style={styles.iconSearch}>
-              <Icon
-                style={styles.iconSearchStyle}
-                name="search"
-                type="evillcons"
-                color="grey"
-                solid="true"
-                size={28}
-                onPress={() => console.log("search")}
-              />
-            </View>
-
-            <View style={styles.iconNotification}>
-              <Icon
-                style={styles.iconNotificationStyle}
-                name="notifications-outline"
-                type="ionicon"
-                color="grey"
-                solid="true"
-                size={28}
-                onPress={() => console.log("notification")}
-              />
-            </View>
-          </View>
-        }
-        ListFooterComponent={
-          <>
-            <View style={styles.statistics}>
-              <View style={styles.orderbillStatistics}>
-                <View style={styles.orderStatistics}>
-                  <TotalSale date={date} />
-                </View>
-                <View style={styles.billStatistics}>
-                  <BillCompleted date={date} />
+                  {/* The date picker */}
+                  {show && (
+                    <DateTimePicker
+                      value={date}
+                      mode={"date"}
+                      onChange={onChange}
+                      style={styles.datePicker}
+                      display="default"
+                    />
+                  )}
                 </View>
               </View>
 
-              <View style={styles.revenuefabricStatistics}>
-                <View style={styles.revenueStatistics}>
-                  <Revenue date={date} />
-                </View>
-                <View style={styles.fabricStatistics}>
-                  <FabricRollCompleted date={date} />
-                </View>
+              <View style={styles.iconSearch}>
+                <Icon
+                  style={styles.iconSearchStyle}
+                  name="search"
+                  type="evillcons"
+                  color="grey"
+                  solid="true"
+                  size={28}
+                />
+              </View>
+
+              <View style={styles.iconNotification}>
+                <Icon
+                  style={styles.iconNotificationStyle}
+                  name="notifications-outline"
+                  type="ionicon"
+                  color="grey"
+                  solid="true"
+                  size={28}
+                />
               </View>
             </View>
+          }
+          ListFooterComponent={
+            <>
+              <View style={styles.statistics}>
+                <View style={styles.orderbillStatistics}>
+                  <View style={styles.orderStatistics}>
+                    <TotalSale date={date} />
+                  </View>
+                  <View style={styles.billStatistics}>
+                    <BillCompleted date={date} />
+                  </View>
+                </View>
 
-            <View style={styles.chartordermonthly}>
-              <ChartOrderMonthly date={date} />
-            </View>
+                <View style={styles.revenuefabricStatistics}>
+                  <View style={styles.revenueStatistics}>
+                    <Revenue date={date} />
+                  </View>
+                  <View style={styles.fabricStatistics}>
+                    <FabricRollCompleted date={date} />
+                  </View>
+                </View>
+              </View>
 
-            <View style={styles.chartfabricwarehouse}>
-              <ChartFabricWarehouse />
-            </View>
+              <View style={styles.chartordermonthly}>
+                <ChartOrderMonthly date={date} />
+              </View>
 
-            <View style={styles.charttopproduct}>
-              <ChartTopProduct date={date} />
-            </View>
+              <View style={styles.chartfabricwarehouse}>
+                <ChartFabricWarehouse />
+              </View>
 
-            <View style={styles.chartorderstatus}>
-              <ChartOrderStatus date={date} />
-            </View>
+              <View style={styles.charttopproduct}>
+                <ChartTopProduct date={date} />
+              </View>
 
-            <View style={styles.chartbillstatus}>
-              <ChartBillStatus date={date} />
-            </View>
-          </>
-        }
-      />
-    }
+              <View style={styles.chartorderstatus}>
+                <ChartOrderStatus date={date} />
+              </View>
+
+              <View style={styles.chartbillstatus}>
+                <ChartBillStatus date={date} />
+              </View>
+            </>
+          }
+        />
+      )}
     </SafeAreaView>
   );
-};
+}
 
 export default React.memo(DashBoard);
 const styles = StyleSheet.create({

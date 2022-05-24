@@ -47,18 +47,24 @@ const OrderStackNavigation = () => {
           headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
-              {role != "GUEST" && <TouchableOpacity
-                style={styles.iconBtnBar}
-                onPress={() => navigation.push("order-filter")}
-              >
-                <Ionicons name="filter" size={24} color="#000040" />
-              </TouchableOpacity>}
+              {role != "GUEST" && (
+                <TouchableOpacity
+                  style={styles.iconBtnBar}
+                  onPress={() => navigation.push("order-filter")}
+                >
+                  <Ionicons name="filter" size={24} color="#000040" />
+                </TouchableOpacity>
+              )}
               <TouchableOpacity style={styles.iconBtnBar}>
                 <Ionicons name="notifications" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBtnBar}
-                onPress={() => role == "GUEST" ? navigation.push("order-search-for-guest") : navigation.push("order-search")}
+                onPress={() =>
+                  role == "GUEST"
+                    ? navigation.push("order-search-for-guest")
+                    : navigation.push("order-search")
+                }
               >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
@@ -176,7 +182,6 @@ const OrderStackNavigation = () => {
                       const res = await orderApi.cancelStatus(
                         route.params.orderId
                       );
-                      console.log(res);
                       navigation.navigate("order-detail", route.params);
                     },
                   },

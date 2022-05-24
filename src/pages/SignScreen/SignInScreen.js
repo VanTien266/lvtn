@@ -126,7 +126,6 @@ const SignInScreen = () => {
           break;
       }
     } catch (err) {
-      console.log(err);
       toast.show({
         title: "Đăng nhập thất bại!",
         status: "error",
