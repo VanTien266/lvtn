@@ -99,7 +99,7 @@ const OrderList = ({ navigation }) => {
   const HeaderComponent = () => (
     <View style={styles.headerList}>
       <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-        <Text style={styles.headerText}>Mã hóa đơn</Text>
+        <Text style={styles.headerText}>Mã đơn hàng</Text>
       </View>
       <View style={[styles.verticalCenter, { flex: 4 }]}>
         <Text style={styles.headerText}>Khách hàng</Text>
@@ -122,7 +122,7 @@ const OrderList = ({ navigation }) => {
         onPress={() => navigation.push("order-detail", { orderId: _id })}
       >
         <View style={[styles.verticalCenter, { paddingLeft: 5, flex: 4 }]}>
-          <Text style={styles.orderItemText}>MHĐ{orderId}</Text>
+          <Text style={styles.orderItemText}>MĐH{orderId}</Text>
         </View>
         <View style={[styles.verticalCenter, { flex: 4 }]}>
           <Text style={styles.orderItemText}>

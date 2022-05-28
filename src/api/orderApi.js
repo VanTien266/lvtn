@@ -54,8 +54,8 @@ const orderApi = {
   getOrderIdByCustomer: (customerId, page, limit) => {
     let url;
     if (page && limit)
-      url = `/order/customer/${id}?page=${page}&limit=${limit}`;
-    else url = `/order/customer/${id}`;
+      url = `/order/customer/${customerId}?page=${page}&limit=${limit}`;
+    else url = `/order/customer/${customerId}`;
     return axiosClient.get(url);
   },
 
