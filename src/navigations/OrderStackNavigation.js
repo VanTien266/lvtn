@@ -78,7 +78,7 @@ const OrderStackNavigation = () => {
         component={OrderDetail}
         options={({ navigation, route }) => ({
           title: "Chi tiết đơn đặt hàng",
-          headerRight: () => (
+          headerRight: () => {user.role === "SALESMAN" ? (
             <Button
               variant={"ghost"}
               colorScheme="light"
@@ -96,7 +96,7 @@ const OrderStackNavigation = () => {
             >
               Xuất HĐ
             </Button>
-          ),
+          ): null},
         })}
       />
       <OrderStack.Screen
