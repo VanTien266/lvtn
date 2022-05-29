@@ -54,7 +54,9 @@ const ItemList = (props) => {
     }, 0);
   };
 
-  bill && billApi.updateValueBill(bill._id, getTotalPrice(listFabric));
+  bill &&
+    bill.valueBill === 0 &&
+    billApi.updateValueBill(bill._id, getTotalPrice(listFabric));
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
@@ -63,7 +65,7 @@ const ItemList = (props) => {
         <Button
           variant="link"
           onPress={() =>
-            navigation.navigate("bill-product-pagination", {
+            navigation.navigate("bill-product-detail", {
               listFabric: listFabric,
             })
           }
