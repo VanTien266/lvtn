@@ -106,7 +106,7 @@ function MemberCard() {
         <ScrollView style={styles.container}>
             <View style={styles.qrCodeAndCouponWrapper}>
                 <View style={styles.qrCodeWrapper}>
-                    <Image source={{uri: 'https://devapi.qrcode-gen.com/generate/2022_04/1653770615.png'}} style={styles.qrCodeImage} />
+                    <Image source={{uri: 'https://devapi.qrcode-gen.com/generate/2022_04/1653843475.png'}} style={styles.qrCodeImage} />
                 </View>
                 <View style={styles.info}>
                     <Text style={styles.remindText}>{user?._id}</Text>

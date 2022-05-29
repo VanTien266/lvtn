@@ -179,6 +179,7 @@ const CreateOrder = () => {
         customerName: "",
         customerPhone: "", 
         customerAddress: "",
+        receiverEmail: "",
         clientID: ""})
     } else {
       alert("Đặt hàng không thành công!");
@@ -399,6 +400,15 @@ const CreateOrder = () => {
                   setOrder({ ...order, customerAddress: val });
                 }}
                 value={order.customerAddress}
+              />
+              <FormControl.Label>Email</FormControl.Label>
+              <Input
+                placeholder="Vd: customer@gmail.com"
+                id="customer-email"
+                onChangeText={(val) => {
+                  setOrder({ ...order, receiverEmail: val });
+                }}
+                value={order.receiverEmail}
               />
             </FormControl>
           )}
