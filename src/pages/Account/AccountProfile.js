@@ -26,7 +26,21 @@ const AccountProfile = ({ navigation }) => {
             style={styles.imageAccount}
             resizeMode={"cover"}
           />
-          <Text style={styles.nameText}>{user?.name}</Text>
+          {/* Check Role */}
+          {user?.role === "ADMIN" || user?.role === "SALESMAN" || user?.role === "SHIPPER" ?
+            <Text style={styles.nameText}>{user?.name}</Text>
+          : 
+          <TouchableOpacity onPress={() => navigation.navigate("membercard")}>
+            <View style={{borderWidth: 1, borderColor:"#000040", padding: 5, width: 200, borderRadius: 5, alignItems: 'center' }}>
+              <Text style={[styles.nameMember, {fontWeight: '600'}]}>Thẻ thành viên</Text>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.nameMember}>Hạng tiêu chuẩn</Text>
+                <Text style={styles.nameMember}>Số điểm tích lũy: {user?.point}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        }
+          
           <TouchableOpacity
             style={styles.iconSetting}
             onPress={() => navigation.navigate("setting")}
@@ -181,6 +195,11 @@ const styles = StyleSheet.create({
   contentText: {
     ...TEXT,
   },
+  nameMember:{
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#000040",
+  }
 });
 
 export default AccountProfile;
