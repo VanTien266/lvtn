@@ -9,6 +9,7 @@ import SignStackNavigation from "./src/navigations/SignStackNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import messaging from '@react-native-firebase/messaging';
 import {requestUserPermission, NotificationListener} from './src/utils/FCMService';
+import notifee, {AndroidImportance} from '@notifee/react-native';
 
 import store from "./src/redux/store";
 
@@ -28,12 +29,31 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('Bạn nhận được thông báo từ BKFabric', JSON.stringify(remoteMessage.notification.body));
+      // Alert.alert('Bạn nhận được thông báo từ BKFabric', JSON.stringify(remoteMessage.notification.body));
+      DisplayNotification(remoteMessage);
     });
 
     return unsubscribe;
   }, []);
 
+  async function DisplayNotification(remoteMessage) {
+    // Create a channel
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      importance: AndroidImportance.HIGH,
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+      android: {
+        channelId,
+      },
+    });
+  }
+  
   return (
     <Provider store={store}>
       <NativeBaseProvider>
