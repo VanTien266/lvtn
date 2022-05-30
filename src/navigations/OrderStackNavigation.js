@@ -78,25 +78,30 @@ const OrderStackNavigation = () => {
         component={OrderDetail}
         options={({ navigation, route }) => ({
           title: "Chi tiết đơn đặt hàng",
-          headerRight: () => {user.role === "SALESMAN" ? (
-            <Button
-              variant={"ghost"}
-              colorScheme="light"
-              onPress={() => {
-                orderApi
-                  .updateStatus(route.params.orderId, {
-                    status: "processing",
-                    reason: "",
-                  })
-                  .then((res) => res)
-                  .catch((err) => err);
-                navigation.navigate("export-bill", route.params);
-              }}
-              leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
-            >
-              Xuất HĐ
-            </Button>
-          ): null},
+          headerRight: () => {
+            if (role === "SALESMAN")
+              return (
+                <Button
+                  variant={"ghost"}
+                  colorScheme="light"
+                  onPress={() => {
+                    orderApi
+                      .updateStatus(route.params.orderId, {
+                        status: "processing",
+                        reason: "",
+                      })
+                      .then((res) => res)
+                      .catch((err) => err);
+                    navigation.navigate("export-bill", route.params);
+                  }}
+                  leftIcon={
+                    <Icon name="file-upload" size={20} color="#00004060" />
+                  }
+                >
+                  Xuất HĐ
+                </Button>
+              );
+          },
         })}
       />
       <OrderStack.Screen

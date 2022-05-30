@@ -23,21 +23,21 @@ import { Ionicons } from "@expo/vector-icons";
 import { formattedValueCurrency } from "../../../utils/formatNumber";
 
 const listTypePrice = [
-  { id: 'co', price: 40000 },
-  { id: 'ka', price: 50000 },
-  { id: 'je', price: 60000 },
-  { id: 'kt', price: 65000 },
-  { id: 'ni', price: 45000 },
-  { id: 'le', price: 70000 },
-  { id: 'th', price: 35000 },
-  { id: 'vo', price: 55000 },
-  { id: 'la', price: 40000 },
-  { id: 'du', price: 63000 },
-  { id: 'lu', price: 80000 },
-  { id: 're', price: 75000 },
-  { id: 'nl', price: 67000 },
-  { id: 'tm', price: 46000 },
-  { id: 'ch', price: 53000 },
+  { id: "co", price: 40000 },
+  { id: "ka", price: 50000 },
+  { id: "je", price: 60000 },
+  { id: "kt", price: 65000 },
+  { id: "ni", price: 45000 },
+  { id: "le", price: 70000 },
+  { id: "th", price: 35000 },
+  { id: "vo", price: 55000 },
+  { id: "la", price: 40000 },
+  { id: "du", price: 63000 },
+  { id: "lu", price: 80000 },
+  { id: "re", price: 75000 },
+  { id: "nl", price: 67000 },
+  { id: "tm", price: 46000 },
+  { id: "ch", price: 53000 },
 ];
 const listColorPrice = [
   { code: "01", price: 10000 },
@@ -152,15 +152,15 @@ const CreateOrder = () => {
         length: null,
         colorCode: null,
       });
-      let typePrice = listTypePrice.find(function(post, index) {
-        if(post.id == product.type)
-          return post.price;
+      let typePrice = listTypePrice.find(function (post, index) {
+        if (post.id == product.type) return post.price;
       });
-      let colorPrice = listColorPrice.find(function(post, index) {
-        if(post.code == product.color)
-          return post.price;
+      let colorPrice = listColorPrice.find(function (post, index) {
+        if (post.code == product.color) return post.price;
       });
-      setTotalOrder(prev => prev + product.length * (typePrice.price + colorPrice.price));
+      setTotalOrder(
+        (prev) => prev + product.length * (typePrice.price + colorPrice.price)
+      );
     }
   };
   const handleCreateOrder = async (newOrder) => {
@@ -170,14 +170,15 @@ const CreateOrder = () => {
         title: "Đặt hàng thành công!",
         placement: "top",
       });
-      setOrder({products: [],
+      setOrder({
+        products: [],
         note: "",
         receiverName: "",
         receiverPhone: "",
         receiverAddress: "",
         deposit: "",
         customerName: "",
-        customerPhone: "", 
+        customerPhone: "",
         customerAddress: "",
         receiverEmail: "",
         clientID: ""})
@@ -187,17 +188,16 @@ const CreateOrder = () => {
   };
 
   const validateDeposit = () => {
-    if (order.deposit === '') {
-    setErrors({
-      ...errors,
-      name: 'Vui lòng đặt cọc để hoàn tất đơn hàng',
-    
-    });
-    return false;
+    if (order.deposit === "") {
+      setErrors({
+        ...errors,
+        name: "Vui lòng đặt cọc để hoàn tất đơn hàng",
+      });
+      return false;
     } else if (parseInt(order.deposit) < 0.15 * totalOrder) {
       setErrors({
         ...errors,
-        name: 'Vui lòng đặt cọc ít nhất 15% giá trị hóa đơn',
+        name: "Vui lòng đặt cọc ít nhất 15% giá trị hóa đơn",
       });
       return false;
     }
@@ -205,11 +205,10 @@ const CreateOrder = () => {
   };
 
   const onSubmit = (order) => {
-    if (validateDeposit()) {
-      setErrors({}); 
-      handleCreateOrder(order)
-    }
-    else console.log(errors.name);
+    if (validateDeposit() || user) {
+      setErrors({});
+      handleCreateOrder(order);
+    } else console.log(errors.name);
   };
   return (
     <ScrollView>
@@ -323,7 +322,7 @@ const CreateOrder = () => {
                 <Box flex={3}>Tên</Box>
                 <Box flex={2}>Chiều dài</Box>
               </HStack>
-              
+
               <FlatList
                 data={order.products}
                 renderItem={({ item, index }) => (
@@ -340,7 +339,9 @@ const CreateOrder = () => {
                 )}
                 keyExtractor={(item, index) => index + item.type + item.color}
               />
-              <Modal.Footer>Tổng tạm tính: {formattedValueCurrency(totalOrder)}</Modal.Footer>
+              <Modal.Footer>
+                Tổng tạm tính: {formattedValueCurrency(totalOrder)}
+              </Modal.Footer>
             </Modal.Content>
           </Modal>
           <FormControl isRequired={isRequired}>
@@ -412,21 +413,8 @@ const CreateOrder = () => {
               />
             </FormControl>
           )}
-          {user === null ?
-          <FormControl isRequired isInvalid={'name' in errors}>
-            <FormControl.Label>Đặt cọc</FormControl.Label>
-            <Input
-              placeholder="Đặt cọc"
-              id="user-deposit"
-              onChangeText={(val) => {
-                setOrder({ ...order, deposit: val });
-              }}
-              value={order.deposit}
-            />
-            {'name' in errors ?
-            <FormControl.ErrorMessage>{errors.name}</FormControl.ErrorMessage> : null}
-          </FormControl>
-          : <FormControl>
+          {user === null ? (
+            <FormControl isRequired isInvalid={"name" in errors}>
               <FormControl.Label>Đặt cọc</FormControl.Label>
               <Input
                 placeholder="Đặt cọc"
@@ -436,8 +424,25 @@ const CreateOrder = () => {
                 }}
                 value={order.deposit}
               />
-          </FormControl>
-          }
+              {"name" in errors ? (
+                <FormControl.ErrorMessage>
+                  {errors.name}
+                </FormControl.ErrorMessage>
+              ) : null}
+            </FormControl>
+          ) : (
+            <FormControl>
+              <FormControl.Label>Đặt cọc</FormControl.Label>
+              <Input
+                placeholder="Đặt cọc"
+                id="user-deposit"
+                onChangeText={(val) => {
+                  setOrder({ ...order, deposit: val });
+                }}
+                value={order.deposit}
+              />
+            </FormControl>
+          )}
           <FormControl>
             <FormControl.Label>Ghi chú</FormControl.Label>
             <TextArea
