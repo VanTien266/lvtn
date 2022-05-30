@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<resources>
+<!-- <resources>
   <color name="splashscreen_background">#FFFFFF</color>
+</resources> -->
+<resources>
+    <color name="white">#FFF</color>
 </resources>

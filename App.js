@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Alert } from "react-native";
 import { NativeBaseProvider, StatusBar } from "native-base";
 import { BottomNavigation } from "./src/navigations";
 import { LogBox } from "react-native";
@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import SignStackNavigation from "./src/navigations/SignStackNavigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import messaging from '@react-native-firebase/messaging';
+import {requestUserPermission, NotificationListener} from './src/utils/FCMService';
 
 import store from "./src/redux/store";
 
@@ -18,6 +20,20 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
+
+  useEffect(() => {
+    requestUserPermission();
+    NotificationListener();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('Bạn nhận được thông báo từ BKFabric', JSON.stringify(remoteMessage.notification.body));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <Provider store={store}>
       <NativeBaseProvider>

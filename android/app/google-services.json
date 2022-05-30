@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "564552999152",
+    "project_id": "bkfabric-9ad90",
+    "storage_bucket": "bkfabric-9ad90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564552999152:android:99c41db50c50726b5c6235",
+        "android_client_info": {
+          "package_name": "com.bkfabric"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564552999152-4acai4mkt911rg8trg9js1mje5hjff0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxX3C4dwvBAYO4foDHDoibKIqgb6ZohYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564552999152-4acai4mkt911rg8trg9js1mje5hjff0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
