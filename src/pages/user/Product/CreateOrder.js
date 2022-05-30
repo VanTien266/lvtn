@@ -22,6 +22,17 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Ionicons } from "@expo/vector-icons";
 import { formattedValueCurrency } from "../../../utils/formatNumber";
 
+//Payment call
+// import RNMomosdk from 'react-native-momosdk';
+// const EventEmitter = new NativeEventEmitter(NativeModules.RNMomosdk);
+
+// const merchantname = "BK Fabric";
+// const merchantcode = "BKFabric";
+// const merchantNameLabel = "Nhà cung cấp";
+// const billdescription = "BK Fabric Order";
+// const amount = 50000;
+// const enviroment = "0"; //"0": SANBOX , "1": PRODUCTION
+
 const listTypePrice = [
   { id: "co", price: 40000 },
   { id: "ka", price: 50000 },
