@@ -1,4 +1,4 @@
-# Project Title
+# Project BKFabric 
 
 LVTN - HCMUT18: Xây dựng hệ thống quản lý đơn đặt hàng cho doanh nghiệp vải trên mobile.
 Dự án được phát triển và build trên môi trường Expo.
@@ -67,6 +67,7 @@ Dự án được phát triển và build trên môi trường Expo.
 
 ## 🚀 Getting Started
 
+```
 ### 1. Installation
 
 ```bash
