@@ -112,4 +112,4 @@ $ yarn start || npm start || expo start
 
 ## Release App
 
-Download at Folder Release. Current 
+Download at https://drive.google.com/drive/folders/18uDByx0CyZwAr7OE019P1he9-1r7QiEL?usp=sharing
