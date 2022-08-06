@@ -108,7 +108,9 @@ $ yarn start || npm start || expo start
 ## Team member
 
 [@VanTien266](https://github.com/VanTien266)
+
 [@ttnghia179](https://github.com/ttnghia179)
+
 [@nguyenvantinh06](https://github.com/nguyenvantinh06)
 
 ## Release App
