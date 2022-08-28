@@ -74,7 +74,6 @@ const Products = (props) => {
 
   const handleGetFabricInfo = async (id) => {
     const response = await productApi.getOne(id);
-    // console.log(response);
     if (response && response.length > 0 && response.status)
       setNewProduct(response);
     else

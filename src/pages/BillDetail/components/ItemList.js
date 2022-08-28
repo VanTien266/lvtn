@@ -7,6 +7,7 @@ import Item from "./Item";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import { formattedValue } from "../../../utils/formatNumber";
+import billApi from "../../../api/billApi";
 
 const ItemList = (props) => {
   const { bill } = props;
@@ -53,6 +54,10 @@ const ItemList = (props) => {
     }, 0);
   };
 
+  bill &&
+    bill.valueBill === 0 &&
+    billApi.updateValueBill(bill._id, getTotalPrice(listFabric));
+
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
       <Card.Title>Sản phẩm</Card.Title>
@@ -60,7 +65,7 @@ const ItemList = (props) => {
         <Button
           variant="link"
           onPress={() =>
-            navigation.navigate("bill-product-pagination", {
+            navigation.navigate("bill-product-detail", {
               listFabric: listFabric,
             })
           }
@@ -113,12 +118,6 @@ const ItemList = (props) => {
           getTotalPrice(listFabric)
         )} vnđ`}</Box>
       </HStack>
-      {/* <HStack px={1} justifyContent="space-between">
-        <Box _text={{ fontWeight: "bold", fontSize: "md" }}>Đã đặt cọc</Box>
-        <Box _text={{ fontSize: "md" }}>{`${getTotalLength(
-          listFabric
-        )} m`}</Box>
-      </HStack> */}
     </Card>
   );
 };

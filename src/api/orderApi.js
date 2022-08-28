@@ -48,14 +48,14 @@ const orderApi = {
 
   cancelStatus: (orderId) => {
     const url = `/order/${orderId}/cancelStatus`;
-    console.log(url);
     return axiosClient.put(url);
   },
 
   getOrderIdByCustomer: (customerId, page, limit) => {
     let url;
-    if (page && limit) url = `/order/customer/${id}?page=${page}&limit=${limit}`;
-    else url = `/order/customer/${id}`;
+    if (page && limit)
+      url = `/order/customer/${customerId}?page=${page}&limit=${limit}`;
+    else url = `/order/customer/${customerId}`;
     return axiosClient.get(url);
   },
 

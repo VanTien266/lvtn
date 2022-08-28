@@ -97,6 +97,4 @@ function GroupBy(arr) {
 
     return r;
   }, []);
-
-  console.log(result);
 }

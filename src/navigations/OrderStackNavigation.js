@@ -47,18 +47,24 @@ const OrderStackNavigation = () => {
           headerLeft: null,
           headerRight: () => (
             <View style={styles.titleBar}>
-              {role != "GUEST" && <TouchableOpacity
-                style={styles.iconBtnBar}
-                onPress={() => navigation.push("order-filter")}
-              >
-                <Ionicons name="filter" size={24} color="#000040" />
-              </TouchableOpacity>}
+              {role != "GUEST" && (
+                <TouchableOpacity
+                  style={styles.iconBtnBar}
+                  onPress={() => navigation.push("order-filter")}
+                >
+                  <Ionicons name="filter" size={24} color="#000040" />
+                </TouchableOpacity>
+              )}
               <TouchableOpacity style={styles.iconBtnBar}>
                 <Ionicons name="notifications" size={24} color="#000040" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconBtnBar}
-                onPress={() => role == "GUEST" ? navigation.push("order-search-for-guest") : navigation.push("order-search")}
+                onPress={() =>
+                  role == "GUEST"
+                    ? navigation.push("order-search-for-guest")
+                    : navigation.push("order-search")
+                }
               >
                 <Ionicons name="search-sharp" size={24} color="#000040" />
               </TouchableOpacity>
@@ -72,25 +78,30 @@ const OrderStackNavigation = () => {
         component={OrderDetail}
         options={({ navigation, route }) => ({
           title: "Chi tiết đơn đặt hàng",
-          headerRight: () => (
-            <Button
-              variant={"ghost"}
-              colorScheme="light"
-              onPress={() => {
-                orderApi
-                  .updateStatus(route.params.orderId, {
-                    status: "processing",
-                    reason: "",
-                  })
-                  .then((res) => res)
-                  .catch((err) => err);
-                navigation.navigate("export-bill", route.params);
-              }}
-              leftIcon={<Icon name="file-upload" size={20} color="#00004060" />}
-            >
-              Xuất HĐ
-            </Button>
-          ),
+          headerRight: () => {
+            if (role === "SALESMAN")
+              return (
+                <Button
+                  variant={"ghost"}
+                  colorScheme="light"
+                  onPress={() => {
+                    orderApi
+                      .updateStatus(route.params.orderId, {
+                        status: "processing",
+                        reason: "",
+                      })
+                      .then((res) => res)
+                      .catch((err) => err);
+                    navigation.navigate("export-bill", route.params);
+                  }}
+                  leftIcon={
+                    <Icon name="file-upload" size={20} color="#00004060" />
+                  }
+                >
+                  Xuất HĐ
+                </Button>
+              );
+          },
         })}
       />
       <OrderStack.Screen
@@ -176,7 +187,6 @@ const OrderStackNavigation = () => {
                       const res = await orderApi.cancelStatus(
                         route.params.orderId
                       );
-                      console.log(res);
                       navigation.navigate("order-detail", route.params);
                     },
                   },

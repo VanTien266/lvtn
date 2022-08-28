@@ -15,9 +15,11 @@ export default function OrderSearch({ navigation }) {
   useEffect(() => {
     const fetchListOrder = async () => {
       try {
-        let response ;
-        if (role == "USER") response = await orderApi.searchByCustomer(user._id, searchTxt);
-        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN") response = await orderApi.searchByStaff(searchTxt);
+        let response;
+        if (role == "USER")
+          response = await orderApi.searchByCustomer(user._id, searchTxt);
+        else if (role == "SALESMAN" || role == "SHIPPER" || role == "ADMIN")
+          response = await orderApi.searchByStaff(searchTxt);
         setResult(response);
       } catch (error) {
         console.log("Failed to fetch order list", error);
@@ -27,7 +29,7 @@ export default function OrderSearch({ navigation }) {
   }, [searchTxt]);
 
   const debounceSearch = useRef(debounce((e) => setSearchTxt(e), 1000)).current;
-  
+
   function delaySaveSearchTxt(e) {
     debounceSearch(e);
   }
@@ -84,7 +86,7 @@ export default function OrderSearch({ navigation }) {
                   </View>
                   <View style={[styles.verticalCenter, { flex: 4 }]}>
                     <Text style={styles.orderItemText}>
-                      {order.clientID.name}
+                      {order.clientID.name || order.receiverName}
                     </Text>
                   </View>
                   <View style={[styles.verticalCenter, { flex: 4 }]}>

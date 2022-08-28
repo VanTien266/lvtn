@@ -19,12 +19,12 @@ const SplashScreen = () => {
       try {
         user = await staffApi.getStaffInfo();
       } catch (error) {
-        console.log("Staff", error);
+        console.log(error);
       }
       try {
         user = await customerApi.getCustomerInfo();
       } catch (error) {
-        console.log("User", error);
+        console.log(error);
       }
 
       user && dispatch(login(user));

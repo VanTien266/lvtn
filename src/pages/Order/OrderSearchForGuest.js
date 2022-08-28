@@ -14,7 +14,8 @@ export default function OrderSearchForGuest({ navigation }) {
     const fetchListOrder = async () => {
       try {
         let response;
-        if (searchTxt && phoneNum) response = await orderApi.searchByGuest(searchTxt, phoneNum);
+        if (searchTxt && phoneNum)
+          response = await orderApi.searchByGuest(searchTxt, phoneNum);
         setResult(response);
       } catch (error) {
         console.log("Failed to fetch order", error);
@@ -23,14 +24,18 @@ export default function OrderSearchForGuest({ navigation }) {
     fetchListOrder();
   }, [searchTxt, phoneNum]);
 
-  const debounceSearchTxt = useRef(debounce((e) => setSearchTxt(e), 1000)).current;
-  
+  const debounceSearchTxt = useRef(
+    debounce((e) => setSearchTxt(e), 1000)
+  ).current;
+
   function delaySaveSearchTxt(e) {
     debounceSearchTxt(e);
   }
 
-  const debouncePhoneNum = useRef(debounce((e) => setPhoneNum(e), 1000)).current;
-  
+  const debouncePhoneNum = useRef(
+    debounce((e) => setPhoneNum(e), 1000)
+  ).current;
+
   function delaySavePhoneNum(e) {
     debouncePhoneNum(e);
   }
@@ -76,7 +81,7 @@ export default function OrderSearchForGuest({ navigation }) {
         />
       </View>
       <View style={styles.resultBox}>
-        { searchTxt?.length === 0 ? (
+        {searchTxt?.length === 0 ? (
           <Text></Text>
         ) : result?.length === 0 ? (
           <Text>Không có kết quả phù hợp</Text>
@@ -98,7 +103,7 @@ export default function OrderSearchForGuest({ navigation }) {
                   </View>
                   <View style={[styles.verticalCenter, { flex: 4 }]}>
                     <Text style={styles.orderItemText}>
-                      {order.clientID.name}
+                      {order?.clientID?.name || order.receiverName}
                     </Text>
                   </View>
                   <View style={[styles.verticalCenter, { flex: 4 }]}>
@@ -172,6 +177,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   phoneNumBox: {
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });
