@@ -19,8 +19,6 @@ const ChartOrderStatus = (props) => {
         const response = await orderApi.getOrderStatus(
           props.date.toISOString().slice(0, 10)
         );
-        console.log(props.date.toISOString().slice(0, 10));
-        console.log(response);
         setOrderStatus(response);
       } catch (error) {
         console.log("Failed to order status", error);
@@ -257,7 +255,7 @@ const ChartOrderStatus = (props) => {
   );
 };
 
-export default ChartOrderStatus;
+export default React.memo(ChartOrderStatus);
 
 const styles = StyleSheet.create({
   container: {

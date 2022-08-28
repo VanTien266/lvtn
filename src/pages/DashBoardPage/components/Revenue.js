@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Revenue;
+export default React.memo(Revenue);

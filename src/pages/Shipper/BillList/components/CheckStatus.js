@@ -9,8 +9,8 @@ const CheckStatus = (props) => {
   const { billId, navigation } = props;
   const [data, setData] = useState({ name: "", reason: "" });
 
-  const handleSubmit = () => {
-    const response = billApi.updateStatus(billId, data);
+  const handleSubmit = async () => {
+    const response = await billApi.updateStatus(billId, data);
     if (response) Alert.alert("Cập nhật trạng thái thành công!");
     navigation.navigate("bill-list");
   };
@@ -20,7 +20,7 @@ const CheckStatus = (props) => {
 
   return (
     <Card containerStyle={{ marginHorizontal: 0 }}>
-      <Card.Title>Đánh giấu trạng thái</Card.Title>
+      <Card.Title>Đánh dấu trạng thái</Card.Title>
       <Flex>
         <Radio.Group
           name="myRadioGroup"

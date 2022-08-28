@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FabricRollCompleted;
+export default React.memo(FabricRollCompleted);

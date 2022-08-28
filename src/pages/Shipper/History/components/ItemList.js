@@ -38,7 +38,6 @@ const ItemList = (props) => {
 
   const getTotalPrice = (listFabric) => {
     return listFabric?.reduce((acc, item) => {
-      console.log("Loop");
       const sum = item.reduce((itemAcc, fabricRoll) => {
         let price;
         const newArr = [...fabricRoll.item.marketPrice].reverse();
@@ -48,10 +47,8 @@ const ItemList = (props) => {
             break;
           }
         }
-        console.log(price * fabricRoll.length);
         return itemAcc + fabricRoll.length * price;
       }, 0);
-      console.log(sum, acc);
       return acc + sum;
     }, 0);
   };

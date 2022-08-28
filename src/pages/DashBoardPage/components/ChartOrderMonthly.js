@@ -32,7 +32,7 @@ const ChartOrderMonthly = (props) => {
   const OrderDailyData = [];
   const length = orderstatus.length;
   orderstatus.forEach(function (item) {
-    OrderDailyLabel.push(item._id.date);
+    OrderDailyLabel.push(item.date);
     OrderDailyData.push(item.Total);
   });
   return (
@@ -83,7 +83,7 @@ const ChartOrderMonthly = (props) => {
   );
 };
 
-export default ChartOrderMonthly;
+export default React.memo(ChartOrderMonthly);
 
 const styles = StyleSheet.create({
   container: {

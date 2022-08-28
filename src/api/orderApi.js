@@ -1,8 +1,10 @@
 import axiosClient from "./axiosClient";
 
 const orderApi = {
-  getAll: () => {
-    const url = "/order";
+  getAll: (page, limit) => {
+    let url;
+    if (page && limit) url = `/order?page=${page}&limit=${limit}`;
+    else url = `/order`;
     return axiosClient.get(url);
   },
   create: (data) => {
@@ -46,12 +48,41 @@ const orderApi = {
 
   cancelStatus: (orderId) => {
     const url = `/order/${orderId}/cancelStatus`;
-    console.log(url);
     return axiosClient.put(url);
   },
 
-  getOrderIdByCustomer: (id) => {
-    const url = `/order/customer/${id}`;
+  getOrderIdByCustomer: (customerId, page, limit) => {
+    let url;
+    if (page && limit)
+      url = `/order/customer/${customerId}?page=${page}&limit=${limit}`;
+    else url = `/order/customer/${customerId}`;
+    return axiosClient.get(url);
+  },
+
+  filterByCustomer: (id, status, sort) => {
+    let sortNum = sort == "latest" ? -1 : 1;
+    const url = `/order/customer/${id}/filter?status=${status}&sort=${sortNum}`;
+    return axiosClient.get(url);
+  },
+
+  searchByCustomer: (id, keyword) => {
+    const url = `/order/customer/${id}/search?keyword=${keyword}`;
+    return axiosClient.get(url);
+  },
+
+  filterByStaff: (status, sort) => {
+    let sortNum = sort == "latest" ? -1 : 1;
+    const url = `/order/filter?status=${status}&sort=${sortNum}`;
+    return axiosClient.get(url);
+  },
+
+  searchByStaff: (keyword) => {
+    const url = `/order/search?keyword=${keyword}`;
+    return axiosClient.get(url);
+  },
+
+  searchByGuest: (keyword, phoneNum) => {
+    const url = `/order/searchWithPhone?keyword=${keyword}&phoneNum=${phoneNum}`;
     return axiosClient.get(url);
   },
 };

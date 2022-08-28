@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import AccountProfile from "../pages/Account/AccountProfile";
 import Setting from "../pages/Account/Setting";
 import ChangePassword from "../pages/Account/ChangePassword";
+import MemberCard from "../pages/Account/MemberCard";
 
 const AccountStack = createStackNavigator();
 
@@ -32,6 +33,14 @@ export default function AccountStackNavigation() {
         component={ChangePassword}
         options={{
           title: "Đổi mật khẩu",
+        }}
+      ></AccountStack.Screen>
+
+      <AccountStack.Screen
+        name="membercard"
+        component={MemberCard}
+        options={{
+          title: "Thẻ thành viên",
         }}
       ></AccountStack.Screen>
     </AccountStack.Navigator>

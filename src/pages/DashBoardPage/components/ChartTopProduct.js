@@ -10,6 +10,16 @@ import {
 import { BarChart } from "react-native-chart-kit";
 import billApi from "../../../api/billApi";
 
+// export const EmptyContent = () => {
+//   return (
+//     <View style={styles.noDataContainer}>
+//       <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+//         Không có dữ liệu để hiển thị
+//       </Text>
+//     </View>
+//   );
+// };
+
 const ChartTopProduct = (props) => {
   const [fabrictypesell, setFabricTypeSell] = useState([]);
   const [isLoading, setLoading] = useState(true);

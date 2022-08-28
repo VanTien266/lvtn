@@ -9,7 +9,6 @@ const ExportBill = ({ route, navigation }) => {
   const [order, setOrder] = useState({});
 
   const user = useSelector((state) => state.session).user;
-  console.log(user);
 
   useEffect(() => {
     let mounted = true;

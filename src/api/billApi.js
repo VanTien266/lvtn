@@ -47,8 +47,15 @@ class BillApi {
   };
   updateStatus = (billId, data) => {
     const url = `/bill/${billId}/updateStatus`;
-    console.log(url, data);
     return axiosClient.put(url, data);
+  };
+  updateShipper = (billId, shipperId) => {
+    const url = `/bill/${billId}/updateShipper`;
+    return axiosClient.put(url, { shipperId });
+  };
+  updateValueBill = (id, value) => {
+    const url = `/bill/${id}/updateValueBill`;
+    return axiosClient.put(url, { valueBill: value });
   };
 }
 const billApi = new BillApi();

@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, FlatList, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-elements";
 import {
@@ -11,7 +11,6 @@ import {
   VStack,
   Button,
   Modal,
-  FlatList,
   TextArea,
   useToast,
 } from "native-base";
@@ -19,7 +18,53 @@ import productApi from "../../../api/productApi";
 import { useSelector } from "react-redux";
 import orderApi from "../../../api/orderApi";
 import _ from "lodash";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
+import { formattedValueCurrency } from "../../../utils/formatNumber";
+
+const listTypePrice = [
+  { id: "co", price: 40000 },
+  { id: "ka", price: 50000 },
+  { id: "je", price: 60000 },
+  { id: "kt", price: 65000 },
+  { id: "ni", price: 45000 },
+  { id: "le", price: 70000 },
+  { id: "th", price: 35000 },
+  { id: "vo", price: 55000 },
+  { id: "la", price: 40000 },
+  { id: "du", price: 63000 },
+  { id: "lu", price: 80000 },
+  { id: "re", price: 75000 },
+  { id: "nl", price: 67000 },
+  { id: "tm", price: 46000 },
+  { id: "ch", price: 53000 },
+];
+const listColorPrice = [
+  { code: "01", price: 10000 },
+  { code: "02", price: 11000 },
+  { code: "03", price: 12000 },
+  { code: "04", price: 13000 },
+  { code: "05", price: 14000 },
+  { code: "06", price: 15000 },
+  { code: "07", price: 16000 },
+  { code: "08", price: 17000 },
+  { code: "09", price: 18000 },
+  { code: "10", price: 19000 },
+  { code: "11", price: 20000 },
+  { code: "12", price: 21000 },
+  { code: "13", price: 22000 },
+  { code: "14", price: 23000 },
+  { code: "15", price: 24000 },
+  { code: "16", price: 25000 },
+  { code: "17", price: 26000 },
+  { code: "18", price: 27000 },
+  { code: "19", price: 28000 },
+  { code: "20", price: 29000 },
+  { code: "21", price: 30000 },
+  { code: "22", price: 31000 },
+  { code: "23", price: 32000 },
+  { code: "24", price: 33000 },
+];
 
 const CreateOrder = () => {
   const [listType, setListType] = useState([]);
@@ -29,6 +74,8 @@ const CreateOrder = () => {
     color: null,
     length: null,
   });
+  const [totalOrder, setTotalOrder] = useState(0);
+  const [errors, setErrors] = React.useState({});
   const [showModal, setShowModal] = useState(false);
   const [listProduct, setListProduct] = useState([]);
   const [order, setOrder] = useState({
@@ -80,7 +127,6 @@ const CreateOrder = () => {
           listType[i].name + " " + listColorcode[j].name
         );
   }
-
   const handleAddproduct = (newProduct) => {
     if (!newProduct.type || !newProduct.color || !newProduct.length) {
       alert("Vui lòng chọn thông số sản phẩm");
@@ -106,23 +152,67 @@ const CreateOrder = () => {
         length: null,
         colorCode: null,
       });
+      let typePrice = listTypePrice.find(function (post, index) {
+        if (post.id == product.type) return post.price;
+      });
+      let colorPrice = listColorPrice.find(function (post, index) {
+        if (post.code == product.color) return post.price;
+      });
+      setTotalOrder(
+        (prev) => prev + product.length * (typePrice.price + colorPrice.price)
+      );
     }
   };
   const handleCreateOrder = async (newOrder) => {
-    const res = orderApi.create(newOrder);
+    const res = await orderApi.create(newOrder);
     if (res) {
       toast.show({
         title: "Đặt hàng thành công!",
         placement: "top",
+      });
+      setOrder({
+        products: [],
+        note: "",
+        receiverName: "",
+        receiverPhone: "",
+        receiverAddress: "",
+        deposit: "",
+        customerName: "",
+        customerPhone: "",
+        customerAddress: "",
+        clientID: "",
       });
     } else {
       alert("Đặt hàng không thành công!");
     }
   };
 
+  const validateDeposit = () => {
+    if (order.deposit === "") {
+      setErrors({
+        ...errors,
+        name: "Vui lòng đặt cọc để hoàn tất đơn hàng",
+      });
+      return false;
+    } else if (parseInt(order.deposit) < 0.15 * totalOrder) {
+      setErrors({
+        ...errors,
+        name: "Vui lòng đặt cọc ít nhất 15% giá trị hóa đơn",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const onSubmit = (order) => {
+    if (validateDeposit() || user) {
+      setErrors({});
+      handleCreateOrder(order);
+    } else console.log(errors.name);
+  };
   return (
     <ScrollView>
-      <Card containerStyle={{ marginHorizontal: 0 }}>
+      <Card containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}>
         <Card.Title> Tạo đơn đặt hàng</Card.Title>
         <VStack space={3}>
           <HStack direction="row" space={3}>
@@ -192,19 +282,22 @@ const CreateOrder = () => {
           <HStack space={2}>
             <FormControl w="3/4" isRequired>
               <FormControl.Label>Chiều dài</FormControl.Label>
-              <Input
-                placeholder="Chiều dài"
-                value={product.length}
-                onChangeText={(val) => {
-                  setProduct({ ...product, length: val });
-                }}
-              />
+              <View style={{ height: 45 }}>
+                <Input
+                  placeholder="Chiều dài"
+                  value={product.length}
+                  onChangeText={(val) => {
+                    setProduct({ ...product, length: val });
+                  }}
+                  style={{ minHeight: "100%" }}
+                />
+              </View>
             </FormControl>
             <Button
               w="1/4"
-              h="2/4"
               mt="auto"
               onPress={() => handleAddproduct(product)}
+              style={{ height: 45 }}
             >
               Thêm SP
             </Button>
@@ -229,6 +322,7 @@ const CreateOrder = () => {
                 <Box flex={3}>Tên</Box>
                 <Box flex={2}>Chiều dài</Box>
               </HStack>
+
               <FlatList
                 data={order.products}
                 renderItem={({ item, index }) => (
@@ -245,6 +339,9 @@ const CreateOrder = () => {
                 )}
                 keyExtractor={(item, index) => index + item.type + item.color}
               />
+              <Modal.Footer>
+                Tổng tạm tính: {formattedValueCurrency(totalOrder)}
+              </Modal.Footer>
             </Modal.Content>
           </Modal>
           <FormControl isRequired={isRequired}>
@@ -255,6 +352,7 @@ const CreateOrder = () => {
               onChangeText={(val) => {
                 setOrder({ ...order, receiverName: val });
               }}
+              value={order.receiverName}
             />
             <FormControl.Label>SĐT người nhận</FormControl.Label>
             <Input
@@ -263,6 +361,7 @@ const CreateOrder = () => {
               onChangeText={(val) => {
                 setOrder({ ...order, receiverPhone: val });
               }}
+              value={order.receiverPhone}
             />
             <FormControl.Label>Địa chỉ người nhận</FormControl.Label>
             <Input
@@ -271,6 +370,7 @@ const CreateOrder = () => {
               onChangeText={(val) => {
                 setOrder({ ...order, receiverAddress: val });
               }}
+              value={order.receiverAddress}
             />
           </FormControl>
           {user === null && (
@@ -282,6 +382,7 @@ const CreateOrder = () => {
                 onChangeText={(val) => {
                   setOrder({ ...order, customerName: val });
                 }}
+                value={order.customerName}
               />
               <FormControl.Label>SĐT người đặt hàng</FormControl.Label>
               <Input
@@ -290,6 +391,7 @@ const CreateOrder = () => {
                 onChangeText={(val) => {
                   setOrder({ ...order, customerPhone: val });
                 }}
+                value={order.customerPhone}
               />
               <FormControl.Label>Địa chỉ người đặt hàng</FormControl.Label>
               <Input
@@ -298,18 +400,41 @@ const CreateOrder = () => {
                 onChangeText={(val) => {
                   setOrder({ ...order, customerAddress: val });
                 }}
+                value={order.customerAddress}
+              />
+            </FormControl>
+          )}
+          {user === null ? (
+            <FormControl isRequired isInvalid={"name" in errors}>
+              <FormControl.Label>Đặt cọc</FormControl.Label>
+              <Input
+                placeholder="Đặt cọc"
+                id="user-deposit"
+                onChangeText={(val) => {
+                  setOrder({ ...order, deposit: val });
+                }}
+                value={order.deposit}
+              />
+              {"name" in errors ? (
+                <FormControl.ErrorMessage>
+                  {errors.name}
+                </FormControl.ErrorMessage>
+              ) : null}
+            </FormControl>
+          ) : (
+            <FormControl>
+              <FormControl.Label>Đặt cọc</FormControl.Label>
+              <Input
+                placeholder="Đặt cọc"
+                id="user-deposit"
+                onChangeText={(val) => {
+                  setOrder({ ...order, deposit: val });
+                }}
+                value={order.deposit}
               />
             </FormControl>
           )}
           <FormControl>
-            <FormControl.Label>Đặt cọc</FormControl.Label>
-            <Input
-              placeholder="Đặt cọc"
-              id="user-deposit"
-              onChangeText={(val) => {
-                setOrder({ ...order, deposit: val });
-              }}
-            />
             <FormControl.Label>Ghi chú</FormControl.Label>
             <TextArea
               h={20}
@@ -317,9 +442,10 @@ const CreateOrder = () => {
               onChangeText={(val) => {
                 setOrder({ ...order, note: val });
               }}
+              value={order.note}
             />
           </FormControl>
-          <Button onPress={() => handleCreateOrder(order)}>Đặt hàng</Button>
+          <Button onPress={() => onSubmit(order)}>Đặt hàng</Button>
         </VStack>
       </Card>
     </ScrollView>
